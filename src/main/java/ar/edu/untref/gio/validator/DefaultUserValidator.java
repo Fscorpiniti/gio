@@ -7,15 +7,20 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class DefaultUserValidator implements UserValidator {
 
+    private static final String EMAIL_IS_REQUIRED = "Email is required";
+    private static final String PASSWORD_IS_REQUIRED = "Password is required";
+
     public void validate(String email, String password) {
-        if (StringUtils.isBlank(email)) {
-            thrownIllegalArgumentException("Email is required");
+        if (isBlank(email)) {
+            thrownIllegalArgumentException(EMAIL_IS_REQUIRED);
         }
 
-        if (StringUtils.isBlank(password)) {
-            thrownIllegalArgumentException("Password is required");
+        if (isBlank(password)) {
+            thrownIllegalArgumentException(PASSWORD_IS_REQUIRED);
         }
     }
+
+    private boolean isBlank(String field) { return StringUtils.isBlank(field); }
 
     private void thrownIllegalArgumentException(String message) {
         throw new IllegalArgumentException(message);

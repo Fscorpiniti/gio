@@ -7,6 +7,8 @@ import ar.edu.untref.gio.validator.DefaultUserValidator;
 
 public class DefaultCreateUserAction implements CreateUserAction {
 
+    private static final String EMAIL_ALREADY_EXISTENT = "Email already existent";
+    private static final String USER_REPOSITORY_IS_REQUIRED = "User Repository is required";
     private UserRepository userRepository;
 
     public DefaultCreateUserAction(UserRepository userRepository) {
@@ -23,13 +25,13 @@ public class DefaultCreateUserAction implements CreateUserAction {
 
     private void validateEmailAlreadyExistent(String email) {
         if (userRepository.exist(email)) {
-            throw new EmailAlreadyExistentException("Email already existent");
+            throw new EmailAlreadyExistentException(EMAIL_ALREADY_EXISTENT);
         }
     }
 
     private void validateRepositoryIsNotNull(UserRepository userRepository) {
         if (userRepository == null) {
-            throw new IllegalArgumentException("User Repository is required");
+            throw new IllegalArgumentException(USER_REPOSITORY_IS_REQUIRED);
         }
     }
 
