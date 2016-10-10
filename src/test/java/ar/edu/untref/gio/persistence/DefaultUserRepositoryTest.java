@@ -4,7 +4,9 @@ import ar.edu.untref.gio.domain.User;
 import ar.edu.untref.gio.domain.UserRepository;
 import ar.edu.untref.gio.validator.DefaultUserValidator;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,6 +22,9 @@ public class DefaultUserRepositoryTest {
     private static final String VALID_EMAIL = "test@gio.com";
     private static final String VALID_PASSWORD = "auth";
 
+    @Rule
+    public ExpectedException thrown= ExpectedException.none();
+
     @Resource(name = "defaultUserRepository")
     private UserRepository userRepository;
 
@@ -31,8 +36,20 @@ public class DefaultUserRepositoryTest {
     }
 
     @Test
-    public void whenEmailIsInexistentThenResultIsFalse() {
+    public void whenEmailIsInexistentThenResultExistMethodIsFalse() {
         Assert.assertFalse(userRepository.exist(VALID_EMAIL));
+    }
+
+    @Test
+    public void whenEmailIsNullThenExistMethodThrownException() {
+        thrown.expect(IllegalArgumentException.class);
+        Assert.assertFalse(userRepository.exist(null));
+    }
+
+    @Test
+    public void whenEmailIsEmptyThenExistMethodThrownException() {
+        thrown.expect(IllegalArgumentException.class);
+        Assert.assertFalse(userRepository.exist(""));
     }
 
 }
