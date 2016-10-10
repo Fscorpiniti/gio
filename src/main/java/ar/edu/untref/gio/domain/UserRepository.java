@@ -1,8 +1,7 @@
 package ar.edu.untref.gio.domain;
 
-public interface UserRepository {
+public interface UserRepository extends Repository<User> {
 
-    void add(User user);
     boolean exist(String email);
 
 }
