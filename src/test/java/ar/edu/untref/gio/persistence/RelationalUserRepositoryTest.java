@@ -3,6 +3,7 @@ package ar.edu.untref.gio.persistence;
 import ar.edu.untref.gio.domain.User;
 import ar.edu.untref.gio.domain.UserRepository;
 import ar.edu.untref.gio.validator.DefaultUserValidator;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,6 +24,7 @@ public class RelationalUserRepositoryTest {
     public void whenCreateUserThenUserIsStored() {
         User user = new User("test@gio.com", "auth", new DefaultUserValidator());
         userRepository.add(user);
+        Assert.assertTrue(userRepository.exist(user.getEmail()));
     }
 
 }

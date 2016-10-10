@@ -5,6 +5,7 @@ import ar.edu.untref.gio.validator.UserValidator;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "users")
 public class User {
 
     @Column

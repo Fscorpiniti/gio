@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.Query;
 
 @Repository("relationalUserRepository")
 public class RelationalUserRepository implements UserRepository {
@@ -23,7 +24,14 @@ public class RelationalUserRepository implements UserRepository {
     }
 
     public boolean exist(String email) {
-        return false;
+        StringBuilder hql = new StringBuilder("from ")
+                .append(User.class.getName())
+                .append(" this where this.email = :email");
+
+        Query query = this.getEntityManager().createQuery(hql.toString());
+        query.setParameter("email", email);
+
+        return !query.getResultList().isEmpty();
     }
 
 }
