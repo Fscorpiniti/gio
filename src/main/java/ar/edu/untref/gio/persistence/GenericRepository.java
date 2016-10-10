@@ -18,4 +18,6 @@ public abstract class GenericRepository<E extends Object> implements Repository 
     public void add(E object) {
         entityManager.persist(object);
     }
+
+    protected abstract Class<E> getEntityClass();
 }

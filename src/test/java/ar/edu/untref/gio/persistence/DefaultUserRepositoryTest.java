@@ -15,12 +15,12 @@ import javax.transaction.Transactional;
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:application-context-test.xml"})
-public class RelationalUserRepositoryTest {
+public class DefaultUserRepositoryTest {
 
     private static final String VALID_EMAIL = "test@gio.com";
     private static final String VALID_PASSWORD = "auth";
 
-    @Resource(name = "relationalUserRepository")
+    @Resource(name = "defaultUserRepository")
     private UserRepository userRepository;
 
     @Test

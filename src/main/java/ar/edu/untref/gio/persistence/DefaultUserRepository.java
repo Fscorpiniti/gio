@@ -6,14 +6,18 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
 
-@Repository("relationalUserRepository")
-public class RelationalUserRepository extends GenericRepository<User> implements UserRepository {
+@Repository("defaultUserRepository")
+public class DefaultUserRepository extends GenericRepository<User> implements UserRepository {
 
     private static final String PARAM_EMAIL = "email";
 
+    protected Class<User> getEntityClass() {
+        return User.class;
+    }
+
     public boolean exist(String email) {
         StringBuilder hql = new StringBuilder("from ")
-                .append(User.class.getName())
+                .append(getEntityClass().getName())
                 .append(" this where this.email = :email");
 
         Query query = this.getEntityManager().createQuery(hql.toString());
