@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/application-context.xml"})
+@ContextConfiguration(locations = {"classpath:application-context-test.xml"})
 @Transactional
 public class RelationalUserRepositoryTest {
 
