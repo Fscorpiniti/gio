@@ -119,6 +119,13 @@
       <artifactId>javax.servlet-api</artifactId>
       <version>${servlet.api.version}</version>
     </dependency>
+
+    <!-- Jackson -->
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.9.13</version>
+    </dependency>
   </dependencies>
 
   <build>
