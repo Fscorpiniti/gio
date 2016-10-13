@@ -6,6 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
+import javax.swing.text.html.Option;
+import java.util.Optional;
 
 @Repository("defaultUserRepository")
 public class DefaultUserRepository extends GenericRepository<User> implements UserRepository {
@@ -16,18 +18,31 @@ public class DefaultUserRepository extends GenericRepository<User> implements Us
         return User.class;
     }
 
+    @Override
     public boolean exist(String email) {
         validateBlankEmail(email);
+        Query query = buildQueryFindByEmail(email);
+        return !query.getResultList().isEmpty();
+    }
 
+    @Override
+    public Optional<User> findByEmail(String email) {
+        validateBlankEmail(email);
+        Query query = buildQueryFindByEmail(email);
+        if (!query.getResultList().isEmpty()) {
+            return Optional.of((User)query.getResultList().get(0));
+        }
+        return Optional.empty();
+    }
+
+    private Query buildQueryFindByEmail(String email) {
         StringBuilder hql = new StringBuilder("from ")
                 .append(getEntityClass().getName())
                 .append(" this where this.email = :email");
 
-        Query query = this.getEntityManager()
+        return this.getEntityManager()
                 .createQuery(hql.toString())
                 .setParameter(PARAM_EMAIL, email);
-
-        return !query.getResultList().isEmpty();
     }
 
     private void validateBlankEmail(String email) {

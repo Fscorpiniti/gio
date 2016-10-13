@@ -19,6 +19,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id = 0;
 
+    public User() {}
+
     public User(String email, String password, UserValidator userValidator) {
         userValidator.validate(email, password);
         this.email = email;
