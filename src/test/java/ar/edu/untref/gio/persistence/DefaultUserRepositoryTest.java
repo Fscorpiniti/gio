@@ -52,4 +52,16 @@ public class DefaultUserRepositoryTest {
         Assert.assertFalse(userRepository.exist(""));
     }
 
+    @Test
+    public void whenFindByEmailWithExistentEmailThenUserIsFound() {
+        User user = new User(VALID_EMAIL, VALID_PASSWORD, new DefaultUserValidator());
+        userRepository.add(user);
+        Assert.assertTrue(userRepository.findByEmail(VALID_EMAIL).isPresent());
+    }
+
+    @Test
+    public void whenFindByEmailWithInExistentEmailThenResultIsEmpty() {
+        Assert.assertFalse(userRepository.findByEmail(VALID_EMAIL).isPresent());
+    }
+
 }
