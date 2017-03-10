@@ -2,19 +2,23 @@ package ar.edu.untref.gio.validator;
 
 import org.apache.commons.lang3.StringUtils;
 
-/**
- * Created by Fer on 10/10/2016.
- */
 public class DefaultUserValidator implements UserValidator {
 
     private static final String EMAIL_IS_REQUIRED = "Email is required";
     private static final String PASSWORD_IS_REQUIRED = "Password is required";
 
     public void validate(String email, String password) {
+        validateEmail(email);
+        validatePassword(password);
+    }
+
+    private void validateEmail(String email) {
         if (isBlank(email)) {
             thrownIllegalArgumentException(EMAIL_IS_REQUIRED);
         }
+    }
 
+    private void validatePassword(String password) {
         if (isBlank(password)) {
             thrownIllegalArgumentException(PASSWORD_IS_REQUIRED);
         }
