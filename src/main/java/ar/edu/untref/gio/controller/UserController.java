@@ -1,9 +1,7 @@
 package ar.edu.untref.gio.controller;
 
 import ar.edu.untref.gio.action.CreateUserAction;
-import ar.edu.untref.gio.action.DefaultCreateUserAction;
-import ar.edu.untref.gio.domain.UserRepository;
-import ar.edu.untref.gio.dto.UserDTO;
+import ar.edu.untref.gio.dto.CreateUserDTO;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +21,8 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value =  "/users", method = RequestMethod.POST,  consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public void createUser(@RequestBody UserDTO userDTO) {
-        createUserAction.create(userDTO.getEmail(), userDTO.getPassword());
+    public void createUser(@RequestBody CreateUserDTO createUserDTO) {
+        createUserAction.create(createUserDTO.getEmail(), createUserDTO.getPassword());
     }
 
 }
