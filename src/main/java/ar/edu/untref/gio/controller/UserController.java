@@ -1,5 +1,6 @@
 package ar.edu.untref.gio.controller;
 
+import ar.edu.untref.gio.action.CreateUserAction;
 import ar.edu.untref.gio.action.DefaultCreateUserAction;
 import ar.edu.untref.gio.domain.UserRepository;
 import ar.edu.untref.gio.dto.UserDTO;
@@ -17,13 +18,13 @@ import javax.transaction.Transactional;
 @Transactional
 public class UserController {
 
-    @Resource(name = "defaultUserRepository")
-    private UserRepository userRepository;
+    @Resource(name = "createUserAction")
+    private CreateUserAction createUserAction;
 
     @ResponseBody
     @RequestMapping(value =  "/users", method = RequestMethod.POST,  consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void createUser(@RequestBody UserDTO userDTO) {
-        new DefaultCreateUserAction(userRepository).create(userDTO.getEmail(), userDTO.getPassword());
+        createUserAction.create(userDTO.getEmail(), userDTO.getPassword());
     }
 
 }
