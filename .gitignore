@@ -17,6 +17,7 @@
 
 #vcs
 .idea/vcs.xml
+.idea/dictionaries/fernando.xml
 
 # User-specific stuff:
 .idea/workspace.xml
