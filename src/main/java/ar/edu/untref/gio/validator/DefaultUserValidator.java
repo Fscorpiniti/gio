@@ -1,5 +1,6 @@
 package ar.edu.untref.gio.validator;
 
+import com.google.common.base.Preconditions;
 import org.apache.commons.lang3.StringUtils;
 
 public class DefaultUserValidator implements UserValidator {
@@ -13,21 +14,13 @@ public class DefaultUserValidator implements UserValidator {
     }
 
     private void validateEmail(String email) {
-        if (isBlank(email)) {
-            thrownIllegalArgumentException(EMAIL_IS_REQUIRED);
-        }
+        Preconditions.checkArgument(!isBlank(email), EMAIL_IS_REQUIRED);
     }
 
     private void validatePassword(String password) {
-        if (isBlank(password)) {
-            thrownIllegalArgumentException(PASSWORD_IS_REQUIRED);
-        }
+        Preconditions.checkArgument(!isBlank(password), PASSWORD_IS_REQUIRED);
     }
 
     private boolean isBlank(String field) { return StringUtils.isBlank(field); }
-
-    private void thrownIllegalArgumentException(String message) {
-        throw new IllegalArgumentException(message);
-    }
 
 }
