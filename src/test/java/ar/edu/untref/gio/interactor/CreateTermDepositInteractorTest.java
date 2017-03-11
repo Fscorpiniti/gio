@@ -19,10 +19,13 @@ public class CreateTermDepositInteractorTest {
 
     private CreateTermDepositDTO createTermDepositDTO;
     private TermDeposit termDeposit;
+    private Double validAmount = new Double(100);
+    private Double validRate = new Double(15);
+    private Date validExpirationDate = new DateTime().plusDays(30).toDate();
 
     @Test
     public void whenCreateTermDepositThenTermDepositIsCreated() {
-        givenCreateTermDepositDTOWith(new Double(100), new Double(15), new DateTime().plusDays(30).toDate());
+        givenCreateTermDepositDTOWith(validAmount, validRate, validExpirationDate);
 
         whenCreateTermDeposit();
 
@@ -31,7 +34,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositWithNullAmountThenExceptionIsThrown() {
-        givenCreateTermDepositDTOWith(null, new Double(15), new Date());
+        givenCreateTermDepositDTOWith(null, validRate, validExpirationDate);
 
         thrown.expect(NullPointerException.class);
         whenCreateTermDeposit();
@@ -39,7 +42,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositWithNullRateThenExceptionIsThrown() {
-        givenCreateTermDepositDTOWith(new Double(100), null, new Date());
+        givenCreateTermDepositDTOWith(validAmount, null, validExpirationDate);
 
         thrown.expect(NullPointerException.class);
         whenCreateTermDeposit();
@@ -47,7 +50,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositWithNullExpirationThenExceptionIsThrown() {
-        givenCreateTermDepositDTOWith(new Double(100), new Double(15), null);
+        givenCreateTermDepositDTOWith(validAmount, validRate, null);
 
         thrown.expect(NullPointerException.class);
         whenCreateTermDeposit();
@@ -55,7 +58,9 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositWithBeforeExpirationDateThenExceptionIsThrown() {
-        givenCreateTermDepositDTOWith(new Double(100), new Double(15), new DateTime().minusDays(1).toDate());
+        int daysBeforeNow = 1;
+        Date beforeNow = new DateTime().minusDays(daysBeforeNow).toDate();
+        givenCreateTermDepositDTOWith(validAmount, validRate, beforeNow);
 
         thrown.expect(IllegalArgumentException.class);
         whenCreateTermDeposit();
@@ -63,7 +68,8 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositWithActualExpirationDateThenExceptionIsThrown() {
-        givenCreateTermDepositDTOWith(new Double(100), new Double(15), new DateTime().toDate());
+        Date now = new DateTime().toDate();
+        givenCreateTermDepositDTOWith(validAmount, validRate, now);
 
         thrown.expect(IllegalArgumentException.class);
         whenCreateTermDeposit();
@@ -71,7 +77,9 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositWithLessThanThirtyExpirationDateThenExceptionIsThrown() {
-        givenCreateTermDepositDTOWith(new Double(100), new Double(15), new DateTime().plusDays(29).toDate());
+        int daysAfterNow = 29;
+        Date afterNow = new DateTime().minusDays(daysAfterNow).toDate();
+        givenCreateTermDepositDTOWith(validAmount, validRate, afterNow);
 
         thrown.expect(IllegalArgumentException.class);
         whenCreateTermDeposit();
