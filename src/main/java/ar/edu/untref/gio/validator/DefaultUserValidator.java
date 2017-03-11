@@ -7,7 +7,7 @@ public class DefaultUserValidator implements UserValidator {
     private static final String EMAIL_IS_REQUIRED = "Email is required";
     private static final String PASSWORD_IS_REQUIRED = "Password is required";
 
-    public void validate(String email, String password) {
+    public void execute(String email, String password) {
         validateEmail(email);
         validatePassword(password);
     }

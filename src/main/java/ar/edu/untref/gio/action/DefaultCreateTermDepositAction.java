@@ -4,6 +4,7 @@ package ar.edu.untref.gio.action;
 import ar.edu.untref.gio.domain.TermDeposit;
 import ar.edu.untref.gio.domain.TermDepositRepository;
 import ar.edu.untref.gio.dto.CreateTermDepositDTO;
+import ar.edu.untref.gio.validator.DefaultTermDepositValidator;
 
 public class DefaultCreateTermDepositAction implements CreateTermDepositAction {
 
@@ -15,6 +16,8 @@ public class DefaultCreateTermDepositAction implements CreateTermDepositAction {
 
     @Override
     public TermDeposit create(CreateTermDepositDTO createTermDepositDTO) {
-        return new TermDeposit();
+        TermDeposit termDeposit = new TermDeposit(createTermDepositDTO.getAmount(), createTermDepositDTO.getRate(),
+                createTermDepositDTO.getExpiration(), new DefaultTermDepositValidator());
+        return termDeposit;
     }
 }
