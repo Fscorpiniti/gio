@@ -16,13 +16,13 @@ import javax.transaction.Transactional;
 @Transactional
 public class UserController {
 
-    @Resource(name = "createUserAction")
-    private CreateUserInteractor createUserAction;
+    @Resource(name = "createUserInteractor")
+    private CreateUserInteractor createUserInteractor;
 
     @ResponseBody
     @RequestMapping(value =  "/users", method = RequestMethod.POST,  consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void createUser(@RequestBody CreateUserDTO createUserDTO) {
-        createUserAction.create(createUserDTO.getEmail(), createUserDTO.getPassword());
+        createUserInteractor.create(createUserDTO.getEmail(), createUserDTO.getPassword());
     }
 
 }

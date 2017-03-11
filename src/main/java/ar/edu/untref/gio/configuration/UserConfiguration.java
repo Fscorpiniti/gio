@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class UserConfiguration {
 
     @Bean
-    public CreateUserInteractor createUserAction(UserRepository userRepository) {
+    public CreateUserInteractor createUserInteractor(UserRepository userRepository) {
         return new DefaultCreateUserInteractor(userRepository);
     }
 
