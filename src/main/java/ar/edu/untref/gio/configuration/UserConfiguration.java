@@ -1,8 +1,8 @@
 package ar.edu.untref.gio.configuration;
 
 
-import ar.edu.untref.gio.action.CreateUserAction;
-import ar.edu.untref.gio.action.DefaultCreateUserAction;
+import ar.edu.untref.gio.interactor.CreateUserInteractor;
+import ar.edu.untref.gio.interactor.DefaultCreateUserInteractor;
 import ar.edu.untref.gio.domain.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 public class UserConfiguration {
 
     @Bean
-    public CreateUserAction createUserAction(UserRepository userRepository) {
-        return new DefaultCreateUserAction(userRepository);
+    public CreateUserInteractor createUserAction(UserRepository userRepository) {
+        return new DefaultCreateUserInteractor(userRepository);
     }
 
 }

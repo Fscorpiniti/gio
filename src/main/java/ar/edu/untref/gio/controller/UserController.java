@@ -1,6 +1,6 @@
 package ar.edu.untref.gio.controller;
 
-import ar.edu.untref.gio.action.CreateUserAction;
+import ar.edu.untref.gio.interactor.CreateUserInteractor;
 import ar.edu.untref.gio.dto.CreateUserDTO;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 public class UserController {
 
     @Resource(name = "createUserAction")
-    private CreateUserAction createUserAction;
+    private CreateUserInteractor createUserAction;
 
     @ResponseBody
     @RequestMapping(value =  "/users", method = RequestMethod.POST,  consumes = {MediaType.APPLICATION_JSON_VALUE})

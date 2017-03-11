@@ -1,17 +1,17 @@
-package ar.edu.untref.gio.action;
+package ar.edu.untref.gio.interactor;
 
 import ar.edu.untref.gio.domain.User;
 import ar.edu.untref.gio.domain.UserRepository;
 import ar.edu.untref.gio.exception.EmailAlreadyExistentException;
 import ar.edu.untref.gio.validator.DefaultUserValidator;
 
-public class DefaultCreateUserAction implements CreateUserAction {
+public class DefaultCreateUserInteractor implements CreateUserInteractor {
 
     private static final String EMAIL_ALREADY_EXISTENT = "Email already existent";
     private static final String USER_REPOSITORY_IS_REQUIRED = "User Repository is required";
     private UserRepository userRepository;
 
-    public DefaultCreateUserAction(UserRepository userRepository) {
+    public DefaultCreateUserInteractor(UserRepository userRepository) {
         validateRepositoryIsNotNull(userRepository);
         this.userRepository = userRepository;
     }

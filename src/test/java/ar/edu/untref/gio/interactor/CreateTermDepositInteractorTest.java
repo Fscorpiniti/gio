@@ -1,4 +1,4 @@
-package ar.edu.untref.gio.action;
+package ar.edu.untref.gio.interactor;
 
 import ar.edu.untref.gio.domain.TermDeposit;
 import ar.edu.untref.gio.domain.TermDepositRepository;
@@ -12,7 +12,7 @@ import org.mockito.Mockito;
 
 import java.util.Date;
 
-public class CreateTermDepositActionTest {
+public class CreateTermDepositInteractorTest {
 
     @Rule
     public ExpectedException thrown= ExpectedException.none();
@@ -26,7 +26,7 @@ public class CreateTermDepositActionTest {
         CreateTermDepositDTO createTermDepositDTO = new CreateTermDepositDTO(amount, rate, expiration);
         TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
 
-        TermDeposit termDeposit = new DefaultCreateTermDepositAction(termDepositRepository).create(createTermDepositDTO);
+        TermDeposit termDeposit = new DefaultCreateTermDepositInteractor(termDepositRepository).create(createTermDepositDTO);
 
         Assert.assertNotNull(termDeposit);
     }
@@ -41,7 +41,7 @@ public class CreateTermDepositActionTest {
         TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
 
         thrown.expect(NullPointerException.class);
-        new DefaultCreateTermDepositAction(termDepositRepository).create(createTermDepositDTO);
+        new DefaultCreateTermDepositInteractor(termDepositRepository).create(createTermDepositDTO);
     }
 
 }

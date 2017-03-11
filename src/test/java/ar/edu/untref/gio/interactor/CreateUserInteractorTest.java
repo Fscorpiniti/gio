@@ -1,4 +1,4 @@
-package ar.edu.untref.gio.action;
+package ar.edu.untref.gio.interactor;
 
 import ar.edu.untref.gio.domain.User;
 import ar.edu.untref.gio.domain.UserRepository;
@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
-public class CreateUserActionTest {
+public class CreateUserInteractorTest {
 
     private static final String VALID_EMAIL = "test@gio.com";
     private static final String VALID_PASSWORD = "auth";
@@ -22,7 +22,7 @@ public class CreateUserActionTest {
     public void whenCreateValidUserThenUserIsNotNull() {
         UserRepository userRepository = getUserRepositoryMock();
         Mockito.when(userRepository.exist(VALID_EMAIL)).thenReturn(Boolean.FALSE);
-        User user = new DefaultCreateUserAction(userRepository).create(VALID_EMAIL, VALID_PASSWORD);
+        User user = new DefaultCreateUserInteractor(userRepository).create(VALID_EMAIL, VALID_PASSWORD);
         Assert.assertNotNull(user);
     }
 
@@ -30,7 +30,7 @@ public class CreateUserActionTest {
     public void whenCreateUserWithEmailAndPasswordThenUserContainsThisAttributes() {
         UserRepository userRepository = getUserRepositoryMock();
         Mockito.when(userRepository.exist(VALID_EMAIL)).thenReturn(Boolean.FALSE);
-        User user = new DefaultCreateUserAction(userRepository).create(VALID_EMAIL, VALID_PASSWORD);
+        User user = new DefaultCreateUserInteractor(userRepository).create(VALID_EMAIL, VALID_PASSWORD);
         Assert.assertEquals(VALID_EMAIL, user.getEmail());
         Assert.assertEquals(VALID_PASSWORD, user.getPassword());
     }
@@ -39,28 +39,28 @@ public class CreateUserActionTest {
     public void whenCreateUserWithNullEmailThenExceptionIsThrown() {
         String email = null;
         thrown.expect(IllegalArgumentException.class);
-        new DefaultCreateUserAction(getUserRepositoryMock()).create(email, VALID_PASSWORD);
+        new DefaultCreateUserInteractor(getUserRepositoryMock()).create(email, VALID_PASSWORD);
     }
 
     @Test
     public void whenCreateUserWithEmptyEmailThenExceptionIsThrown() {
         String email = StringUtils.EMPTY;
         thrown.expect(IllegalArgumentException.class);
-        new DefaultCreateUserAction(getUserRepositoryMock()).create(email, VALID_PASSWORD);
+        new DefaultCreateUserInteractor(getUserRepositoryMock()).create(email, VALID_PASSWORD);
     }
 
     @Test
     public void whenCreateUserWithNullPasswordThenExceptionIsThrown() {
         String password = null;
         thrown.expect(IllegalArgumentException.class);
-        new DefaultCreateUserAction(getUserRepositoryMock()).create(VALID_EMAIL, password);
+        new DefaultCreateUserInteractor(getUserRepositoryMock()).create(VALID_EMAIL, password);
     }
 
     @Test
     public void whenCreateUserWithEmptyPasswordThenExceptionIsThrown() {
         String password = StringUtils.EMPTY;
         thrown.expect(IllegalArgumentException.class);
-        new DefaultCreateUserAction(getUserRepositoryMock()).create(VALID_EMAIL, password);
+        new DefaultCreateUserInteractor(getUserRepositoryMock()).create(VALID_EMAIL, password);
     }
 
     @Test
@@ -68,13 +68,13 @@ public class CreateUserActionTest {
         UserRepository userRepository = getUserRepositoryMock();
         Mockito.when(userRepository.exist(VALID_EMAIL)).thenReturn(Boolean.TRUE);
         thrown.expect(EmailAlreadyExistentException.class);
-        new DefaultCreateUserAction(userRepository).create(VALID_EMAIL, VALID_PASSWORD);
+        new DefaultCreateUserInteractor(userRepository).create(VALID_EMAIL, VALID_PASSWORD);
     }
 
     @Test
     public void whenCreateUserActionWithNullRepositoryThenExceptionIsThrown() {
         thrown.expect(IllegalArgumentException.class);
-        new DefaultCreateUserAction(null);
+        new DefaultCreateUserInteractor(null);
     }
 
     private UserRepository getUserRepositoryMock() {

@@ -1,8 +1,8 @@
-package ar.edu.untref.gio.action;
+package ar.edu.untref.gio.interactor;
 
 import ar.edu.untref.gio.domain.User;
 
-public interface CreateUserAction {
+public interface CreateUserInteractor {
 
     User create(String email, String password);
 

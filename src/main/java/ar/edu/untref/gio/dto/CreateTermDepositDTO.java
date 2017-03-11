@@ -1,6 +1,5 @@
 package ar.edu.untref.gio.dto;
 
-import ar.edu.untref.gio.action.CreateUserAction;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.Date;
