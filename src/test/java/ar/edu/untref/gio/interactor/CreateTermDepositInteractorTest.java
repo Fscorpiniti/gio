@@ -2,6 +2,7 @@ package ar.edu.untref.gio.interactor;
 
 import ar.edu.untref.gio.domain.TermDeposit;
 import ar.edu.untref.gio.domain.TermDepositRepository;
+import ar.edu.untref.gio.domain.TermDepositStatus;
 import ar.edu.untref.gio.dto.CreateTermDepositDTO;
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -84,6 +85,58 @@ public class CreateTermDepositInteractorTest {
 
         thrown.expect(IllegalArgumentException.class);
         whenCreateTermDeposit();
+    }
+
+    @Test
+    public void whenCreateTermDepositThenTermDepositIsActive() {
+        givenCreateTermDepositDTOWith(validAmount, validRate, validExpirationDate);
+
+        whenCreateTermDeposit();
+
+        thenTermDepositIsActive();
+    }
+
+    @Test
+    public void whenCreateTermDepositThenTermDepositContainsCorrectAmount() {
+        givenCreateTermDepositDTOWith(validAmount, validRate, validExpirationDate);
+
+        whenCreateTermDeposit();
+
+        thenTermDepositContainsCorrectAmount();
+    }
+
+    @Test
+    public void whenCreateTermDepositThenTermDepositContainsCorrectRate() {
+        givenCreateTermDepositDTOWith(validAmount, validRate, validExpirationDate);
+
+        whenCreateTermDeposit();
+
+        thenTermDepositContainsCorrectRate();
+    }
+
+    @Test
+    public void whenCreateTermDepositThenTermDepositContainsCorrectExpirationDate() {
+        givenCreateTermDepositDTOWith(validAmount, validRate, validExpirationDate);
+
+        whenCreateTermDeposit();
+
+        thenTermDepositContainsCorrectExpirationRate();
+    }
+
+    private void thenTermDepositContainsCorrectExpirationRate() {
+        Assert.assertEquals(validExpirationDate, termDeposit.getExpiration());
+    }
+
+    private void thenTermDepositContainsCorrectRate() {
+        Assert.assertEquals(validRate, termDeposit.getRate());
+    }
+
+    private void thenTermDepositContainsCorrectAmount() {
+        Assert.assertEquals(validAmount, termDeposit.getAmount());
+    }
+
+    private void thenTermDepositIsActive() {
+        Assert.assertEquals(TermDepositStatus.ACTIVE, termDeposit.getStatus());
     }
 
     private void givenCreateTermDepositDTOWith(Double amount, Double rate, Date expiration) {
