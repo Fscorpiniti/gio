@@ -72,7 +72,7 @@ public class CreateUserInteractorTest {
     }
 
     @Test
-    public void whenCreateUserActionWithNullRepositoryThenExceptionIsThrown() {
+    public void whenCreateUserInteractorWithNullRepositoryThenExceptionIsThrown() {
         thrown.expect(IllegalArgumentException.class);
         new DefaultCreateUserInteractor(null);
     }

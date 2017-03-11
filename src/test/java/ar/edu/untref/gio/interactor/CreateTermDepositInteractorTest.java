@@ -17,31 +17,53 @@ public class CreateTermDepositInteractorTest {
     @Rule
     public ExpectedException thrown= ExpectedException.none();
 
+    private CreateTermDepositDTO createTermDepositDTO;
+    private TermDeposit termDeposit;
+
     @Test
     public void whenCreateTermDepositThenTermDepositIsCreated() {
-        Double amount = new Double(100);
-        Double rate = new Double(15);
-        int expirationIncrease = 1;
-        Date expiration = new DateTime().plusDays(expirationIncrease).toDate();
-        CreateTermDepositDTO createTermDepositDTO = new CreateTermDepositDTO(amount, rate, expiration);
-        TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
+        givenCreateTermDepositDTOWith(new Double(100), new Double(15), new Date());
 
-        TermDeposit termDeposit = new DefaultCreateTermDepositInteractor(termDepositRepository).create(createTermDepositDTO);
+        whenCreateTermDeposit();
 
-        Assert.assertNotNull(termDeposit);
+        thenTermDepositIsCreated();
     }
 
     @Test
     public void whenCreateTermDepositWithNullAmountThenExceptionIsThrown() {
-        Double amount = null;
-        Double rate = new Double(15);
-        int expirationIncrease = 1;
-        Date expiration = new DateTime().plusDays(expirationIncrease).toDate();
-        CreateTermDepositDTO createTermDepositDTO = new CreateTermDepositDTO(amount, rate, expiration);
-        TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
+        givenCreateTermDepositDTOWith(null, new Double(15), new Date());
 
         thrown.expect(NullPointerException.class);
-        new DefaultCreateTermDepositInteractor(termDepositRepository).create(createTermDepositDTO);
+        whenCreateTermDeposit();
+    }
+
+    @Test
+    public void whenCreateTermDepositWithNullRateThenExceptionIsThrown() {
+        givenCreateTermDepositDTOWith(new Double(100), null, new Date());
+
+        thrown.expect(NullPointerException.class);
+        whenCreateTermDeposit();
+    }
+
+    @Test
+    public void whenCreateTermDepositWithNullExpirationThenExceptionIsThrown() {
+        givenCreateTermDepositDTOWith(new Double(100), new Double(15), null);
+
+        thrown.expect(NullPointerException.class);
+        whenCreateTermDeposit();
+    }
+
+    private void givenCreateTermDepositDTOWith(Double amount, Double rate, Date expiration) {
+        createTermDepositDTO = new CreateTermDepositDTO(amount, rate, expiration);
+    }
+
+    private void whenCreateTermDeposit() {
+        TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
+        termDeposit = new DefaultCreateTermDepositInteractor(termDepositRepository).create(createTermDepositDTO);
+    }
+
+    private void thenTermDepositIsCreated() {
+        Assert.assertNotNull(termDeposit);
     }
 
 }
