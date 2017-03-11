@@ -23,13 +23,22 @@ public class TermDeposit {
     @Column(name = "expiration_date")
     private Date expiration;
 
+    @Column(name = "creator_id")
+    private Long creatorId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private TermDepositStatus status;
+
     protected TermDeposit(){}
 
-    public TermDeposit(Double amount, Double rate, Date expiration, TermDepositValidator validator) {
-        validator.execute(amount, rate, expiration);
+    public TermDeposit(Double amount, Double rate, Date expiration, TermDepositValidator validator, Long creatorId) {
+        validator.execute(amount, rate, expiration, creatorId);
+        this.creatorId = creatorId;
         this.amount = amount;
         this.rate = rate;
         this.expiration = expiration;
+        this.status = TermDepositStatus.ACTIVE;
     }
 
     public Double getAmount() {
@@ -46,5 +55,13 @@ public class TermDeposit {
 
     public Integer getId() {
         return id;
+    }
+
+    public TermDepositStatus getStatus() {
+        return status;
+    }
+
+    public Long getCreatorId() {
+        return creatorId;
     }
 }
