@@ -18,6 +18,9 @@ public class DefaultCreateTermDepositInteractor implements CreateTermDepositInte
     public TermDeposit create(CreateTermDepositDTO createTermDepositDTO) {
         TermDeposit termDeposit = new TermDeposit(createTermDepositDTO.getAmount(), createTermDepositDTO.getRate(),
                 createTermDepositDTO.getExpiration(), new DefaultTermDepositValidator());
+
+        termDepositRepository.add(termDeposit);
+
         return termDeposit;
     }
 }
