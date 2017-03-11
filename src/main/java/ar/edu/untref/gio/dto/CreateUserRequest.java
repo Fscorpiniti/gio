@@ -2,7 +2,7 @@ package ar.edu.untref.gio.dto;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class CreateUserDTO {
+public class CreateUserRequest {
 
     @JsonProperty("email")
     private String email;
@@ -10,7 +10,7 @@ public class CreateUserDTO {
     @JsonProperty("password")
     private String password;
 
-    public CreateUserDTO() {}
+    public CreateUserRequest() {}
 
     public void setEmail(String email) { this.email = email; }
 

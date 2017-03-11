@@ -1,7 +1,7 @@
 package ar.edu.untref.gio.controller;
 
 import ar.edu.untref.gio.interactor.CreateUserInteractor;
-import ar.edu.untref.gio.dto.CreateUserDTO;
+import ar.edu.untref.gio.dto.CreateUserRequest;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,8 +21,8 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value =  "/users", method = RequestMethod.POST,  consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public void createUser(@RequestBody CreateUserDTO createUserDTO) {
-        createUserInteractor.create(createUserDTO.getEmail(), createUserDTO.getPassword());
+    public void createUser(@RequestBody CreateUserRequest createUserRequest) {
+        createUserInteractor.create(createUserRequest.getEmail(), createUserRequest.getPassword());
     }
 
 }

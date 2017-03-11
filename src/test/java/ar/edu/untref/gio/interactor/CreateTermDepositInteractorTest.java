@@ -3,7 +3,7 @@ package ar.edu.untref.gio.interactor;
 import ar.edu.untref.gio.domain.TermDeposit;
 import ar.edu.untref.gio.domain.TermDepositRepository;
 import ar.edu.untref.gio.domain.TermDepositStatus;
-import ar.edu.untref.gio.dto.CreateTermDepositDTO;
+import ar.edu.untref.gio.dto.CreateTermDepositRequest;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -18,7 +18,7 @@ public class CreateTermDepositInteractorTest {
     @Rule
     public ExpectedException thrown= ExpectedException.none();
 
-    private CreateTermDepositDTO createTermDepositDTO;
+    private CreateTermDepositRequest createTermDepositRequest;
     private TermDeposit termDeposit;
     private Double validAmount = new Double(100);
     private Double validRate = new Double(15);
@@ -27,7 +27,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositThenTermDepositIsCreated() {
-        givenCreateTermDepositDTOWith(validAmount, validRate, validExpirationDate);
+        givenCreateTermDepositRequestWith(validAmount, validRate, validExpirationDate);
 
         whenCreateTermDeposit();
 
@@ -36,7 +36,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositWithNullAmountThenExceptionIsThrown() {
-        givenCreateTermDepositDTOWith(null, validRate, validExpirationDate);
+        givenCreateTermDepositRequestWith(null, validRate, validExpirationDate);
 
         thrown.expect(NullPointerException.class);
         whenCreateTermDeposit();
@@ -44,7 +44,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositWithNullRateThenExceptionIsThrown() {
-        givenCreateTermDepositDTOWith(validAmount, null, validExpirationDate);
+        givenCreateTermDepositRequestWith(validAmount, null, validExpirationDate);
 
         thrown.expect(NullPointerException.class);
         whenCreateTermDeposit();
@@ -52,7 +52,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositWithNullExpirationThenExceptionIsThrown() {
-        givenCreateTermDepositDTOWith(validAmount, validRate, null);
+        givenCreateTermDepositRequestWith(validAmount, validRate, null);
 
         thrown.expect(NullPointerException.class);
         whenCreateTermDeposit();
@@ -62,7 +62,7 @@ public class CreateTermDepositInteractorTest {
     public void whenCreateTermDepositWithBeforeExpirationDateThenExceptionIsThrown() {
         int daysBeforeNow = 1;
         Date beforeNow = new DateTime().minusDays(daysBeforeNow).toDate();
-        givenCreateTermDepositDTOWith(validAmount, validRate, beforeNow);
+        givenCreateTermDepositRequestWith(validAmount, validRate, beforeNow);
 
         thrown.expect(IllegalArgumentException.class);
         whenCreateTermDeposit();
@@ -71,7 +71,7 @@ public class CreateTermDepositInteractorTest {
     @Test
     public void whenCreateTermDepositWithActualExpirationDateThenExceptionIsThrown() {
         Date now = new DateTime().toDate();
-        givenCreateTermDepositDTOWith(validAmount, validRate, now);
+        givenCreateTermDepositRequestWith(validAmount, validRate, now);
 
         thrown.expect(IllegalArgumentException.class);
         whenCreateTermDeposit();
@@ -81,7 +81,7 @@ public class CreateTermDepositInteractorTest {
     public void whenCreateTermDepositWithLessThanThirtyExpirationDateThenExceptionIsThrown() {
         int daysAfterNow = 29;
         Date afterNow = new DateTime().minusDays(daysAfterNow).toDate();
-        givenCreateTermDepositDTOWith(validAmount, validRate, afterNow);
+        givenCreateTermDepositRequestWith(validAmount, validRate, afterNow);
 
         thrown.expect(IllegalArgumentException.class);
         whenCreateTermDeposit();
@@ -89,7 +89,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositThenTermDepositIsActive() {
-        givenCreateTermDepositDTOWith(validAmount, validRate, validExpirationDate);
+        givenCreateTermDepositRequestWith(validAmount, validRate, validExpirationDate);
 
         whenCreateTermDeposit();
 
@@ -98,7 +98,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositThenTermDepositContainsCorrectAmount() {
-        givenCreateTermDepositDTOWith(validAmount, validRate, validExpirationDate);
+        givenCreateTermDepositRequestWith(validAmount, validRate, validExpirationDate);
 
         whenCreateTermDeposit();
 
@@ -107,7 +107,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositThenTermDepositContainsCorrectRate() {
-        givenCreateTermDepositDTOWith(validAmount, validRate, validExpirationDate);
+        givenCreateTermDepositRequestWith(validAmount, validRate, validExpirationDate);
 
         whenCreateTermDeposit();
 
@@ -116,7 +116,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositThenTermDepositContainsCorrectExpirationDate() {
-        givenCreateTermDepositDTOWith(validAmount, validRate, validExpirationDate);
+        givenCreateTermDepositRequestWith(validAmount, validRate, validExpirationDate);
 
         whenCreateTermDeposit();
 
@@ -139,13 +139,13 @@ public class CreateTermDepositInteractorTest {
         Assert.assertEquals(TermDepositStatus.ACTIVE, termDeposit.getStatus());
     }
 
-    private void givenCreateTermDepositDTOWith(Double amount, Double rate, Date expiration) {
-        createTermDepositDTO = new CreateTermDepositDTO(amount, rate, expiration);
+    private void givenCreateTermDepositRequestWith(Double amount, Double rate, Date expiration) {
+        createTermDepositRequest = new CreateTermDepositRequest(amount, rate, expiration);
     }
 
     private void whenCreateTermDeposit() {
         TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
-        termDeposit = new DefaultCreateTermDepositInteractor(termDepositRepository).create(createTermDepositDTO, defaultCreatorId);
+        termDeposit = new DefaultCreateTermDepositInteractor(termDepositRepository).create(createTermDepositRequest, defaultCreatorId);
     }
 
     private void thenTermDepositIsCreated() {

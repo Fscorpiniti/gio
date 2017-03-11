@@ -4,7 +4,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.Date;
 
-public class CreateTermDepositDTO {
+public class CreateTermDepositRequest {
 
     @JsonProperty("amount")
     private Double amount;
@@ -15,9 +15,9 @@ public class CreateTermDepositDTO {
     @JsonProperty("expiration_date")
     private Date expiration;
 
-    public CreateTermDepositDTO(){}
+    public CreateTermDepositRequest(){}
 
-    public CreateTermDepositDTO(Double amount, Double rate, Date expiration) {
+    public CreateTermDepositRequest(Double amount, Double rate, Date expiration) {
         this.amount = amount;
         this.rate = rate;
         this.expiration = expiration;

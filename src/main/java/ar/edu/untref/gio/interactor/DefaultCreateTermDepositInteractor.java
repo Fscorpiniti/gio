@@ -3,7 +3,7 @@ package ar.edu.untref.gio.interactor;
 
 import ar.edu.untref.gio.domain.TermDeposit;
 import ar.edu.untref.gio.domain.TermDepositRepository;
-import ar.edu.untref.gio.dto.CreateTermDepositDTO;
+import ar.edu.untref.gio.dto.CreateTermDepositRequest;
 import ar.edu.untref.gio.validator.DefaultTermDepositValidator;
 
 public class DefaultCreateTermDepositInteractor implements CreateTermDepositInteractor {
@@ -15,9 +15,9 @@ public class DefaultCreateTermDepositInteractor implements CreateTermDepositInte
     }
 
     @Override
-    public TermDeposit create(CreateTermDepositDTO createTermDepositDTO, Long creatorId) {
-        TermDeposit termDeposit = new TermDeposit(createTermDepositDTO.getAmount(), createTermDepositDTO.getRate(),
-                createTermDepositDTO.getExpiration(), new DefaultTermDepositValidator(), creatorId);
+    public TermDeposit create(CreateTermDepositRequest createTermDepositRequest, Long creatorId) {
+        TermDeposit termDeposit = new TermDeposit(createTermDepositRequest.getAmount(), createTermDepositRequest.getRate(),
+                createTermDepositRequest.getExpiration(), new DefaultTermDepositValidator(), creatorId);
 
         termDepositRepository.add(termDeposit);
 
