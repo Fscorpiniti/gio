@@ -1,4 +1,4 @@
-package ar.edu.untref.gio.dto;
+package ar.edu.untref.gio.request;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 

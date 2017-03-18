@@ -1,7 +1,7 @@
 package ar.edu.untref.gio.controller;
 
 import ar.edu.untref.gio.interactor.CreateUserInteractor;
-import ar.edu.untref.gio.dto.CreateUserRequest;
+import ar.edu.untref.gio.request.CreateUserRequest;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;

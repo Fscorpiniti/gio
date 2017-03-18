@@ -2,7 +2,7 @@ package ar.edu.untref.gio.persistence;
 
 import ar.edu.untref.gio.domain.TermDeposit;
 import ar.edu.untref.gio.domain.TermDepositRepository;
-import ar.edu.untref.gio.dto.CreateTermDepositRequest;
+import ar.edu.untref.gio.request.CreateTermDepositRequest;
 import ar.edu.untref.gio.interactor.DefaultCreateTermDepositInteractor;
 import org.joda.time.DateTime;
 import org.junit.Assert;
