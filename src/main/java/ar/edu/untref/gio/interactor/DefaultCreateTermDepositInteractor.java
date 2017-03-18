@@ -18,9 +18,9 @@ public class DefaultCreateTermDepositInteractor implements CreateTermDepositInte
     }
 
     @Override
-    public TermDeposit create(CreateTermDepositRequest createTermDepositRequest, Long creatorId) {
+    public TermDeposit create(CreateTermDepositRequest createTermDepositRequest, Long ownerId) {
         TermDeposit termDeposit = new TermDeposit(createTermDepositRequest.getAmount(), createTermDepositRequest.getRate(),
-                createTermDepositRequest.getExpiration(), new DefaultTermDepositValidator(), creatorId);
+                createTermDepositRequest.getExpiration(), new DefaultTermDepositValidator(), ownerId);
 
         termDepositRepository.add(termDeposit);
 

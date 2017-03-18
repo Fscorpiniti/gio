@@ -23,7 +23,7 @@ public class CreateTermDepositInteractorTest {
     private Double validAmount = new Double(100);
     private Double validRate = new Double(15);
     private Date validExpirationDate = new DateTime().plusDays(30).toDate();
-    private Long defaultCreatorId = new Long(1);
+    private Long defaultOwnerId = new Long(1);
 
     @Test
     public void whenCreateTermDepositThenTermDepositIsCreated() {
@@ -151,7 +151,7 @@ public class CreateTermDepositInteractorTest {
 
     private void whenCreateTermDeposit() {
         TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
-        termDeposit = new DefaultCreateTermDepositInteractor(termDepositRepository).create(createTermDepositRequest, defaultCreatorId);
+        termDeposit = new DefaultCreateTermDepositInteractor(termDepositRepository).create(createTermDepositRequest, defaultOwnerId);
     }
 
     private void thenTermDepositIsCreated() {
