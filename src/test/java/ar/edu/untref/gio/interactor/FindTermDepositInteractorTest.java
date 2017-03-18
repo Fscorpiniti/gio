@@ -15,21 +15,41 @@ public class FindTermDepositInteractorTest {
     @Rule
     public ExpectedException thrown= ExpectedException.none();
 
+    private Long ownerId;
+    private List<TermDeposit> termDeposits;
+
     @Test
     public void whenFindTermDepositsWithNullOwnerIdThenExceptionIsThrown() {
-        Long ownerId = null;
+        givenNullOwnerId();
+
         thrown.expect(NullPointerException.class);
-        TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
-        new DefaultFindTermDepositInteractor(termDepositRepository).findByOwnerId(ownerId);
+        whenFindTermDepositsByOwnerId();
     }
 
     @Test
     public void whenFindTermDepositsWithoutTermDepositsCreatedThenResultIsEmpty() {
-        Long ownerId = 1l;
-        TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
-        List<TermDeposit> termDeposits = new DefaultFindTermDepositInteractor(termDepositRepository).findByOwnerId(ownerId);
+        givenValidOwnerId();
 
+        whenFindTermDepositsByOwnerId();
+
+        thenTermDepositsResultIsEmpty();
+    }
+
+    private void thenTermDepositsResultIsEmpty() {
         Assert.assertTrue(termDeposits.isEmpty());
+    }
+
+    private void givenValidOwnerId() {
+        ownerId = new Long(1);
+    }
+
+    private void givenNullOwnerId() {
+        ownerId = null;
+    }
+
+    private void whenFindTermDepositsByOwnerId() {
+        TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
+        termDeposits = new DefaultFindTermDepositInteractor(termDepositRepository).findByOwnerId(ownerId);
     }
 
 }
