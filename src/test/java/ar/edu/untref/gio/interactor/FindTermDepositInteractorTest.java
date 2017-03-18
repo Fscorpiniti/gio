@@ -1,8 +1,10 @@
 package ar.edu.untref.gio.interactor;
 
+import ar.edu.untref.gio.domain.TermDepositRepository;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 
 public class FindTermDepositInteractorTest {
 
@@ -13,7 +15,8 @@ public class FindTermDepositInteractorTest {
     public void whenFindDepositsWithNullOwnerIdThenExceptionIsThrown() {
         Long ownerId = null;
         thrown.expect(NullPointerException.class);
-        new DefaultFindTermDepositInteractor().findByOwnerId(ownerId);
+        TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
+        new DefaultFindTermDepositInteractor(termDepositRepository).findByOwnerId(ownerId);
     }
 
 }
