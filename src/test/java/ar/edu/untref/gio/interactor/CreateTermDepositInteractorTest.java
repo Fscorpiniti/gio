@@ -123,6 +123,12 @@ public class CreateTermDepositInteractorTest {
         thenTermDepositContainsCorrectExpirationRate();
     }
 
+    @Test
+    public void whenCreateTermDepositInteractorWithNullRepositoryThenExceptionIsThrown() {
+        thrown.expect(NullPointerException.class);
+        new DefaultCreateTermDepositInteractor(null);
+    }
+
     private void thenTermDepositContainsCorrectExpirationRate() {
         Assert.assertEquals(validExpirationDate, termDeposit.getExpiration());
     }
