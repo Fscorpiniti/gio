@@ -62,7 +62,7 @@ public class FindTermDepositInteractorTest {
                 rate, validExpirationDate);
         TermDeposit termDeposit = new DefaultCreateTermDepositInteractor(termDepositRepository)
                 .create(createTermDepositRequest, ownerId);
-        Mockito.when(termDepositRepository.findByOwnerId(ownerId)).thenReturn(Arrays.asList(termDeposit));
+        Mockito.when(termDepositRepository.findActiveTermDepositsByOwnerId(ownerId)).thenReturn(Arrays.asList(termDeposit));
     }
 
     private void thenTermDepositsResultIsEmpty() {

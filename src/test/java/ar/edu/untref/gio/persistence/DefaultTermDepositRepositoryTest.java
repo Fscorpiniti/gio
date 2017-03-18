@@ -64,7 +64,7 @@ public class DefaultTermDepositRepositoryTest {
     }
 
     private void whenFindTermDepositsByOwnerId() {
-        termDeposits = termDepositRepository.findByOwnerId(ownerId);
+        termDeposits = termDepositRepository.findActiveTermDepositsByOwnerId(ownerId);
     }
 
     private void thenTermDepositsResultIsEmpty() {

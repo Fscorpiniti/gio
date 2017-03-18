@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface TermDepositRepository extends Repository<TermDeposit> {
 
-    List<TermDeposit> findByOwnerId(Integer ownerId);
+    List<TermDeposit> findActiveTermDepositsByOwnerId(Integer ownerId);
 
 }

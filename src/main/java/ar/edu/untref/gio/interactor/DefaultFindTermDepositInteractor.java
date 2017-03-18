@@ -16,7 +16,7 @@ public class DefaultFindTermDepositInteractor implements FindTermDepositInteract
 
     public List<TermDeposit> findByOwnerId(Integer ownerId) {
         Preconditions.checkNotNull(ownerId);
-        return termDepositRepository.findByOwnerId(ownerId);
+        return termDepositRepository.findActiveTermDepositsByOwnerId(ownerId);
     }
 
 }
