@@ -5,6 +5,6 @@ import ar.edu.untref.gio.request.CreateTermDepositRequest;
 
 public interface CreateTermDepositInteractor {
 
-    TermDeposit create(CreateTermDepositRequest createTermDepositRequest, Long ownerId);
+    TermDeposit create(CreateTermDepositRequest createTermDepositRequest, Integer ownerId);
 
 }

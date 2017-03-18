@@ -18,7 +18,7 @@ public class DefaultCreateTermDepositInteractor implements CreateTermDepositInte
     }
 
     @Override
-    public TermDeposit create(CreateTermDepositRequest createTermDepositRequest, Long ownerId) {
+    public TermDeposit create(CreateTermDepositRequest createTermDepositRequest, Integer ownerId) {
         TermDeposit termDeposit = buildTermDeposit(createTermDepositRequest, ownerId);
 
         termDepositRepository.add(termDeposit);
@@ -26,7 +26,7 @@ public class DefaultCreateTermDepositInteractor implements CreateTermDepositInte
         return termDeposit;
     }
 
-    private TermDeposit buildTermDeposit(CreateTermDepositRequest createTermDepositRequest, Long ownerId) {
+    private TermDeposit buildTermDeposit(CreateTermDepositRequest createTermDepositRequest, Integer ownerId) {
         return new TermDepositBuilder().withAmount(createTermDepositRequest.getAmount())
                 .withExpiration(createTermDepositRequest.getExpiration()).withOwnerId(ownerId)
                 .withRate(createTermDepositRequest.getRate()).build();

@@ -6,13 +6,13 @@ import java.util.Date;
 
 public class TermDepositBuilder {
 
-    private Long ownerId;
+    private Integer ownerId;
     private Double rate;
     private Double amount;
     private Date expiration;
     private TermDepositStatus status;
 
-    public TermDepositBuilder withOwnerId(Long ownerId) {
+    public TermDepositBuilder withOwnerId(Integer ownerId) {
         this.ownerId = ownerId;
         return this;
     }

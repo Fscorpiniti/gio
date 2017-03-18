@@ -18,12 +18,12 @@ public class DefaultTermDepositRepository extends GenericRepository<TermDeposit>
     }
 
     @Override
-    public List<TermDeposit> findByOwnerId(Long ownerId) {
+    public List<TermDeposit> findByOwnerId(Integer ownerId) {
         Query query = buildQueryFindByOwnerId(ownerId);
         return query.getResultList();
     }
 
-    private Query buildQueryFindByOwnerId(Long ownerId) {
+    private Query buildQueryFindByOwnerId(Integer ownerId) {
         StringBuilder hql = new StringBuilder("from ")
                 .append(getEntityClass().getName())
                 .append(" this where this.ownerId = :ownerId");

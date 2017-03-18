@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface FindTermDepositInteractor {
 
-    List<TermDeposit> findByOwnerId(Long ownerId);
+    List<TermDeposit> findByOwnerId(Integer ownerId);
 
 }

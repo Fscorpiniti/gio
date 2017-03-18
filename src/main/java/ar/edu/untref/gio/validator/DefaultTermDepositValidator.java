@@ -16,7 +16,7 @@ public class DefaultTermDepositValidator implements TermDepositValidator {
     public static final String EXPIRATION_IS_INVALID = "Expiration is invalid";
 
     @Override
-    public void execute(Double amount, Double rate, Date expiration, Long ownerId) {
+    public void execute(Double amount, Double rate, Date expiration, Integer ownerId) {
         Preconditions.checkNotNull(amount, AMOUNT_IS_REQUIRED);
         Preconditions.checkNotNull(rate, RATE_IS_REQUIRED);
         Preconditions.checkNotNull(expiration, EXPIRATION_IS_REQUIRED);

@@ -23,7 +23,7 @@ public class CreateTermDepositInteractorTest {
     private Double validAmount = new Double(100);
     private Double validRate = new Double(15);
     private Date validExpirationDate = new DateTime().plusDays(30).toDate();
-    private Long defaultOwnerId = new Long(1);
+    private Integer defaultOwnerId = new Integer(1);
 
     @Test
     public void whenCreateTermDepositThenTermDepositIsCreated() {

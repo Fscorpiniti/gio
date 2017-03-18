@@ -24,7 +24,7 @@ public class DefaultTermDepositRepositoryTest {
     @Resource(name = "defaultTermDepositRepository")
     private TermDepositRepository termDepositRepository;
 
-    private Long ownerId;
+    private Integer ownerId;
     private List<TermDeposit> termDeposits;
 
     @Test
@@ -60,7 +60,7 @@ public class DefaultTermDepositRepositoryTest {
     }
 
     private void givenValidOwnerId() {
-        ownerId = new Long(1);
+        ownerId = new Integer(1);
     }
 
     private void whenFindTermDepositsByOwnerId() {

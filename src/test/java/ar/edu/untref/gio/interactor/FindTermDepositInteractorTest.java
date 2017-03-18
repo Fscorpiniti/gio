@@ -19,7 +19,7 @@ public class FindTermDepositInteractorTest {
     @Rule
     public ExpectedException thrown= ExpectedException.none();
 
-    private Long ownerId;
+    private Integer ownerId;
     private List<TermDeposit> termDeposits;
     private TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
 
@@ -70,7 +70,7 @@ public class FindTermDepositInteractorTest {
     }
 
     private void givenValidOwnerId() {
-        ownerId = new Long(1);
+        ownerId = new Integer(1);
     }
 
     private void givenNullOwnerId() {
