@@ -4,6 +4,7 @@ import ar.edu.untref.gio.domain.User;
 import ar.edu.untref.gio.domain.UserRepository;
 import ar.edu.untref.gio.exception.EmailAlreadyExistentException;
 import ar.edu.untref.gio.validator.DefaultUserValidator;
+import com.google.common.base.Preconditions;
 
 public class DefaultCreateUserInteractor implements CreateUserInteractor {
 
@@ -12,7 +13,7 @@ public class DefaultCreateUserInteractor implements CreateUserInteractor {
     private UserRepository userRepository;
 
     public DefaultCreateUserInteractor(UserRepository userRepository) {
-        validateRepositoryIsNotNull(userRepository);
+        Preconditions.checkNotNull(userRepository, USER_REPOSITORY_IS_REQUIRED);
         this.userRepository = userRepository;
     }
 
@@ -26,12 +27,6 @@ public class DefaultCreateUserInteractor implements CreateUserInteractor {
     private void validateEmailAlreadyExistent(String email) {
         if (userRepository.exist(email)) {
             throw new EmailAlreadyExistentException(EMAIL_ALREADY_EXISTENT);
-        }
-    }
-
-    private void validateRepositoryIsNotNull(UserRepository userRepository) {
-        if (userRepository == null) {
-            throw new IllegalArgumentException(USER_REPOSITORY_IS_REQUIRED);
         }
     }
 
