@@ -29,10 +29,7 @@ public class DefaultUserRepository extends GenericRepository<User> implements Us
     public Optional<User> findByEmail(String email) {
         validateBlankEmail(email);
         Query query = buildQueryFindByEmail(email);
-        if (!query.getResultList().isEmpty()) {
-            return Optional.of((User)query.getResultList().get(0));
-        }
-        return Optional.empty();
+        return query.getResultList().stream().findFirst();
     }
 
     private Query buildQueryFindByEmail(String email) {
