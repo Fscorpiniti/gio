@@ -60,10 +60,6 @@
         </property>
     </bean>
 
-    <security:http use-expressions="true" authentication-manager-ref="authenticationManager" entry-point-ref="restAuthenticationEntryPoint">
-        <security:intercept-url pattern="/login" access="permitAll" />
-    </security:http>
-
     <security:authentication-manager id="authenticationManager" alias="authenticationManager">
         <security:authentication-provider user-service-ref="customUserDetailService">
         </security:authentication-provider>
