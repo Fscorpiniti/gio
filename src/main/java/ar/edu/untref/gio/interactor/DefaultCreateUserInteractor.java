@@ -3,6 +3,7 @@ package ar.edu.untref.gio.interactor;
 import ar.edu.untref.gio.domain.User;
 import ar.edu.untref.gio.domain.UserRepository;
 import ar.edu.untref.gio.exception.EmailAlreadyExistentException;
+import ar.edu.untref.gio.request.CreateUserRequest;
 import ar.edu.untref.gio.validator.DefaultUserValidator;
 import com.google.common.base.Preconditions;
 
@@ -17,8 +18,9 @@ public class DefaultCreateUserInteractor implements CreateUserInteractor {
         this.userRepository = userRepository;
     }
 
-    public User create(String email, String password) {
-        User user = new User(email, password, new DefaultUserValidator());
+    public User create(CreateUserRequest request) {
+        User user = new User(request.getEmail(), request.getPassword(), request.getName(),
+                new DefaultUserValidator());
         validateEmailAlreadyExistent(user.getEmail());
         userRepository.add(user);
         return user;

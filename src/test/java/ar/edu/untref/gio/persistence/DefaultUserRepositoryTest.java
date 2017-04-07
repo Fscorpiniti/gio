@@ -21,6 +21,7 @@ public class DefaultUserRepositoryTest {
 
     private static final String VALID_EMAIL = "test@gio.com";
     private static final String VALID_PASSWORD = "auth";
+    private static final String VALID_NAME = "test";
 
     @Rule
     public ExpectedException thrown= ExpectedException.none();
@@ -30,7 +31,7 @@ public class DefaultUserRepositoryTest {
 
     @Test
     public void whenCreateUserThenUserIsStored() {
-        User user = new User(VALID_EMAIL, VALID_PASSWORD, new DefaultUserValidator());
+        User user = new User(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, new DefaultUserValidator());
         userRepository.add(user);
         Assert.assertTrue(userRepository.exist(user.getEmail()));
     }
@@ -54,7 +55,7 @@ public class DefaultUserRepositoryTest {
 
     @Test
     public void whenFindByEmailWithExistentEmailThenUserIsFound() {
-        User user = new User(VALID_EMAIL, VALID_PASSWORD, new DefaultUserValidator());
+        User user = new User(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, new DefaultUserValidator());
         userRepository.add(user);
         Assert.assertTrue(userRepository.findByEmail(VALID_EMAIL).isPresent());
     }

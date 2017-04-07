@@ -19,12 +19,16 @@ public class User {
     @Column
     private String password;
 
+    @Column
+    private String name;
+
     protected User() {}
 
-    public User(String email, String password, UserValidator userValidator) {
-        userValidator.execute(email, password);
+    public User(String email, String password, String name, UserValidator userValidator) {
+        userValidator.execute(email, password, name);
         this.email = email;
         this.password = password;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -39,4 +43,7 @@ public class User {
         return email;
     }
 
+    public String getName() {
+        return name;
+    }
 }

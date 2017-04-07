@@ -25,7 +25,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value =  "/users", method = RequestMethod.POST,  consumes = {MediaType.APPLICATION_JSON_VALUE})
     public UserResponse createUser(@RequestBody CreateUserRequest createUserRequest) {
-        User user = createUserInteractor.create(createUserRequest.getEmail(), createUserRequest.getPassword());
+        User user = createUserInteractor.create(createUserRequest);
         return new UserResponseFactory().build(user);
     }
 
