@@ -1,6 +1,6 @@
 package ar.edu.untref.gio.domain;
 
-import ar.edu.untref.gio.validator.DefaultTermDepositValidator;
+import ar.edu.untref.gio.domain.validator.DefaultTermDepositValidator;
 
 import java.util.Date;
 

@@ -1,6 +1,6 @@
 package ar.edu.untref.gio.domain;
 
-import ar.edu.untref.gio.validator.UserValidator;
+import ar.edu.untref.gio.domain.validator.UserValidator;
 
 import javax.persistence.*;
 
