@@ -6,4 +6,5 @@ public interface TermDepositRepository extends Repository<TermDeposit> {
 
     List<TermDeposit> findActiveTermDepositsByOwnerId(Integer ownerId);
 
+    TermDepositInformation findTermDepositInformation();
 }

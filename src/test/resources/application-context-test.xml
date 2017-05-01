@@ -22,6 +22,7 @@
         <property name="locations">
             <list>
                 <value>classpath:dbtest.properties</value>
+                <value>classpath:application-test.properties</value>
             </list>
         </property>
     </bean>
