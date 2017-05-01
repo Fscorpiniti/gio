@@ -8,4 +8,6 @@ public interface UserRepository extends Repository<User> {
 
     Optional<User> findByEmail(String email);
 
+    Optional<User> findById(Integer id);
+
 }

@@ -27,6 +27,8 @@ public class DefaultUserRepositoryTest {
     private static final String VALID_NAME = "test";
     private static final Double INITIAL_COINS = new Double(1000);
 
+    private User user;
+
     @Rule
     public ExpectedException thrown= ExpectedException.none();
 
@@ -83,6 +85,38 @@ public class DefaultUserRepositoryTest {
         Optional<User> userOptional = findByEmail();
 
         thenEconomyContainsCorrectCoins(userOptional);
+    }
+
+    @Test
+    public void whenFindInexistentUserByIdThenResultIsEmpty(){
+        givenCreateUserWithDefaultEconomy();
+
+        int inexistentId = 100;
+        Optional<User> userOptional = findById(inexistentId);
+
+        thenResultUserIsEmpty(userOptional);
+    }
+
+    @Test
+    public void whenFindValidUserByIdThenResultContainsThisUser(){
+        givenCreateUserWithDefaultEconomy();
+
+        Optional<User> byEmail = findByEmail();
+        Optional<User> userOptional = findById(byEmail.get().getId());
+
+        thenResultUserIsNotEmpty(userOptional);
+    }
+
+    private void thenResultUserIsNotEmpty(Optional<User> userOptional) {
+        Assert.assertTrue(userOptional.isPresent());
+    }
+
+    private void thenResultUserIsEmpty(Optional<User> userOptional) {
+        Assert.assertFalse(userOptional.isPresent());
+    }
+
+    private Optional<User> findById(Integer id) {
+        return userRepository.findById(id);
     }
 
     private void thenEconomyContainsCorrectCoins(Optional<User> userOptional) {
