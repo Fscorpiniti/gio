@@ -22,13 +22,17 @@ public class User {
     @Column
     private String name;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private UserEconomy userEconomy;
+
     protected User() {}
 
-    public User(String email, String password, String name, UserValidator userValidator) {
-        userValidator.execute(email, password, name);
+    public User(String email, String password, String name, UserValidator userValidator, UserEconomy userEconomy) {
+        userValidator.execute(email, password, name, userEconomy);
         this.email = email;
         this.password = password;
         this.name = name;
+        this.userEconomy = userEconomy;
     }
 
     public Integer getId() {
@@ -45,5 +49,9 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public UserEconomy getUserEconomy() {
+        return userEconomy;
     }
 }

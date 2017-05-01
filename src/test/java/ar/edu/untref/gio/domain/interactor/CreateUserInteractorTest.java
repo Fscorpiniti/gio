@@ -16,6 +16,7 @@ public class CreateUserInteractorTest {
     private static final String VALID_EMAIL = "test@gio.com";
     private static final String VALID_PASSWORD = "auth";
     private static final String VALID_NAME = "test";
+    private static final Double INITIAL_COINS = new Double(1000);
 
     @Rule
     public ExpectedException thrown= ExpectedException.none();
@@ -24,7 +25,7 @@ public class CreateUserInteractorTest {
     public void whenCreateValidUserThenUserIsNotNull() {
         UserRepository userRepository = getUserRepositoryMock();
         Mockito.when(userRepository.exist(VALID_EMAIL)).thenReturn(Boolean.FALSE);
-        User user = new DefaultCreateUserInteractor(userRepository).create(
+        User user = new DefaultCreateUserInteractor(userRepository, INITIAL_COINS).create(
                 createUserRequest(VALID_EMAIL, VALID_PASSWORD, VALID_NAME));
         Assert.assertNotNull(user);
     }
@@ -33,7 +34,7 @@ public class CreateUserInteractorTest {
     public void whenCreateUserWithEmailAndPasswordThenUserContainsThisAttributes() {
         UserRepository userRepository = getUserRepositoryMock();
         Mockito.when(userRepository.exist(VALID_EMAIL)).thenReturn(Boolean.FALSE);
-        User user = new DefaultCreateUserInteractor(userRepository).create(
+        User user = new DefaultCreateUserInteractor(userRepository, INITIAL_COINS).create(
                 createUserRequest(VALID_EMAIL, VALID_PASSWORD, VALID_NAME));
         Assert.assertEquals(VALID_EMAIL, user.getEmail());
         Assert.assertEquals(VALID_PASSWORD, user.getPassword());
@@ -44,28 +45,28 @@ public class CreateUserInteractorTest {
     public void whenCreateUserWithNullEmailThenExceptionIsThrown() {
         String email = null;
         thrown.expect(IllegalArgumentException.class);
-        new DefaultCreateUserInteractor(getUserRepositoryMock()).create(createUserRequest(email, VALID_PASSWORD, VALID_NAME));
+        new DefaultCreateUserInteractor(getUserRepositoryMock(), INITIAL_COINS).create(createUserRequest(email, VALID_PASSWORD, VALID_NAME));
     }
 
     @Test
     public void whenCreateUserWithEmptyEmailThenExceptionIsThrown() {
         String email = StringUtils.EMPTY;
         thrown.expect(IllegalArgumentException.class);
-        new DefaultCreateUserInteractor(getUserRepositoryMock()).create(createUserRequest(email, VALID_PASSWORD, VALID_NAME));
+        new DefaultCreateUserInteractor(getUserRepositoryMock(), INITIAL_COINS).create(createUserRequest(email, VALID_PASSWORD, VALID_NAME));
     }
 
     @Test
     public void whenCreateUserWithNullPasswordThenExceptionIsThrown() {
         String password = null;
         thrown.expect(IllegalArgumentException.class);
-        new DefaultCreateUserInteractor(getUserRepositoryMock()).create(createUserRequest(VALID_EMAIL, password, VALID_NAME));
+        new DefaultCreateUserInteractor(getUserRepositoryMock(), INITIAL_COINS).create(createUserRequest(VALID_EMAIL, password, VALID_NAME));
     }
 
     @Test
     public void whenCreateUserWithEmptyPasswordThenExceptionIsThrown() {
         String password = StringUtils.EMPTY;
         thrown.expect(IllegalArgumentException.class);
-        new DefaultCreateUserInteractor(getUserRepositoryMock()).create(createUserRequest(VALID_EMAIL, password, VALID_NAME));
+        new DefaultCreateUserInteractor(getUserRepositoryMock(), INITIAL_COINS).create(createUserRequest(VALID_EMAIL, password, VALID_NAME));
     }
 
     @Test
@@ -73,27 +74,27 @@ public class CreateUserInteractorTest {
         UserRepository userRepository = getUserRepositoryMock();
         Mockito.when(userRepository.exist(VALID_EMAIL)).thenReturn(Boolean.TRUE);
         thrown.expect(EmailAlreadyExistentException.class);
-        new DefaultCreateUserInteractor(userRepository).create(createUserRequest(VALID_EMAIL, VALID_PASSWORD, VALID_NAME));
+        new DefaultCreateUserInteractor(userRepository, INITIAL_COINS).create(createUserRequest(VALID_EMAIL, VALID_PASSWORD, VALID_NAME));
     }
 
     @Test
     public void whenCreateUserWithNullNameThenExceptionIsThrown() {
         String name = null;
         thrown.expect(IllegalArgumentException.class);
-        new DefaultCreateUserInteractor(getUserRepositoryMock()).create(createUserRequest(VALID_EMAIL, VALID_PASSWORD, name));
+        new DefaultCreateUserInteractor(getUserRepositoryMock(), INITIAL_COINS).create(createUserRequest(VALID_EMAIL, VALID_PASSWORD, name));
     }
 
     @Test
     public void whenCreateUserWithEmptyNameThenExceptionIsThrown() {
         String name = StringUtils.EMPTY;
         thrown.expect(IllegalArgumentException.class);
-        new DefaultCreateUserInteractor(getUserRepositoryMock()).create(createUserRequest(VALID_EMAIL, VALID_PASSWORD, name));
+        new DefaultCreateUserInteractor(getUserRepositoryMock(), INITIAL_COINS).create(createUserRequest(VALID_EMAIL, VALID_PASSWORD, name));
     }
 
     @Test
     public void whenCreateUserInteractorWithNullRepositoryThenExceptionIsThrown() {
         thrown.expect(NullPointerException.class);
-        new DefaultCreateUserInteractor(null);
+        new DefaultCreateUserInteractor(null, INITIAL_COINS);
     }
 
     private UserRepository getUserRepositoryMock() {
