@@ -1,6 +1,7 @@
 package ar.edu.untref.gio.domain.interactor;
 
 import ar.edu.untref.gio.domain.TermDeposit;
+import ar.edu.untref.gio.domain.TermDepositInformation;
 import ar.edu.untref.gio.domain.TermDepositRepository;
 import ar.edu.untref.gio.domain.request.CreateTermDepositRequest;
 import org.joda.time.DateTime;
@@ -22,6 +23,13 @@ public class FindTermDepositInteractorTest {
     private Integer ownerId;
     private List<TermDeposit> termDeposits;
     private TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
+    private TermDepositInformation termDepositInformation;
+
+    private static final Double VALID_BI_MONTHLY_RATE = new Double(15);
+    private static final Double VALID_QUARTERLY_RATE = new Double(20);
+    private static final Double VALID_SEMIANNUAL_RATE = new Double(25);
+    private static final Double VALID_ANNUAL_RATE = new Double(30);
+    private static final Double VALID_MONTHLY_RATE = new Double(10);
 
     @Test
     public void whenFindTermDepositsWithNullOwnerIdThenExceptionIsThrown() {
@@ -48,6 +56,38 @@ public class FindTermDepositInteractorTest {
         whenFindTermDepositsByOwnerId();
 
         thenTermDepositsResultContainsElements();
+    }
+
+    @Test
+    public void whenFindTermDepositInformationThenInformationIsReturned() {
+        whenFindTermDepositInformation();
+
+        thenTermDepositInformationIsNotNull();
+    }
+
+    @Test
+    public void whenFindTermDepositInformationWithRatesThenRatesAreCorrect() {
+        whenFindTermDepositInformation();
+
+        thenRatesAreCorrect();
+    }
+
+    private void thenRatesAreCorrect() {
+        Assert.assertEquals(VALID_MONTHLY_RATE, termDepositInformation.getMonthlyRate());
+        Assert.assertEquals(VALID_BI_MONTHLY_RATE, termDepositInformation.getBiMonthlyRate());
+        Assert.assertEquals(VALID_QUARTERLY_RATE, termDepositInformation.getQuarterlyRate());
+        Assert.assertEquals(VALID_SEMIANNUAL_RATE, termDepositInformation.getSemiAnnualRate());
+        Assert.assertEquals(VALID_ANNUAL_RATE, termDepositInformation.getAnnualRate());
+    }
+
+    private void thenTermDepositInformationIsNotNull() {
+        Assert.assertNotNull(termDepositInformation);
+    }
+
+    private void whenFindTermDepositInformation() {
+        Mockito.when(termDepositRepository.findTermDepositInformationForCreation()).thenReturn(new TermDepositInformation(VALID_MONTHLY_RATE,
+                VALID_BI_MONTHLY_RATE, VALID_QUARTERLY_RATE, VALID_SEMIANNUAL_RATE, VALID_ANNUAL_RATE));
+        termDepositInformation = new DefaultFindTermDepositInteractor(termDepositRepository).findTermDepositInformationForCreation();
     }
 
     private void thenTermDepositsResultContainsElements() {

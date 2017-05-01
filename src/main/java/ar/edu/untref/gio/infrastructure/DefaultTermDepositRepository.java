@@ -37,7 +37,7 @@ public class DefaultTermDepositRepository extends GenericRepository<TermDeposit>
     }
 
     @Override
-    public TermDepositInformation findTermDepositInformation() {
+    public TermDepositInformation findTermDepositInformationForCreation() {
         Double monthlyRate = Double.valueOf(properties.getProperty(MONTHLY_RATE));
         Double biMonthlyRate = Double.valueOf(properties.getProperty(BI_MONTHLY_RATE));
         Double quarterlyRate = Double.valueOf(properties.getProperty(QUARTERLY_RATE));

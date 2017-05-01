@@ -85,7 +85,7 @@ public class DefaultTermDepositRepositoryTest {
     }
 
     private void whenFindTermDepositInformation() {
-        termDepositInformation = termDepositRepository.findTermDepositInformation();
+        termDepositInformation = termDepositRepository.findTermDepositInformationForCreation();
     }
 
     private void givenCreateTermDeposit() {

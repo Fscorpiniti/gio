@@ -2,12 +2,11 @@ package ar.edu.untref.gio.presentation.controller;
 
 
 import ar.edu.untref.gio.domain.TermDeposit;
+import ar.edu.untref.gio.domain.TermDepositInformation;
 import ar.edu.untref.gio.domain.interactor.CreateTermDepositInteractor;
 import ar.edu.untref.gio.domain.interactor.FindTermDepositInteractor;
 import ar.edu.untref.gio.domain.request.CreateTermDepositRequest;
-import ar.edu.untref.gio.presentation.response.TermDepositResponse;
-import ar.edu.untref.gio.presentation.response.TermDepositResponseFactory;
-import ar.edu.untref.gio.presentation.response.TermDepositResponses;
+import ar.edu.untref.gio.presentation.response.*;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +38,13 @@ public class TermDepositController {
     public TermDepositResponses findTermDeposits(@PathVariable Integer ownerId) {
         List<TermDeposit> termDeposits = this.findTermDepositInteractor.findByOwnerId(ownerId);
         return new TermDepositResponseFactory().build(termDeposits);
+    }
+
+    @ResponseBody
+    @RequestMapping(value =  "/deposits", method = RequestMethod.GET)
+    public TermDepositInformationResponse findTermDepositInformationForCreation() {
+        TermDepositInformation termDepositInformation = this.findTermDepositInteractor.findTermDepositInformationForCreation();
+        return new TermDepositInformationResponseFactory().build(termDepositInformation);
     }
 
 }
