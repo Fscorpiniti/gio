@@ -59,28 +59,42 @@ public class DefaultUserRepositoryTest {
     @Test
     public void whenFindByEmailWithExistentEmailThenUserIsFound() {
         givenCreateUserWithDefaultEconomy();
-        Assert.assertTrue(userRepository.findByEmail(VALID_EMAIL).isPresent());
+        Assert.assertTrue(findByEmail().isPresent());
     }
 
     @Test
     public void whenFindByEmailWithInExistentEmailThenResultIsEmpty() {
-        Assert.assertFalse(userRepository.findByEmail(VALID_EMAIL).isPresent());
+        Assert.assertFalse(findByEmail().isPresent());
     }
 
     @Test
     public void whenCreateUserThenUserHasInitialEconomy(){
         givenCreateUserWithDefaultEconomy();
 
-        Optional<User> userOptional = userRepository.findByEmail(VALID_EMAIL);
-        Assert.assertNotNull(userOptional.get().getUserEconomy());
+        Optional<User> userOptional = findByEmail();
+
+        thenEconomyIsNotNull(userOptional);
     }
 
     @Test
     public void whenCreateUserThenUserHasCorrectInitialCoins(){
         givenCreateUserWithDefaultEconomy();
 
-        Optional<User> userOptional = userRepository.findByEmail(VALID_EMAIL);
+        Optional<User> userOptional = findByEmail();
+
+        thenEconomyContainsCorrectCoins(userOptional);
+    }
+
+    private void thenEconomyContainsCorrectCoins(Optional<User> userOptional) {
         Assert.assertEquals(INITIAL_COINS, userOptional.get().getUserEconomy().getCoins());
+    }
+
+    private void thenEconomyIsNotNull(Optional<User> userOptional) {
+        Assert.assertNotNull(userOptional.get().getUserEconomy());
+    }
+
+    private Optional<User> findByEmail() {
+        return userRepository.findByEmail(VALID_EMAIL);
     }
 
     private void givenCreateUserWithDefaultEconomy() {
