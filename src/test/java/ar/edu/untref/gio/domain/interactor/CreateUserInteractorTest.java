@@ -42,6 +42,15 @@ public class CreateUserInteractorTest {
     }
 
     @Test
+    public void whenCreateUserWithInitialEconomyThenUserContainsInitialCoins() {
+        UserRepository userRepository = getUserRepositoryMock();
+        Mockito.when(userRepository.exist(VALID_EMAIL)).thenReturn(Boolean.FALSE);
+        User user = new DefaultCreateUserInteractor(userRepository, INITIAL_COINS).create(
+                createUserRequest(VALID_EMAIL, VALID_PASSWORD, VALID_NAME));
+        Assert.assertEquals(INITIAL_COINS, user.getUserEconomy().getCoins());
+    }
+
+    @Test
     public void whenCreateUserWithNullEmailThenExceptionIsThrown() {
         String email = null;
         thrown.expect(IllegalArgumentException.class);
@@ -95,6 +104,12 @@ public class CreateUserInteractorTest {
     public void whenCreateUserInteractorWithNullRepositoryThenExceptionIsThrown() {
         thrown.expect(NullPointerException.class);
         new DefaultCreateUserInteractor(null, INITIAL_COINS);
+    }
+
+    @Test
+    public void whenCreateUserInteractorWithNullInitialCoinsThenExceptionIsThrown() {
+        thrown.expect(NullPointerException.class);
+        new DefaultCreateUserInteractor(getUserRepositoryMock(), null);
     }
 
     private UserRepository getUserRepositoryMock() {
