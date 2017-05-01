@@ -13,10 +13,14 @@ public class UserResponse {
     @JsonProperty("name")
     private String name;
 
-    public UserResponse(Integer id, String email, String name) {
+    @JsonProperty("user_economy")
+    private UserEconomyResponse userEconomyResponse;
+
+    public UserResponse(Integer id, String email, String name, UserEconomyResponse userEconomyResponse) {
         this.id = id;
         this.email = email;
         this.name = name;
+        this.userEconomyResponse = userEconomyResponse;
     }
 
     public Integer getId() {
@@ -29,5 +33,9 @@ public class UserResponse {
 
     public String getName() {
         return name;
+    }
+
+    public UserEconomyResponse getUserEconomyResponse() {
+        return userEconomyResponse;
     }
 }
