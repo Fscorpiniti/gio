@@ -4,6 +4,8 @@ package ar.edu.untref.gio.domain.configuration;
 import ar.edu.untref.gio.domain.interactor.CreateUserInteractor;
 import ar.edu.untref.gio.domain.interactor.DefaultCreateUserInteractor;
 import ar.edu.untref.gio.domain.UserRepository;
+import ar.edu.untref.gio.domain.interactor.DefaultFindUserInteractor;
+import ar.edu.untref.gio.domain.interactor.FindUserInteractor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,6 +24,11 @@ public class UserConfiguration {
     public CreateUserInteractor createUserInteractor(UserRepository userRepository) {
         Double initialCoins = Double.valueOf(properties.getProperty(INITIAL_COINS));
         return new DefaultCreateUserInteractor(userRepository, initialCoins);
+    }
+
+    @Bean
+    public FindUserInteractor findUserInteractor(UserRepository userRepository) {
+        return new DefaultFindUserInteractor(userRepository);
     }
 
 }
