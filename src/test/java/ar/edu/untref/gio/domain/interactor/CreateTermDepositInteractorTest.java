@@ -20,7 +20,6 @@ import java.util.Optional;
 public class CreateTermDepositInteractorTest {
 
     private static final Double INSUFFICIENT_CURRENCIES = new Double(2000);
-    public static final int VALID_ID = 1;
 
     @Rule
     public ExpectedException thrown= ExpectedException.none();
@@ -35,6 +34,7 @@ public class CreateTermDepositInteractorTest {
     private static final String VALID_PASSWORD = "auth";
     private static final String VALID_NAME = "test";
     private static final Double INITIAL_COINS = new Double(1000);
+    private static final int VALID_ID = 1;
 
     @Before
     public void setUp() {
@@ -160,6 +160,7 @@ public class CreateTermDepositInteractorTest {
         Mockito.when(findUserInteractor.findById(VALID_ID)).thenReturn(Optional.of(owner));
         UserCurrencyDomainService userCurrencyDomainService = new DefaultUserCurrencyDomainService();
         UserRepository userRepository = Mockito.mock(UserRepository.class);
+
         thrown.expect(InsufficientCurrenciesException.class);
         termDeposit = new DefaultCreateTermDepositInteractor(termDepositRepository, findUserInteractor,
                 userCurrencyDomainService, userRepository).create(createTermDepositRequest, VALID_ID);
