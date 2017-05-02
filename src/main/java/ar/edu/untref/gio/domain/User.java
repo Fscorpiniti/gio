@@ -35,6 +35,16 @@ public class User {
         this.userEconomy = userEconomy;
     }
 
+    public User(String email, String password, String name, UserValidator userValidator, UserEconomy userEconomy,
+                Integer id) {
+        userValidator.execute(email, password, name, userEconomy);
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.userEconomy = userEconomy;
+        this.id = id;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -53,5 +63,9 @@ public class User {
 
     public UserEconomy getUserEconomy() {
         return userEconomy;
+    }
+
+    public void decrementCoins(Double amount) {
+        this.userEconomy.decrementCoins(amount);
     }
 }

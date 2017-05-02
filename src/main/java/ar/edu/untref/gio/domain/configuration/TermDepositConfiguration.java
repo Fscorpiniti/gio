@@ -1,10 +1,9 @@
 package ar.edu.untref.gio.domain.configuration;
 
 import ar.edu.untref.gio.domain.TermDepositRepository;
-import ar.edu.untref.gio.domain.interactor.CreateTermDepositInteractor;
-import ar.edu.untref.gio.domain.interactor.DefaultCreateTermDepositInteractor;
-import ar.edu.untref.gio.domain.interactor.DefaultFindTermDepositInteractor;
-import ar.edu.untref.gio.domain.interactor.FindTermDepositInteractor;
+import ar.edu.untref.gio.domain.UserRepository;
+import ar.edu.untref.gio.domain.interactor.*;
+import ar.edu.untref.gio.domain.service.UserCurrencyDomainService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,8 +11,12 @@ import org.springframework.context.annotation.Configuration;
 public class TermDepositConfiguration {
 
     @Bean
-    public CreateTermDepositInteractor createTermDepositInteractor(TermDepositRepository termDepositRepository) {
-        return new DefaultCreateTermDepositInteractor(termDepositRepository);
+    public CreateTermDepositInteractor createTermDepositInteractor(TermDepositRepository termDepositRepository,
+                                                                   FindUserInteractor findUserInteractor,
+                                                                   UserCurrencyDomainService userCurrencyDomainService,
+                                                                   UserRepository userRepository) {
+        return new DefaultCreateTermDepositInteractor(termDepositRepository, findUserInteractor, userCurrencyDomainService,
+                userRepository);
     }
 
     @Bean

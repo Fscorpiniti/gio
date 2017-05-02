@@ -6,6 +6,8 @@ import ar.edu.untref.gio.domain.interactor.DefaultCreateUserInteractor;
 import ar.edu.untref.gio.domain.UserRepository;
 import ar.edu.untref.gio.domain.interactor.DefaultFindUserInteractor;
 import ar.edu.untref.gio.domain.interactor.FindUserInteractor;
+import ar.edu.untref.gio.domain.service.DefaultUserCurrencyDomainService;
+import ar.edu.untref.gio.domain.service.UserCurrencyDomainService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -29,6 +31,11 @@ public class UserConfiguration {
     @Bean
     public FindUserInteractor findUserInteractor(UserRepository userRepository) {
         return new DefaultFindUserInteractor(userRepository);
+    }
+
+    @Bean
+    public UserCurrencyDomainService userCurrencyDomainService() {
+        return new DefaultUserCurrencyDomainService();
     }
 
 }

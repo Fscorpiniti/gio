@@ -1,5 +1,7 @@
 package ar.edu.untref.gio.domain;
 
+import ar.edu.untref.gio.domain.exception.InsufficientCurrenciesException;
+
 import javax.persistence.*;
 
 @Entity
@@ -24,5 +26,12 @@ public class UserEconomy {
 
     public Integer getId() {
         return id;
+    }
+
+    public void decrementCoins(Double amount) {
+        if (amount > coins) {
+            throw new InsufficientCurrenciesException();
+        }
+        coins -= amount;
     }
 }

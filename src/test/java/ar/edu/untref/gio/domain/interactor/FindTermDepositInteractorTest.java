@@ -3,7 +3,10 @@ package ar.edu.untref.gio.domain.interactor;
 import ar.edu.untref.gio.domain.TermDeposit;
 import ar.edu.untref.gio.domain.TermDepositInformation;
 import ar.edu.untref.gio.domain.TermDepositRepository;
+import ar.edu.untref.gio.domain.UserRepository;
 import ar.edu.untref.gio.domain.request.CreateTermDepositRequest;
+import ar.edu.untref.gio.domain.service.DefaultUserCurrencyDomainService;
+import ar.edu.untref.gio.domain.service.UserCurrencyDomainService;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -100,7 +103,11 @@ public class FindTermDepositInteractorTest {
         Double rate = new Double(15);
         CreateTermDepositRequest createTermDepositRequest = new CreateTermDepositRequest(amount,
                 rate, validExpirationDate);
-        TermDeposit termDeposit = new DefaultCreateTermDepositInteractor(termDepositRepository)
+        FindUserInteractor findUserInteractor = Mockito.mock(FindUserInteractor.class);
+        UserCurrencyDomainService userCurrencyDomainService = new DefaultUserCurrencyDomainService();
+        UserRepository userRepository = Mockito.mock(UserRepository.class);
+        TermDeposit termDeposit = new DefaultCreateTermDepositInteractor(termDepositRepository, findUserInteractor,
+                userCurrencyDomainService, userRepository)
                 .create(createTermDepositRequest, ownerId);
         Mockito.when(termDepositRepository.findActiveTermDepositsByOwnerId(ownerId)).thenReturn(Arrays.asList(termDeposit));
     }
