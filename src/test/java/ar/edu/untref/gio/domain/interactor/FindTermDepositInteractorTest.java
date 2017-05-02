@@ -1,14 +1,13 @@
 package ar.edu.untref.gio.domain.interactor;
 
-import ar.edu.untref.gio.domain.TermDeposit;
-import ar.edu.untref.gio.domain.TermDepositInformation;
-import ar.edu.untref.gio.domain.TermDepositRepository;
-import ar.edu.untref.gio.domain.UserRepository;
+import ar.edu.untref.gio.domain.*;
 import ar.edu.untref.gio.domain.request.CreateTermDepositRequest;
 import ar.edu.untref.gio.domain.service.DefaultUserCurrencyDomainService;
 import ar.edu.untref.gio.domain.service.UserCurrencyDomainService;
+import ar.edu.untref.gio.domain.validator.DefaultUserValidator;
 import org.joda.time.DateTime;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -17,13 +16,13 @@ import org.mockito.Mockito;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class FindTermDepositInteractorTest {
 
     @Rule
     public ExpectedException thrown= ExpectedException.none();
 
-    private Integer ownerId;
     private List<TermDeposit> termDeposits;
     private TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
     private TermDepositInformation termDepositInformation;
@@ -34,29 +33,39 @@ public class FindTermDepositInteractorTest {
     private static final Double VALID_ANNUAL_RATE = new Double(30);
     private static final Double VALID_MONTHLY_RATE = new Double(10);
 
+    private User owner;
+    private static final String VALID_EMAIL = "test@gio.com";
+    private static final String VALID_PASSWORD = "auth";
+    private static final String VALID_NAME = "test";
+    private static final Double INITIAL_COINS = new Double(1000);
+    private static final int VALID_ID = 1;
+
+    @Before
+    public void setUp() {
+        owner = new User(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, new DefaultUserValidator(), buildInitialEconomy(),
+                VALID_ID);
+    }
+
     @Test
     public void whenFindTermDepositsWithNullOwnerIdThenExceptionIsThrown() {
-        givenNullOwnerId();
+        Integer ownerId = null;
 
         thrown.expect(NullPointerException.class);
-        whenFindTermDepositsByOwnerId();
+        whenFindTermDepositsByOwnerId(ownerId);
     }
 
     @Test
     public void whenFindTermDepositsWithoutTermDepositsCreatedThenResultIsEmpty() {
-        givenValidOwnerId();
-
-        whenFindTermDepositsByOwnerId();
+        whenFindTermDepositsByOwnerId(VALID_ID);
 
         thenTermDepositsResultIsEmpty();
     }
 
     @Test
     public void whenFindTermDepositsWithTermDepositsCreatedThenResultContainsElements() {
-        givenValidOwnerId();
         givenCreateTermDeposit();
 
-        whenFindTermDepositsByOwnerId();
+        whenFindTermDepositsByOwnerId(VALID_ID);
 
         thenTermDepositsResultContainsElements();
     }
@@ -104,28 +113,25 @@ public class FindTermDepositInteractorTest {
         CreateTermDepositRequest createTermDepositRequest = new CreateTermDepositRequest(amount,
                 rate, validExpirationDate);
         FindUserInteractor findUserInteractor = Mockito.mock(FindUserInteractor.class);
+        Mockito.when(findUserInteractor.findById(VALID_ID)).thenReturn(Optional.of(owner));
         UserCurrencyDomainService userCurrencyDomainService = new DefaultUserCurrencyDomainService();
         UserRepository userRepository = Mockito.mock(UserRepository.class);
         TermDeposit termDeposit = new DefaultCreateTermDepositInteractor(termDepositRepository, findUserInteractor,
                 userCurrencyDomainService, userRepository)
-                .create(createTermDepositRequest, ownerId);
-        Mockito.when(termDepositRepository.findActiveTermDepositsByOwnerId(ownerId)).thenReturn(Arrays.asList(termDeposit));
+                .create(createTermDepositRequest, owner.getId());
+        Mockito.when(termDepositRepository.findActiveTermDepositsByOwnerId(owner.getId())).thenReturn(Arrays.asList(termDeposit));
     }
 
     private void thenTermDepositsResultIsEmpty() {
         Assert.assertTrue(termDeposits.isEmpty());
     }
 
-    private void givenValidOwnerId() {
-        ownerId = new Integer(1);
-    }
-
-    private void givenNullOwnerId() {
-        ownerId = null;
-    }
-
-    private void whenFindTermDepositsByOwnerId() {
+    private void whenFindTermDepositsByOwnerId(Integer ownerId) {
         termDeposits = new DefaultFindTermDepositInteractor(termDepositRepository).findByOwnerId(ownerId);
+    }
+
+    private UserEconomy buildInitialEconomy() {
+        return new UserEconomyFactory(INITIAL_COINS).buildInitialEconomy();
     }
 
 }
