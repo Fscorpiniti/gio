@@ -37,14 +37,17 @@ public class DefaultCreateTermDepositInteractor implements CreateTermDepositInte
     @Override
     public TermDeposit create(CreateTermDepositRequest createTermDepositRequest, Integer ownerId) {
         Optional<User> user = findUserInteractor.findById(ownerId);
-        userCurrencyDomainService.execute(new DecrementUserCurrency(userRepository, createTermDepositRequest.getAmount()),
-                user);
+        userCurrencyDomainService.execute(buildUserCurrencyOperation(createTermDepositRequest), user);
 
         TermDeposit termDeposit = buildTermDeposit(createTermDepositRequest, ownerId);
 
         termDepositRepository.add(termDeposit);
 
         return termDeposit;
+    }
+
+    private UserCurrencyOperation buildUserCurrencyOperation(CreateTermDepositRequest createTermDepositRequest) {
+        return new DecrementUserCurrency(userRepository, createTermDepositRequest.getAmount());
     }
 
     private TermDeposit buildTermDeposit(CreateTermDepositRequest createTermDepositRequest, Integer ownerId) {
