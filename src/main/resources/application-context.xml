@@ -20,6 +20,7 @@
     <context:annotation-config />
     <context:property-placeholder properties-ref="props" />
     <mvc:annotation-driven />
+    <mvc:resources mapping="/swagger-ui.html" location="classpath:/META-INF/resources/swagger-ui.html"/>
 
     <bean id="props"
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">

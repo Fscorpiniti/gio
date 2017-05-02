@@ -5,6 +5,7 @@ import ar.edu.untref.gio.domain.request.LoginRequest;
 import ar.edu.untref.gio.presentation.response.UserResponse;
 import ar.edu.untref.gio.presentation.response.UserResponseFactory;
 import ar.edu.untref.gio.domain.interactor.AuthenticationInteractor;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ public class LoginController {
     private AuthenticationInteractor authenticationInteractor;
 
     @ResponseBody
+    @ApiOperation(value = "Login")
     @RequestMapping(value =  "/login", method = RequestMethod.POST,  consumes = {MediaType.APPLICATION_JSON_VALUE})
     public UserResponse login(@RequestBody LoginRequest loginRequest) {
         Optional<User> user = this.authenticationInteractor.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
