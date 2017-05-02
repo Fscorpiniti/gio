@@ -1,6 +1,6 @@
 package ar.edu.untref.gio.domain.request;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 
