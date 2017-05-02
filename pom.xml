@@ -139,6 +139,8 @@
       <version>21.0</version>
     </dependency>
 
+    <!-- Swagger 2 -->
+
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger2</artifactId>
