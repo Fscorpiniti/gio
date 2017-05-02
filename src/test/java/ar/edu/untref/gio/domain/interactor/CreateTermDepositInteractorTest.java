@@ -44,7 +44,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositThenTermDepositIsCreated() {
-        givenCreateTermDepositRequestWith(validAmount, validRate, validExpirationDate);
+        givenTermDepositRequestWith(validAmount, validRate, validExpirationDate);
 
         whenCreateTermDeposit();
 
@@ -53,7 +53,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositWithNullAmountThenExceptionIsThrown() {
-        givenCreateTermDepositRequestWith(null, validRate, validExpirationDate);
+        givenTermDepositRequestWith(null, validRate, validExpirationDate);
 
         thrown.expect(NullPointerException.class);
         whenCreateTermDeposit();
@@ -61,7 +61,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositWithNullRateThenExceptionIsThrown() {
-        givenCreateTermDepositRequestWith(validAmount, null, validExpirationDate);
+        givenTermDepositRequestWith(validAmount, null, validExpirationDate);
 
         thrown.expect(NullPointerException.class);
         whenCreateTermDeposit();
@@ -69,7 +69,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositWithNullExpirationThenExceptionIsThrown() {
-        givenCreateTermDepositRequestWith(validAmount, validRate, null);
+        givenTermDepositRequestWith(validAmount, validRate, null);
 
         thrown.expect(NullPointerException.class);
         whenCreateTermDeposit();
@@ -79,7 +79,7 @@ public class CreateTermDepositInteractorTest {
     public void whenCreateTermDepositWithBeforeExpirationDateThenExceptionIsThrown() {
         int daysBeforeNow = 1;
         Date beforeNow = new DateTime().minusDays(daysBeforeNow).toDate();
-        givenCreateTermDepositRequestWith(validAmount, validRate, beforeNow);
+        givenTermDepositRequestWith(validAmount, validRate, beforeNow);
 
         thrown.expect(IllegalArgumentException.class);
         whenCreateTermDeposit();
@@ -88,7 +88,7 @@ public class CreateTermDepositInteractorTest {
     @Test
     public void whenCreateTermDepositWithActualExpirationDateThenExceptionIsThrown() {
         Date now = new DateTime().toDate();
-        givenCreateTermDepositRequestWith(validAmount, validRate, now);
+        givenTermDepositRequestWith(validAmount, validRate, now);
 
         thrown.expect(IllegalArgumentException.class);
         whenCreateTermDeposit();
@@ -98,7 +98,7 @@ public class CreateTermDepositInteractorTest {
     public void whenCreateTermDepositWithLessThanThirtyExpirationDateThenExceptionIsThrown() {
         int daysAfterNow = 29;
         Date afterNow = new DateTime().minusDays(daysAfterNow).toDate();
-        givenCreateTermDepositRequestWith(validAmount, validRate, afterNow);
+        givenTermDepositRequestWith(validAmount, validRate, afterNow);
 
         thrown.expect(IllegalArgumentException.class);
         whenCreateTermDeposit();
@@ -106,7 +106,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositThenTermDepositIsActive() {
-        givenCreateTermDepositRequestWith(validAmount, validRate, validExpirationDate);
+        givenTermDepositRequestWith(validAmount, validRate, validExpirationDate);
 
         whenCreateTermDeposit();
 
@@ -115,7 +115,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositThenTermDepositContainsCorrectAmount() {
-        givenCreateTermDepositRequestWith(validAmount, validRate, validExpirationDate);
+        givenTermDepositRequestWith(validAmount, validRate, validExpirationDate);
 
         whenCreateTermDeposit();
 
@@ -124,7 +124,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositThenTermDepositContainsCorrectRate() {
-        givenCreateTermDepositRequestWith(validAmount, validRate, validExpirationDate);
+        givenTermDepositRequestWith(validAmount, validRate, validExpirationDate);
 
         whenCreateTermDeposit();
 
@@ -133,7 +133,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositThenTermDepositContainsCorrectExpirationDate() {
-        givenCreateTermDepositRequestWith(validAmount, validRate, validExpirationDate);
+        givenTermDepositRequestWith(validAmount, validRate, validExpirationDate);
 
         whenCreateTermDeposit();
 
@@ -153,7 +153,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositWithInsufficientCurrenciesThenExceptionIsThrown() {
-        givenCreateTermDepositRequestWith(INSUFFICIENT_CURRENCIES, validRate, validExpirationDate);
+        givenTermDepositRequestWith(INSUFFICIENT_CURRENCIES, validRate, validExpirationDate);
 
         TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
         FindUserInteractor findUserInteractor = Mockito.mock(FindUserInteractor.class);
@@ -182,7 +182,7 @@ public class CreateTermDepositInteractorTest {
         Assert.assertEquals(TermDepositStatus.ACTIVE, termDeposit.getStatus());
     }
 
-    private void givenCreateTermDepositRequestWith(Double amount, Double rate, Date expiration) {
+    private void givenTermDepositRequestWith(Double amount, Double rate, Date expiration) {
         createTermDepositRequest = new CreateTermDepositRequest(amount, rate, expiration);
     }
 

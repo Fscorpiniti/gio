@@ -37,7 +37,7 @@ public class DefaultUserRepositoryTest {
 
     @Test
     public void whenCreateUserThenUserIsStored() {
-        givenCreateUserWithDefaultEconomy();
+        givenUserWithDefaultEconomy();
         Assert.assertTrue(userRepository.exist(VALID_EMAIL));
     }
 
@@ -60,7 +60,7 @@ public class DefaultUserRepositoryTest {
 
     @Test
     public void whenFindByEmailWithExistentEmailThenUserIsFound() {
-        givenCreateUserWithDefaultEconomy();
+        givenUserWithDefaultEconomy();
         Assert.assertTrue(findByEmail().isPresent());
     }
 
@@ -71,7 +71,7 @@ public class DefaultUserRepositoryTest {
 
     @Test
     public void whenCreateUserThenUserHasInitialEconomy(){
-        givenCreateUserWithDefaultEconomy();
+        givenUserWithDefaultEconomy();
 
         Optional<User> userOptional = findByEmail();
 
@@ -80,7 +80,7 @@ public class DefaultUserRepositoryTest {
 
     @Test
     public void whenCreateUserThenUserHasCorrectInitialCoins(){
-        givenCreateUserWithDefaultEconomy();
+        givenUserWithDefaultEconomy();
 
         Optional<User> userOptional = findByEmail();
 
@@ -89,7 +89,7 @@ public class DefaultUserRepositoryTest {
 
     @Test
     public void whenFindInexistentUserByIdThenResultIsEmpty(){
-        givenCreateUserWithDefaultEconomy();
+        givenUserWithDefaultEconomy();
 
         int inexistentId = 100;
         Optional<User> userOptional = findById(inexistentId);
@@ -99,7 +99,7 @@ public class DefaultUserRepositoryTest {
 
     @Test
     public void whenFindValidUserByIdThenResultContainsThisUser(){
-        givenCreateUserWithDefaultEconomy();
+        givenUserWithDefaultEconomy();
 
         Optional<User> byEmail = findByEmail();
         Optional<User> userOptional = findById(byEmail.get().getId());
@@ -131,7 +131,7 @@ public class DefaultUserRepositoryTest {
         return userRepository.findByEmail(VALID_EMAIL);
     }
 
-    private void givenCreateUserWithDefaultEconomy() {
+    private void givenUserWithDefaultEconomy() {
         User user = new User(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, new DefaultUserValidator(),
                 buildInitialEconomy());
         userRepository.add(user);
