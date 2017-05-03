@@ -7,6 +7,7 @@ import ar.edu.untref.gio.domain.interactor.FindUserInteractor;
 import ar.edu.untref.gio.domain.request.CreateUserRequest;
 import ar.edu.untref.gio.presentation.response.UserResponse;
 import ar.edu.untref.gio.presentation.response.UserResponseFactory;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ public class UserController {
     private FindUserInteractor findUserInteractor;
 
     @ResponseBody
+    @ApiOperation(value = "Creacion de usuarios")
     @RequestMapping(value =  "/users", method = RequestMethod.POST,  consumes = {MediaType.APPLICATION_JSON_VALUE})
     public UserResponse createUser(@RequestBody CreateUserRequest createUserRequest) {
         User user = createUserInteractor.create(createUserRequest);
@@ -33,6 +35,7 @@ public class UserController {
     }
 
     @ResponseBody
+    @ApiOperation(value = "Obtener usuario por id del mismo")
     @RequestMapping(value =  "/users/{id}", method = RequestMethod.GET)
     public UserResponse findUserById(@PathVariable Integer id) {
         Optional<User> user = findUserInteractor.findById(id);

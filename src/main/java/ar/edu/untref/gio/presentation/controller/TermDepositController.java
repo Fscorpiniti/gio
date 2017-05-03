@@ -7,6 +7,7 @@ import ar.edu.untref.gio.domain.interactor.CreateTermDepositInteractor;
 import ar.edu.untref.gio.domain.interactor.FindTermDepositInteractor;
 import ar.edu.untref.gio.domain.request.CreateTermDepositRequest;
 import ar.edu.untref.gio.presentation.response.*;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ public class TermDepositController {
     private FindTermDepositInteractor findTermDepositInteractor;
 
     @ResponseBody
+    @ApiOperation(value = "Creacion de plazos fijos")
     @RequestMapping(value =  "/users/{ownerId}/deposits", method = RequestMethod.POST,  consumes = {MediaType.APPLICATION_JSON_VALUE})
     public TermDepositResponse createTermDeposit(@RequestBody CreateTermDepositRequest createTermDepositRequest,
                                                  @PathVariable Integer ownerId) {
@@ -34,6 +36,7 @@ public class TermDepositController {
     }
 
     @ResponseBody
+    @ApiOperation(value = "Busqueda de plazos fijos por id de usuario creador")
     @RequestMapping(value =  "/users/{ownerId}/deposits", method = RequestMethod.GET,  consumes = {MediaType.APPLICATION_JSON_VALUE})
     public TermDepositResponses findTermDeposits(@PathVariable Integer ownerId) {
         List<TermDeposit> termDeposits = this.findTermDepositInteractor.findByOwnerId(ownerId);
@@ -41,6 +44,7 @@ public class TermDepositController {
     }
 
     @ResponseBody
+    @ApiOperation(value = "Busqueda de la configuracion para la creacion de plazos fijos")
     @RequestMapping(value =  "/deposits", method = RequestMethod.GET)
     public TermDepositInformationResponse findTermDepositInformationForCreation() {
         TermDepositInformation termDepositInformation = this.findTermDepositInteractor.findTermDepositInformationForCreation();
