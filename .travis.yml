@@ -7,3 +7,6 @@ deploy:
   api-key:
     secure: $HEROKU_API_KEY
   app: gio-app
+  on:
+    branch: master
+  script: mvn jetty:run
