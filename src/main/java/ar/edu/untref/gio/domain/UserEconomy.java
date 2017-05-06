@@ -16,6 +16,8 @@ public class UserEconomy {
     @Column
     private Double coins;
 
+    public UserEconomy() {}
+
     public UserEconomy(Double coins) {
         this.coins = coins;
     }
