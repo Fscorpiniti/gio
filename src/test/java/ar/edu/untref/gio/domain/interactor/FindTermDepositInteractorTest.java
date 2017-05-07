@@ -20,9 +20,6 @@ import java.util.Optional;
 
 public class FindTermDepositInteractorTest {
 
-    public static final int DEFAULT_DURATION = 30;
-    public static final int DEFAULT_AMOUNT = 100;
-    public static final int DEFAULT_RATE = 15;
     @Rule
     public ExpectedException thrown= ExpectedException.none();
 
@@ -35,6 +32,9 @@ public class FindTermDepositInteractorTest {
     private static final Double VALID_SEMIANNUAL_RATE = new Double(25);
     private static final Double VALID_ANNUAL_RATE = new Double(30);
     private static final Double VALID_MONTHLY_RATE = new Double(10);
+    private static final int DEFAULT_DURATION = 30;
+    private static final int DEFAULT_AMOUNT = 100;
+    private static final int DEFAULT_RATE = 15;
 
     private User owner;
     private static final String VALID_EMAIL = "test@gio.com";

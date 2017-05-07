@@ -29,9 +29,6 @@ import java.util.Properties;
 @WebAppConfiguration
 public class DefaultTermDepositRepositoryTest {
 
-    public static final int DEFAULT_DURATION = 30;
-    public static final int DEFAULT_AMOUNT = 100;
-    public static final int DEFAULT_RATE = 15;
     @Resource(name = "defaultTermDepositRepository")
     private TermDepositRepository termDepositRepository;
 
@@ -49,6 +46,9 @@ public class DefaultTermDepositRepositoryTest {
     private static final String VALID_PASSWORD = "auth";
     private static final String VALID_NAME = "test";
     private static final Double INITIAL_COINS = new Double(1000);
+    private static final int DEFAULT_DURATION = 30;
+    private static final int DEFAULT_AMOUNT = 100;
+    private static final int DEFAULT_RATE = 15;
 
     @Test
     public void whenFindTermDepositsWithoutTermDepositsCreatedThenResultIsEmpty() {
