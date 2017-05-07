@@ -28,13 +28,14 @@ public class CreateTermDepositInteractorTest {
     private TermDeposit termDeposit;
     private Double validAmount = new Double(100);
     private Double validRate = new Double(15);
-    private Date validExpirationDate = new DateTime().plusDays(30).toDate();
+    private Integer validDuration = 30;
     private User owner;
     private static final String VALID_EMAIL = "test@gio.com";
     private static final String VALID_PASSWORD = "auth";
     private static final String VALID_NAME = "test";
     private static final Double INITIAL_COINS = new Double(1000);
     private static final int VALID_ID = 1;
+    private static final Integer ONE_DAY_BEFORE_LIMIT_VALID = 29;
 
     @Before
     public void setUp() {
@@ -44,7 +45,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositThenTermDepositIsCreated() {
-        givenTermDepositRequestWith(validAmount, validRate, validExpirationDate);
+        givenTermDepositRequestWith(validAmount, validRate, validDuration);
 
         whenCreateTermDeposit();
 
@@ -53,7 +54,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositWithNullAmountThenExceptionIsThrown() {
-        givenTermDepositRequestWith(null, validRate, validExpirationDate);
+        givenTermDepositRequestWith(null, validRate, validDuration);
 
         thrown.expect(NullPointerException.class);
         whenCreateTermDeposit();
@@ -61,14 +62,14 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositWithNullRateThenExceptionIsThrown() {
-        givenTermDepositRequestWith(validAmount, null, validExpirationDate);
+        givenTermDepositRequestWith(validAmount, null, validDuration);
 
         thrown.expect(NullPointerException.class);
         whenCreateTermDeposit();
     }
 
     @Test
-    public void whenCreateTermDepositWithNullExpirationThenExceptionIsThrown() {
+    public void whenCreateTermDepositWithNullDurationThenExceptionIsThrown() {
         givenTermDepositRequestWith(validAmount, validRate, null);
 
         thrown.expect(NullPointerException.class);
@@ -76,37 +77,8 @@ public class CreateTermDepositInteractorTest {
     }
 
     @Test
-    public void whenCreateTermDepositWithBeforeExpirationDateThenExceptionIsThrown() {
-        int daysBeforeNow = 1;
-        Date beforeNow = new DateTime().minusDays(daysBeforeNow).toDate();
-        givenTermDepositRequestWith(validAmount, validRate, beforeNow);
-
-        thrown.expect(IllegalArgumentException.class);
-        whenCreateTermDeposit();
-    }
-
-    @Test
-    public void whenCreateTermDepositWithActualExpirationDateThenExceptionIsThrown() {
-        Date now = new DateTime().toDate();
-        givenTermDepositRequestWith(validAmount, validRate, now);
-
-        thrown.expect(IllegalArgumentException.class);
-        whenCreateTermDeposit();
-    }
-
-    @Test
-    public void whenCreateTermDepositWithLessThanThirtyExpirationDateThenExceptionIsThrown() {
-        int daysAfterNow = 29;
-        Date afterNow = new DateTime().minusDays(daysAfterNow).toDate();
-        givenTermDepositRequestWith(validAmount, validRate, afterNow);
-
-        thrown.expect(IllegalArgumentException.class);
-        whenCreateTermDeposit();
-    }
-
-    @Test
     public void whenCreateTermDepositThenTermDepositIsActive() {
-        givenTermDepositRequestWith(validAmount, validRate, validExpirationDate);
+        givenTermDepositRequestWith(validAmount, validRate, validDuration);
 
         whenCreateTermDeposit();
 
@@ -115,7 +87,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositThenTermDepositContainsCorrectAmount() {
-        givenTermDepositRequestWith(validAmount, validRate, validExpirationDate);
+        givenTermDepositRequestWith(validAmount, validRate, validDuration);
 
         whenCreateTermDeposit();
 
@@ -124,7 +96,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositThenTermDepositContainsCorrectRate() {
-        givenTermDepositRequestWith(validAmount, validRate, validExpirationDate);
+        givenTermDepositRequestWith(validAmount, validRate, validDuration);
 
         whenCreateTermDeposit();
 
@@ -133,11 +105,19 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositThenTermDepositContainsCorrectExpirationDate() {
-        givenTermDepositRequestWith(validAmount, validRate, validExpirationDate);
+        givenTermDepositRequestWith(validAmount, validRate, validDuration);
 
         whenCreateTermDeposit();
 
         thenTermDepositContainsCorrectExpirationRate();
+    }
+
+    @Test
+    public void whenCreateTermDepositWithInvalidDurationThenExceptionIsThrown() {
+        givenTermDepositRequestWith(validAmount, validRate, ONE_DAY_BEFORE_LIMIT_VALID);
+
+        thrown.expect(IllegalArgumentException.class);
+        whenCreateTermDeposit();
     }
 
     @Test
@@ -153,7 +133,7 @@ public class CreateTermDepositInteractorTest {
 
     @Test
     public void whenCreateTermDepositWithInsufficientCurrenciesThenExceptionIsThrown() {
-        givenTermDepositRequestWith(INSUFFICIENT_CURRENCIES, validRate, validExpirationDate);
+        givenTermDepositRequestWith(INSUFFICIENT_CURRENCIES, validRate, validDuration);
 
         TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
         FindUserInteractor findUserInteractor = Mockito.mock(FindUserInteractor.class);
@@ -167,7 +147,7 @@ public class CreateTermDepositInteractorTest {
     }
 
     private void thenTermDepositContainsCorrectExpirationRate() {
-        Assert.assertEquals(validExpirationDate, termDeposit.getExpiration());
+        Assert.assertEquals(DateTime.now().plusDays(validDuration).toDate(), termDeposit.getExpiration());
     }
 
     private void thenTermDepositContainsCorrectRate() {
@@ -182,8 +162,8 @@ public class CreateTermDepositInteractorTest {
         Assert.assertEquals(TermDepositStatus.ACTIVE, termDeposit.getStatus());
     }
 
-    private void givenTermDepositRequestWith(Double amount, Double rate, Date expiration) {
-        createTermDepositRequest = new CreateTermDepositRequest(amount, rate, expiration);
+    private void givenTermDepositRequestWith(Double amount, Double rate, Integer duration) {
+        createTermDepositRequest = new CreateTermDepositRequest(amount, rate, duration);
     }
 
     private void whenCreateTermDeposit() {

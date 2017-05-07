@@ -1,6 +1,7 @@
 package ar.edu.untref.gio.domain.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.joda.time.DateTime;
 
 import java.util.Date;
 
@@ -12,15 +13,15 @@ public class CreateTermDepositRequest {
     @JsonProperty("rate")
     private Double rate;
 
-    @JsonProperty("expiration_date")
-    private Date expiration;
+    @JsonProperty("duration")
+    private Integer duration;
 
     public CreateTermDepositRequest(){}
 
-    public CreateTermDepositRequest(Double amount, Double rate, Date expiration) {
+    public CreateTermDepositRequest(Double amount, Double rate, Integer duration) {
         this.amount = amount;
         this.rate = rate;
-        this.expiration = expiration;
+        this.duration = duration;
     }
 
     public Double getAmount() {
@@ -31,8 +32,11 @@ public class CreateTermDepositRequest {
         return rate;
     }
 
-    public Date getExpiration() {
-        return expiration;
+    public Integer getDuration() {
+        return duration;
     }
 
+    public Date getExpiration() {
+        return DateTime.now().plusDays(getDuration()).toDate();
+    }
 }

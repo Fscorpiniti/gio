@@ -29,6 +29,9 @@ import java.util.Properties;
 @WebAppConfiguration
 public class DefaultTermDepositRepositoryTest {
 
+    public static final int DEFAULT_DURATION = 30;
+    public static final int DEFAULT_AMOUNT = 100;
+    public static final int DEFAULT_RATE = 15;
     @Resource(name = "defaultTermDepositRepository")
     private TermDepositRepository termDepositRepository;
 
@@ -103,11 +106,11 @@ public class DefaultTermDepositRepositoryTest {
     }
 
     private void givenDefaultTermDeposit() {
-        Date validExpirationDate = new DateTime().plusDays(30).toDate();
-        Double amount = new Double(100);
-        Double rate = new Double(15);
+        Integer duration = new Integer(DEFAULT_DURATION);
+        Double amount = new Double(DEFAULT_AMOUNT);
+        Double rate = new Double(DEFAULT_RATE);
         CreateTermDepositRequest createTermDepositRequest = new CreateTermDepositRequest(amount,
-                rate, validExpirationDate);
+                rate, duration);
         FindUserInteractor findUserInteractor = Mockito.mock(FindUserInteractor.class);
         Mockito.when(findUserInteractor.findById(owner.getId())).thenReturn(Optional.of(owner));
         UserCurrencyDomainService userCurrencyDomainService = new DefaultUserCurrencyDomainService();
