@@ -5,14 +5,17 @@ import ar.edu.untref.gio.domain.exception.UserNotFoundException;
 import ar.edu.untref.gio.domain.interactor.CreateUserInteractor;
 import ar.edu.untref.gio.domain.interactor.FindUserInteractor;
 import ar.edu.untref.gio.domain.request.CreateUserRequest;
+import ar.edu.untref.gio.presentation.response.ApiError;
 import ar.edu.untref.gio.presentation.response.UserResponse;
 import ar.edu.untref.gio.presentation.response.UserResponseFactory;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
@@ -40,6 +43,13 @@ public class UserController {
     public UserResponse findUserById(@PathVariable Integer id) {
         Optional<User> user = findUserInteractor.findById(id);
         return new UserResponseFactory().build(user.orElseThrow(UserNotFoundException::new));
+    }
+
+    @ResponseBody
+    @ResponseStatus(value= HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({ RuntimeException.class, Exception.class })
+    public ApiError handleError(HttpServletRequest request, Throwable exception) {
+        return new ApiError(exception.getMessage());
     }
 
 }

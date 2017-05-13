@@ -12,7 +12,7 @@ import com.google.common.base.Preconditions;
 
 public class DefaultCreateUserInteractor implements CreateUserInteractor {
 
-    private static final String EMAIL_ALREADY_EXISTENT = "Email already existent";
+    private static final String EMAIL_ALREADY_EXISTENT = "Ya existe un usuario con el email ingresado";
     private static final String USER_REPOSITORY_IS_REQUIRED = "User Repository is required";
     public static final String INITIAL_COINS_IS_REQUIRED = "Initial coins is required";
     private UserRepository userRepository;
