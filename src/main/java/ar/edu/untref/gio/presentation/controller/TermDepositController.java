@@ -37,7 +37,7 @@ public class TermDepositController {
 
     @ResponseBody
     @ApiOperation(value = "Busqueda de plazos fijos por id de usuario creador")
-    @RequestMapping(value =  "/users/{ownerId}/deposits", method = RequestMethod.GET,  consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value =  "/users/{ownerId}/deposits", method = RequestMethod.GET)
     public TermDepositResponses findTermDeposits(@PathVariable Integer ownerId) {
         List<TermDeposit> termDeposits = this.findTermDepositInteractor.findByOwnerId(ownerId);
         return new TermDepositResponseFactory().build(termDeposits);

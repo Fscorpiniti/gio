@@ -47,6 +47,11 @@ public class DefaultTermDepositRepository extends GenericRepository<TermDeposit>
         return new TermDepositInformation(monthlyRate, biMonthlyRate, quarterlyRate, semiAnnualRate, annualRate);
     }
 
+    @Override
+    public List<TermDeposit> findTermDepositToExpire() {
+        return null;
+    }
+
     private Query buildQueryFindByOwnerId(Integer ownerId) {
         StringBuilder hql = new StringBuilder("from ")
                 .append(getEntityClass().getName())
