@@ -1,5 +1,6 @@
 package ar.edu.untref.gio.domain;
 
+import java.util.Date;
 import java.util.List;
 
 public interface TermDepositRepository extends Repository<TermDeposit> {
@@ -8,5 +9,5 @@ public interface TermDepositRepository extends Repository<TermDeposit> {
 
     TermDepositInformation findTermDepositInformationForCreation();
 
-    List<TermDeposit> findTermDepositToExpire();
+    List<TermDeposit> findTermDepositToExpire(Date expiration);
 }

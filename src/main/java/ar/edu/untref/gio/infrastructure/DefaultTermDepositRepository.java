@@ -4,10 +4,13 @@ import ar.edu.untref.gio.domain.TermDeposit;
 import ar.edu.untref.gio.domain.TermDepositInformation;
 import ar.edu.untref.gio.domain.TermDepositRepository;
 import ar.edu.untref.gio.domain.TermDepositStatus;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import javax.persistence.Query;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -21,6 +24,9 @@ public class DefaultTermDepositRepository extends GenericRepository<TermDeposit>
     private static final String QUARTERLY_RATE = "quarterly.rate";
     private static final String SEMI_ANNUAL_RATE = "semiAnnual.rate";
     private static final String ANNUAL_RATE = "annual.rate";
+    public static final String START_DATE = "startDate";
+    public static final String END_DATE = "endDate";
+    public static final int ONE_DAY = 1;
 
     @Resource(name = "props")
     private Properties properties;
@@ -48,8 +54,17 @@ public class DefaultTermDepositRepository extends GenericRepository<TermDeposit>
     }
 
     @Override
-    public List<TermDeposit> findTermDepositToExpire() {
-        return null;
+    public List<TermDeposit> findTermDepositToExpire(Date expiration) {
+        StringBuilder hql = new StringBuilder("from ")
+                .append(getEntityClass().getName())
+                .append(" this where this.status = :status and this.expiration BETWEEN :startDate AND :endDate");
+
+        return this.getEntityManager()
+                .createQuery(hql.toString())
+                .setParameter(PARAM_STATUS, TermDepositStatus.ACTIVE)
+                .setParameter(START_DATE, new DateTime(expiration).withTimeAtStartOfDay().toDate())
+                .setParameter(END_DATE, new DateTime(expiration).plusDays(ONE_DAY).withTimeAtStartOfDay().toDate())
+                .getResultList();
     }
 
     private Query buildQueryFindByOwnerId(Integer ownerId) {

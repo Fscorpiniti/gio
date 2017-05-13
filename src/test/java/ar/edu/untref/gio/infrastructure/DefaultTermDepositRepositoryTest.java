@@ -83,6 +83,24 @@ public class DefaultTermDepositRepositoryTest {
         thenRatesAreCorrect();
     }
 
+    @Test
+    public void whenFindTermDepositForExpiredWithoutTermDepositsThenResultIsEmpty() {
+        Date expiration = new DateTime().plusDays(DEFAULT_DURATION).toDate();
+        List<TermDeposit> termDeposits = termDepositRepository.findTermDepositToExpire(expiration);
+        Assert.assertTrue(termDeposits.isEmpty());
+    }
+
+    @Test
+    public void whenFindTermDepositForExpiredWithTermDepositsThenResultIsCorrect() {
+        givenDefaultUser();
+        givenDefaultTermDeposit();
+
+        Date expiration = new DateTime().plusDays(DEFAULT_DURATION).toDate();
+        termDeposits = termDepositRepository.findTermDepositToExpire(expiration);
+
+        thenTermDepositsResultContainsElements();
+    }
+
     private void thenRatesAreCorrect() {
         Double monthlyRate = Double.valueOf(properties.getProperty("monthly.rate"));
         Double biMonthlyRate = Double.valueOf(properties.getProperty("biMonthly.rate"));

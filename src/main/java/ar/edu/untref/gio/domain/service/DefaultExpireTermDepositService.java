@@ -1,7 +1,9 @@
 package ar.edu.untref.gio.domain.service;
 
 import ar.edu.untref.gio.domain.*;
+import org.joda.time.DateTime;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,8 +23,8 @@ public class DefaultExpireTermDepositService implements ExpireTermDepositService
     }
 
     @Override
-    public List<TermDeposit> expire() {
-        return this.termDepositRepository.findTermDepositToExpire()
+    public List<TermDeposit> expire(Date expiration) {
+        return this.termDepositRepository.findTermDepositToExpire(expiration)
                 .stream()
                 .peek(termDeposit -> {
                     termDeposit.finalize();
