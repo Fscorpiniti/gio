@@ -17,7 +17,11 @@ public class DefaultExpireTermDepositService implements ExpireTermDepositService
     @Override
     public List<TermDeposit> expire() {
         return this.termDepositRepository.findTermDepositToExpire()
-                .stream().peek(termDeposit -> termDeposit.finalize())
+                .stream()
+                .peek(termDeposit -> {
+                    termDeposit.finalize();
+                    termDepositRepository.add(termDeposit);
+                })
                 .collect(Collectors.toList());
     }
 }
