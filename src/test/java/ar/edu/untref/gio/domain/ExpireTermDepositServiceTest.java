@@ -28,4 +28,19 @@ public class ExpireTermDepositServiceTest {
         Assert.assertEquals(termDeposit, expired.stream().findFirst().get());
     }
 
+    @Test
+    public void whenExpireTermDepositOnDateThenTermDepositStatusIsFinalized() {
+        TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
+        TermDeposit termDeposit = Mockito.spy(new TermDeposit());
+        Date expiration = DateTime.now().toDate();
+        Mockito.when(termDeposit.getExpiration()).thenReturn(expiration);
+        Mockito.when(termDepositRepository.findTermDepositToExpire()).thenReturn(Arrays.asList(termDeposit));
+
+        ExpireTermDepositService expireTermDepositService =
+                new DefaultExpireTermDepositService(termDepositRepository);
+        List<TermDeposit> expired = expireTermDepositService.expire();
+
+        Assert.assertEquals(TermDepositStatus.FINALIZED, expired.stream().findFirst().get().getStatus());
+    }
+
 }

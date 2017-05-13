@@ -4,6 +4,7 @@ import ar.edu.untref.gio.domain.TermDeposit;
 import ar.edu.untref.gio.domain.TermDepositRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DefaultExpireTermDepositService implements ExpireTermDepositService {
 
@@ -15,6 +16,8 @@ public class DefaultExpireTermDepositService implements ExpireTermDepositService
 
     @Override
     public List<TermDeposit> expire() {
-        return this.termDepositRepository.findTermDepositToExpire();
+        return this.termDepositRepository.findTermDepositToExpire()
+                .stream().peek(termDeposit -> termDeposit.finalize())
+                .collect(Collectors.toList());
     }
 }

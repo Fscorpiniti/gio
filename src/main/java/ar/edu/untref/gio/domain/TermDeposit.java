@@ -64,4 +64,9 @@ public class TermDeposit {
     public Integer getOwnerId() {
         return ownerId;
     }
+
+    @Transient
+    public void finalize() {
+        this.status = TermDepositStatus.FINALIZED;
+    }
 }
