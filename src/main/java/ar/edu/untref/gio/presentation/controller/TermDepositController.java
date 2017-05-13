@@ -8,11 +8,13 @@ import ar.edu.untref.gio.domain.interactor.FindTermDepositInteractor;
 import ar.edu.untref.gio.domain.request.CreateTermDepositRequest;
 import ar.edu.untref.gio.presentation.response.*;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -49,6 +51,13 @@ public class TermDepositController {
     public TermDepositInformationResponse findTermDepositInformationForCreation() {
         TermDepositInformation termDepositInformation = this.findTermDepositInteractor.findTermDepositInformationForCreation();
         return new TermDepositInformationResponseFactory().build(termDepositInformation);
+    }
+
+    @ResponseBody
+    @ResponseStatus(value= HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({ RuntimeException.class, Exception.class })
+    public ApiError handleError(HttpServletRequest request, Throwable exception) {
+        return new ApiError(exception.getMessage());
     }
 
 }
