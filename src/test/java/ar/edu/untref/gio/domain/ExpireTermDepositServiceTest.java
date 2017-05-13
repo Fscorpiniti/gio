@@ -5,8 +5,11 @@ import ar.edu.untref.gio.domain.service.ExpireTermDepositService;
 import ar.edu.untref.gio.domain.service.UserCurrencyDomainService;
 import org.joda.time.DateTime;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -14,18 +17,28 @@ import java.util.List;
 
 public class ExpireTermDepositServiceTest {
 
+    @Mock
+    private TermDepositRepository termDepositRepository;
+
+    @Mock
+    private UserCurrencyDomainService userCurrencyDomainService;
+
+    @Mock
+    private UserRepository userRepository;
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
     public void whenExpireTermDepositOnDateThenTermDepositIsExpired() {
-        TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
-        UserCurrencyDomainService userCurrencyDomainService = Mockito.mock(UserCurrencyDomainService.class);
-        UserRepository userRepository = Mockito.mock(UserRepository.class);
         TermDeposit termDeposit = Mockito.mock(TermDeposit.class);
         Date expiration = DateTime.now().toDate();
         Mockito.when(termDeposit.getExpiration()).thenReturn(expiration);
         Mockito.when(termDepositRepository.findTermDepositToExpire()).thenReturn(Arrays.asList(termDeposit));
 
-        ExpireTermDepositService expireTermDepositService = new DefaultExpireTermDepositService(termDepositRepository,
-                userCurrencyDomainService, userRepository);
+        ExpireTermDepositService expireTermDepositService = buildExpireTermDepositService();
         List<TermDeposit> expired = expireTermDepositService.expire();
 
         Assert.assertEquals(termDeposit, expired.stream().findFirst().get());
@@ -33,19 +46,19 @@ public class ExpireTermDepositServiceTest {
 
     @Test
     public void whenExpireTermDepositOnDateThenTermDepositStatusIsFinalized() {
-        TermDepositRepository termDepositRepository = Mockito.mock(TermDepositRepository.class);
-        UserCurrencyDomainService userCurrencyDomainService = Mockito.mock(UserCurrencyDomainService.class);
-        UserRepository userRepository = Mockito.mock(UserRepository.class);
         TermDeposit termDeposit = Mockito.spy(new TermDeposit());
         Date expiration = DateTime.now().toDate();
         Mockito.when(termDeposit.getExpiration()).thenReturn(expiration);
         Mockito.when(termDepositRepository.findTermDepositToExpire()).thenReturn(Arrays.asList(termDeposit));
 
-        ExpireTermDepositService expireTermDepositService = new DefaultExpireTermDepositService(termDepositRepository,
-                userCurrencyDomainService, userRepository);
+        ExpireTermDepositService expireTermDepositService = buildExpireTermDepositService();
         List<TermDeposit> expired = expireTermDepositService.expire();
 
         Assert.assertEquals(TermDepositStatus.FINALIZED, expired.stream().findFirst().get().getStatus());
+    }
+
+    private ExpireTermDepositService buildExpireTermDepositService() {
+        return new DefaultExpireTermDepositService(termDepositRepository, userCurrencyDomainService, userRepository);
     }
 
 }
