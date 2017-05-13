@@ -68,4 +68,8 @@ public class User {
     public void decrementCoins(Double amount) {
         this.userEconomy.decrementCoins(amount);
     }
+
+    public void incrementCoins(Double amount) {
+        this.userEconomy.incrementCoins(amount);
+    }
 }

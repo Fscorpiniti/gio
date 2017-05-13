@@ -36,4 +36,8 @@ public class UserEconomy {
         }
         coins -= amount;
     }
+
+    public void incrementCoins(Double amount) {
+        coins += amount;
+    }
 }
