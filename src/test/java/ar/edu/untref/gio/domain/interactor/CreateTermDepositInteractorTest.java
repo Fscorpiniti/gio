@@ -147,7 +147,7 @@ public class CreateTermDepositInteractorTest {
     }
 
     private void thenTermDepositContainsCorrectExpirationRate() {
-        Assert.assertEquals(DateTime.now().plusDays(validDuration).toDate(), termDeposit.getExpiration());
+        Assert.assertEquals(createTermDepositRequest.getExpiration(), termDeposit.getExpiration());
     }
 
     private void thenTermDepositContainsCorrectRate() {
