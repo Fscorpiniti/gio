@@ -5,7 +5,6 @@ import ar.edu.untref.gio.domain.TokenRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository("defaultTokenRepository")
@@ -27,5 +26,17 @@ public class DefaultTokenRepository extends GenericRepository<Token> implements 
         query.setParameter("userId", userId);
 
         return query.getResultList();
+    }
+
+    @Override
+    public void remove(Integer userId) {
+        StringBuilder hql = new StringBuilder("delete from ");
+        hql.append(getEntityClass().getName());
+        hql.append(" this where this.userId = :userId");
+
+        Query query = this.getEntityManager().createQuery(hql.toString());
+        query.setParameter("userId", userId);
+
+        query.executeUpdate();
     }
 }

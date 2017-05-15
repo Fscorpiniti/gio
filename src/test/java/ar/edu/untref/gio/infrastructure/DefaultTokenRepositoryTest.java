@@ -42,6 +42,29 @@ public class DefaultTokenRepositoryTest {
         Assert.assertEquals(tokenAlpha, tokens.stream().findFirst().get().getValue());
     }
 
+    @Test
+    public void whenDeleteValidTokenThenResultIsEmpty() {
+        String tokenAlpha = generateTokenAlphanumeric();
+        this.tokenRepository.add(new Token(VALID_USER_ID, tokenAlpha));
+
+        this.tokenRepository.remove(VALID_USER_ID);
+
+        List<Token> tokens = this.tokenRepository.findBy(VALID_USER_ID, tokenAlpha);
+        Assert.assertTrue(tokens.isEmpty());
+    }
+
+    @Test
+    public void whenDeleteValidTokenWithMultipleRowThenResultIsEmpty() {
+        String tokenAlpha = generateTokenAlphanumeric();
+        this.tokenRepository.add(new Token(VALID_USER_ID, tokenAlpha));
+        this.tokenRepository.add(new Token(VALID_USER_ID, tokenAlpha));
+
+        this.tokenRepository.remove(VALID_USER_ID);
+
+        List<Token> tokens = this.tokenRepository.findBy(VALID_USER_ID, tokenAlpha);
+        Assert.assertTrue(tokens.isEmpty());
+    }
+
     private String generateTokenAlphanumeric() {
         return new TokenRandomAlphanumericGenerator(TOKEN_LENGTH).generate();
     }
