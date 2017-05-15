@@ -1,7 +1,9 @@
-package ar.edu.untref.gio.domain;
+package ar.edu.untref.gio.infrastructure;
 
+import ar.edu.untref.gio.domain.TokenRandomAlphanumericGenerator;
+import ar.edu.untref.gio.domain.TokenRepository;
 import ar.edu.untref.gio.domain.service.CreateTokenService;
-import ar.edu.untref.gio.domain.service.DefaultCreateTokenService;
+import ar.edu.untref.gio.infrastructure.service.DefaultCreateTokenService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -3,7 +3,7 @@ package ar.edu.untref.gio.domain.configuration;
 import ar.edu.untref.gio.domain.TokenRandomAlphanumericGenerator;
 import ar.edu.untref.gio.domain.TokenRepository;
 import ar.edu.untref.gio.domain.service.CreateTokenService;
-import ar.edu.untref.gio.domain.service.DefaultCreateTokenService;
+import ar.edu.untref.gio.infrastructure.service.DefaultCreateTokenService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
