@@ -104,15 +104,6 @@ public class CreateTermDepositInteractorTest {
     }
 
     @Test
-    public void whenCreateTermDepositThenTermDepositContainsCorrectExpirationDate() {
-        givenTermDepositRequestWith(validAmount, validRate, validDuration);
-
-        whenCreateTermDeposit();
-
-        thenTermDepositContainsCorrectExpirationRate();
-    }
-
-    @Test
     public void whenCreateTermDepositWithInvalidDurationThenExceptionIsThrown() {
         givenTermDepositRequestWith(validAmount, validRate, ONE_DAY_BEFORE_LIMIT_VALID);
 
@@ -144,10 +135,6 @@ public class CreateTermDepositInteractorTest {
         thrown.expect(InsufficientCurrenciesException.class);
         termDeposit = new DefaultCreateTermDepositInteractor(termDepositRepository, findUserInteractor,
                 userCurrencyDomainService, userRepository).create(createTermDepositRequest, VALID_ID);
-    }
-
-    private void thenTermDepositContainsCorrectExpirationRate() {
-        Assert.assertEquals(createTermDepositRequest.getExpiration(), termDeposit.getExpiration());
     }
 
     private void thenTermDepositContainsCorrectRate() {
