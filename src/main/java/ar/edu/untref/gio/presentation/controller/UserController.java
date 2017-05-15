@@ -5,6 +5,7 @@ import ar.edu.untref.gio.domain.exception.UserNotFoundException;
 import ar.edu.untref.gio.domain.interactor.CreateUserInteractor;
 import ar.edu.untref.gio.domain.interactor.FindUserInteractor;
 import ar.edu.untref.gio.domain.request.CreateUserRequest;
+import ar.edu.untref.gio.domain.service.ExistTokenService;
 import ar.edu.untref.gio.presentation.response.ApiError;
 import ar.edu.untref.gio.presentation.response.UserResponse;
 import ar.edu.untref.gio.presentation.response.UserResponseFactory;
@@ -23,11 +24,16 @@ import java.util.Optional;
 @Transactional
 public class UserController {
 
+    private static final String AUTH_TOKEN = "auth_token";
+
     @Resource(name = "createUserInteractor")
     private CreateUserInteractor createUserInteractor;
 
     @Resource(name = "findUserInteractor")
     private FindUserInteractor findUserInteractor;
+
+    @Resource(name = "existTokenService")
+    private ExistTokenService existTokenService;
 
     @ResponseBody
     @ApiOperation(value = "Creacion de usuarios")
@@ -40,7 +46,8 @@ public class UserController {
     @ResponseBody
     @ApiOperation(value = "Obtener usuario por id del mismo")
     @RequestMapping(value =  "/users/{id}", method = RequestMethod.GET)
-    public UserResponse findUserById(@PathVariable Integer id) {
+    public UserResponse findUserById(@PathVariable Integer id, @RequestHeader(value = AUTH_TOKEN) String authToken) {
+        this.existTokenService.exist(id, authToken);
         Optional<User> user = findUserInteractor.findById(id);
         return new UserResponseFactory().build(user.orElseThrow(UserNotFoundException::new));
     }

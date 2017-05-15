@@ -6,6 +6,7 @@ import ar.edu.untref.gio.domain.TermDepositInformation;
 import ar.edu.untref.gio.domain.interactor.CreateTermDepositInteractor;
 import ar.edu.untref.gio.domain.interactor.FindTermDepositInteractor;
 import ar.edu.untref.gio.domain.request.CreateTermDepositRequest;
+import ar.edu.untref.gio.domain.service.ExistTokenService;
 import ar.edu.untref.gio.presentation.response.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
@@ -22,17 +23,24 @@ import java.util.List;
 @Transactional
 public class TermDepositController {
 
+    private static final String AUTH_TOKEN = "auth_token";
+
     @Resource(name = "createTermDepositInteractor")
     private CreateTermDepositInteractor createTermDepositInteractor;
 
     @Resource(name = "findTermDepositInteractor")
     private FindTermDepositInteractor findTermDepositInteractor;
 
+    @Resource(name = "existTokenService")
+    private ExistTokenService existTokenService;
+
     @ResponseBody
     @ApiOperation(value = "Creacion de plazos fijos")
     @RequestMapping(value =  "/users/{ownerId}/deposits", method = RequestMethod.POST,  consumes = {MediaType.APPLICATION_JSON_VALUE})
     public TermDepositResponse createTermDeposit(@RequestBody CreateTermDepositRequest createTermDepositRequest,
-                                                 @PathVariable Integer ownerId) {
+                                                 @PathVariable Integer ownerId,
+                                                 @RequestHeader(value = AUTH_TOKEN) String authToken) {
+        this.existTokenService.exist(ownerId, authToken);
         TermDeposit termDeposit = createTermDepositInteractor.create(createTermDepositRequest, ownerId);
         return new TermDepositResponseFactory().build(termDeposit);
     }
@@ -40,7 +48,9 @@ public class TermDepositController {
     @ResponseBody
     @ApiOperation(value = "Busqueda de plazos fijos por id de usuario creador")
     @RequestMapping(value =  "/users/{ownerId}/deposits", method = RequestMethod.GET)
-    public TermDepositResponses findTermDeposits(@PathVariable Integer ownerId) {
+    public TermDepositResponses findTermDeposits(@PathVariable Integer ownerId,
+                                                 @RequestHeader(value = AUTH_TOKEN) String authToken) {
+        this.existTokenService.exist(ownerId, authToken);
         List<TermDeposit> termDeposits = this.findTermDepositInteractor.findByOwnerId(ownerId);
         return new TermDepositResponseFactory().build(termDeposits);
     }
