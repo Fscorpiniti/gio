@@ -26,12 +26,21 @@ public class DefaultExpireTermDepositService implements ExpireTermDepositService
     public List<TermDeposit> expire(Date expiration) {
         return this.termDepositRepository.findTermDepositToExpire(expiration)
                 .stream()
-                .peek(termDeposit -> {
-                    termDeposit.finalize();
-                    termDepositRepository.add(termDeposit);
-                    userCurrencyDomainService.execute(buildUserCurrencyOperation(termDeposit), findOwner(termDeposit));
-                })
+                .peek(termDeposit -> expireTermDeposit(termDeposit))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public TermDeposit expire(Integer ownerId, Integer termDepositId) {
+        TermDeposit termDeposit = termDepositRepository.findBy(ownerId, termDepositId);
+        expireTermDeposit(termDeposit);
+        return termDeposit;
+    }
+
+    private void expireTermDeposit(TermDeposit termDeposit) {
+        termDeposit.finalize();
+        termDepositRepository.add(termDeposit);
+        userCurrencyDomainService.execute(buildUserCurrencyOperation(termDeposit), findOwner(termDeposit));
     }
 
     private Optional<User> findOwner(TermDeposit termDeposit) {

@@ -9,4 +9,5 @@ public interface ExpireTermDepositService {
 
     List<TermDeposit> expire(Date expiration);
 
+    TermDeposit expire(Integer ownerId, Integer termDepositId);
 }

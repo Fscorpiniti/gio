@@ -5,6 +5,7 @@ import ar.edu.untref.gio.domain.TermDeposit;
 import ar.edu.untref.gio.domain.TermDepositInformation;
 import ar.edu.untref.gio.domain.interactor.CreateTermDepositInteractor;
 import ar.edu.untref.gio.domain.interactor.FindTermDepositInteractor;
+import ar.edu.untref.gio.domain.interactor.ForceTermDepositExpirationInteractor;
 import ar.edu.untref.gio.domain.request.CreateTermDepositRequest;
 import ar.edu.untref.gio.domain.service.ExistTokenService;
 import ar.edu.untref.gio.presentation.response.*;
@@ -34,6 +35,9 @@ public class TermDepositController {
     @Resource(name = "existTokenService")
     private ExistTokenService existTokenService;
 
+    @Resource(name = "forceTermDepositExpirationInteractor")
+    private ForceTermDepositExpirationInteractor forceTermDepositExpirationInteractor;
+
     @ResponseBody
     @ApiOperation(value = "Creacion de plazos fijos")
     @RequestMapping(value =  "/users/{ownerId}/deposits", method = RequestMethod.POST,  consumes = {MediaType.APPLICATION_JSON_VALUE})
@@ -42,6 +46,17 @@ public class TermDepositController {
                                                  @RequestHeader(value = AUTH_TOKEN) String authToken) {
         this.existTokenService.exist(ownerId, authToken);
         TermDeposit termDeposit = createTermDepositInteractor.create(createTermDepositRequest, ownerId);
+        return new TermDepositResponseFactory().build(termDeposit);
+    }
+
+    @ResponseBody
+    @ApiOperation(value = "Forzar la acreditacion del plazo fijo")
+    @RequestMapping(value =  "/users/{ownerId}/deposits/{termDepositId}/finished", method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public TermDepositResponse force(@PathVariable Integer ownerId, @PathVariable Integer termDepositId,
+                                     @RequestHeader(value = AUTH_TOKEN) String authToken) {
+        this.existTokenService.exist(ownerId, authToken);
+        TermDeposit termDeposit = this.forceTermDepositExpirationInteractor.force(ownerId, termDepositId);
         return new TermDepositResponseFactory().build(termDeposit);
     }
 

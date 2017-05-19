@@ -4,12 +4,12 @@ import ar.edu.untref.gio.domain.TermDeposit;
 import ar.edu.untref.gio.domain.TermDepositInformation;
 import ar.edu.untref.gio.domain.TermDepositRepository;
 import ar.edu.untref.gio.domain.TermDepositStatus;
+import ar.edu.untref.gio.infrastructure.exception.ObjectNotFoundException;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import javax.persistence.Query;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -27,6 +27,7 @@ public class DefaultTermDepositRepository extends GenericRepository<TermDeposit>
     public static final String START_DATE = "startDate";
     public static final String END_DATE = "endDate";
     public static final int ONE_DAY = 1;
+    public static final String PARAM_TERM_DEPOSIT_ID = "termDepositId";
 
     @Resource(name = "props")
     private Properties properties;
@@ -65,6 +66,26 @@ public class DefaultTermDepositRepository extends GenericRepository<TermDeposit>
                 .setParameter(START_DATE, new DateTime(expiration).withTimeAtStartOfDay().toDate())
                 .setParameter(END_DATE, new DateTime(expiration).plusDays(ONE_DAY).withTimeAtStartOfDay().toDate())
                 .getResultList();
+    }
+
+    @Override
+    public TermDeposit findBy(Integer ownerId, Integer termDepositId) {
+        StringBuilder hql = new StringBuilder("from ")
+                .append(getEntityClass().getName())
+                .append(" this where this.ownerId = :ownerId and this.status = :status and this.id = :termDepositId");
+
+        List<TermDeposit> resultList = this.getEntityManager()
+                .createQuery(hql.toString())
+                .setParameter(PARAM_OWNER_ID, ownerId)
+                .setParameter(PARAM_STATUS, TermDepositStatus.ACTIVE)
+                .setParameter(PARAM_TERM_DEPOSIT_ID, termDepositId)
+                .getResultList();
+
+        if (resultList.isEmpty()) {
+            throw new ObjectNotFoundException("Plazo fijo no encontrado");
+        }
+
+        return resultList.stream().findFirst().get();
     }
 
     private Query buildQueryFindByOwnerId(Integer ownerId) {

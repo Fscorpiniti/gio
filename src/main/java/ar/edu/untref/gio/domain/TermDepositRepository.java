@@ -10,4 +10,6 @@ public interface TermDepositRepository extends Repository<TermDeposit> {
     TermDepositInformation findTermDepositInformationForCreation();
 
     List<TermDeposit> findTermDepositToExpire(Date expiration);
+
+    TermDeposit findBy(Integer ownerId, Integer termDepositId);
 }

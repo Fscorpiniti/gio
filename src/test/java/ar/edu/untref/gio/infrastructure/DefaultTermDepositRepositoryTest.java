@@ -7,9 +7,12 @@ import ar.edu.untref.gio.domain.interactor.DefaultCreateTermDepositInteractor;
 import ar.edu.untref.gio.domain.service.DefaultUserCurrencyDomainService;
 import ar.edu.untref.gio.domain.service.UserCurrencyDomainService;
 import ar.edu.untref.gio.domain.validator.DefaultUserValidator;
+import ar.edu.untref.gio.infrastructure.exception.ObjectNotFoundException;
 import org.joda.time.DateTime;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.test.context.ContextConfiguration;
@@ -38,6 +41,9 @@ public class DefaultTermDepositRepositoryTest {
     @Resource(name = "defaultUserRepository")
     private UserRepository userRepository;
 
+    @Rule
+    public ExpectedException thrown= ExpectedException.none();
+
     private User owner;
     private List<TermDeposit> termDeposits;
     private TermDepositInformation termDepositInformation;
@@ -49,6 +55,7 @@ public class DefaultTermDepositRepositoryTest {
     private static final int DEFAULT_DURATION = 30;
     private static final int DEFAULT_AMOUNT = 100;
     private static final int DEFAULT_RATE = 15;
+    private TermDeposit termDeposit;
 
     @Test
     public void whenFindTermDepositsWithoutTermDepositsCreatedThenResultIsEmpty() {
@@ -101,6 +108,25 @@ public class DefaultTermDepositRepositoryTest {
         thenTermDepositsResultContainsElements();
     }
 
+    @Test
+    public void whenFindTermDepositWithInexistentTermDepositIdThenExceptionIsThrown() {
+        givenDefaultUser();
+        Integer inexistentTermDepositId = 1;
+
+        thrown.expect(ObjectNotFoundException.class);
+        termDepositRepository.findBy(owner.getId(), inexistentTermDepositId);
+    }
+
+    @Test
+    public void whenFindTermDepositWithValidTermDepositIdThenResultIsCorrect() {
+        givenDefaultUser();
+        givenDefaultTermDeposit();
+
+        TermDeposit termDepositById = termDepositRepository.findBy(owner.getId(), termDeposit.getId());
+
+        Assert.assertNotNull(termDepositById);
+    }
+
     private void thenRatesAreCorrect() {
         Double monthlyRate = Double.valueOf(properties.getProperty("monthly.rate"));
         Double biMonthlyRate = Double.valueOf(properties.getProperty("biMonthly.rate"));
@@ -134,7 +160,7 @@ public class DefaultTermDepositRepositoryTest {
         UserCurrencyDomainService userCurrencyDomainService = new DefaultUserCurrencyDomainService();
         UserRepository userRepository = Mockito.mock(UserRepository.class);
 
-        new DefaultCreateTermDepositInteractor(termDepositRepository, findUserInteractor,
+        termDeposit = new DefaultCreateTermDepositInteractor(termDepositRepository, findUserInteractor,
                 userCurrencyDomainService, userRepository).create(createTermDepositRequest, owner.getId());
     }
 
