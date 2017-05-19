@@ -5,7 +5,8 @@
     "interest_lower" : 2,
     "interest_higher": 6,
     "amount" : 100,
-    "is_purchasable": "true"
+    "is_purchasable": "true",
+    "name" : "Fondo de inversion a plazos fijos"
   },
   {
     "id" : 2,
@@ -13,6 +14,7 @@
     "interest_lower" : 0,
     "interest_higher": 0,
     "amount" : 0,
-    "is_purchasable": "false"
+    "is_purchasable": "false",
+    "name" : "Letras del tesoro"
   }
 ]

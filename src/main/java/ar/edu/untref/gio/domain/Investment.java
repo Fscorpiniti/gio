@@ -22,6 +22,9 @@ public class Investment {
     @SerializedName("is_purchasable")
     private Boolean isPurchasable;
 
+    @SerializedName("name")
+    private String name;
+
     public Integer getId() {
         return id;
     }
@@ -44,5 +47,9 @@ public class Investment {
 
     public Boolean getPurchasable() {
         return isPurchasable;
+    }
+
+    public String getName() {
+        return name;
     }
 }

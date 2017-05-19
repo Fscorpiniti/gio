@@ -21,7 +21,7 @@ public class InvestmentsResponse {
     private InvestmentResponse buildInvestmentResponse(Investment investment) {
         return new InvestmentResponse(investment.getId(), investment.getAmount(),
                 investment.getInterestHigher(), investment.getInterestLower(), investment.getPurchasable(),
-                investment.getText());
+                investment.getText(), investment.getName());
     }
 
     public List<InvestmentResponse> getInvestments() {

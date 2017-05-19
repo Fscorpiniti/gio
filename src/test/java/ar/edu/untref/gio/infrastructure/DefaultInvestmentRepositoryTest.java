@@ -44,11 +44,13 @@ public class DefaultInvestmentRepositoryTest {
         Double expectedInterestHigher = new Double(6);
         Double expectedInterestLower = new Double(2);
         Boolean expectedPurchasable = Boolean.TRUE;
+        String expectedName = "Fondo de inversion a plazos fijos";
         Assert.assertEquals(expectedInvestmentId, investment.getId());
         Assert.assertEquals(expectedAmount, investment.getAmount());
         Assert.assertEquals(expectedInterestHigher, investment.getInterestHigher());
         Assert.assertEquals(expectedInterestLower, investment.getInterestLower());
         Assert.assertEquals(expectedPurchasable, investment.getPurchasable());
+        Assert.assertEquals(expectedName, investment.getName());
     }
 
 }

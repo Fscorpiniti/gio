@@ -22,14 +22,18 @@ public class InvestmentResponse {
     @JsonProperty("text")
     private String text;
 
+    @JsonProperty("name")
+    private String name;
+
     public InvestmentResponse(Integer id, Double amount, Double interestHigher, Double interestLower,
-                              Boolean purchasable, String text) {
+                              Boolean purchasable, String text, String name) {
         this.id = id;
         this.amount = amount;
         this.interestHigher = interestHigher;
         this.interestLower = interestLower;
         this.purchasable = purchasable;
         this.text = text;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -54,5 +58,9 @@ public class InvestmentResponse {
 
     public String getText() {
         return text;
+    }
+
+    public String getName() {
+        return name;
     }
 }
