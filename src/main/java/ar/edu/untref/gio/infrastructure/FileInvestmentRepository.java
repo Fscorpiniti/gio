@@ -1,6 +1,7 @@
 package ar.edu.untref.gio.infrastructure;
 
 import ar.edu.untref.gio.domain.Investment;
+import ar.edu.untref.gio.domain.InvestmentRepository;
 import ar.edu.untref.gio.infrastructure.exception.ObjectNotFoundException;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -14,10 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository("fileInvestmentRepository")
-public class FileInvestmentRepository {
+public class FileInvestmentRepository implements InvestmentRepository {
 
     private static final String CASUAL_INVESTMENTS_JSON = "casual-investments.json";
 
+    @Override
     public List<Investment> getAll() {
         Type listType = new TypeToken<ArrayList<Investment>>(){}.getType();
         return new Gson().fromJson(getFileReader(), listType);
