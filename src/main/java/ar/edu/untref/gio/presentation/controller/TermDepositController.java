@@ -51,8 +51,7 @@ public class TermDepositController {
 
     @ResponseBody
     @ApiOperation(value = "Forzar la acreditacion del plazo fijo")
-    @RequestMapping(value =  "/users/{ownerId}/deposits/{termDepositId}/finished", method = RequestMethod.POST,
-            consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value =  "/users/{ownerId}/deposits/{termDepositId}", method = RequestMethod.DELETE)
     public TermDepositResponse force(@PathVariable Integer ownerId, @PathVariable Integer termDepositId,
                                      @RequestHeader(value = AUTH_TOKEN) String authToken) {
         this.existTokenService.exist(ownerId, authToken);
