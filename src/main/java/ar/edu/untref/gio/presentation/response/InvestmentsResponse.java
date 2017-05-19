@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class InvestmentsResponse {
 
@@ -12,7 +13,9 @@ public class InvestmentsResponse {
     private List<InvestmentResponse> investments = new ArrayList<>();
 
     public InvestmentsResponse(List<Investment> investments) {
-        investments.stream().map(investment -> buildInvestmentResponse(investment));
+        this.investments = investments.stream()
+                .map(investment -> buildInvestmentResponse(investment))
+                .collect(Collectors.toList());
     }
 
     private InvestmentResponse buildInvestmentResponse(Investment investment) {
