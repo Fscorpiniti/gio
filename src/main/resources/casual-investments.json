@@ -1,0 +1,18 @@
+[
+  {
+    "id" : 1,
+    "text" : "Fondos de inversion a plazos fijos. Este tipo de inversion es de bajo riesgo y se puede retirar cuando se guste. Se adquieren cuotapartes, las cuales aumentan entre un 2 y 6 % de acuerdo a el historico.",
+    "interest_lower" : 2,
+    "interest_higher": 6,
+    "amount" : 100,
+    "is_purchasable": "true"
+  },
+  {
+    "id" : 2,
+    "text" : "Letras del tesoro. Las letras son ofrecidas por el gobierno de Argentina, lo cual permite adquirir dolares a un valor mas economico.",
+    "interest_lower" : 0,
+    "interest_higher": 0,
+    "amount" : 0,
+    "is_purchasable": "false"
+  }
+]
