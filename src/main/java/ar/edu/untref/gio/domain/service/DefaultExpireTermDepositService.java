@@ -39,6 +39,6 @@ public class DefaultExpireTermDepositService implements ExpireTermDepositService
     }
 
     private UserCurrencyOperation buildUserCurrencyOperation(TermDeposit termDeposit) {
-        return new IncrementUserCurrency(userRepository, termDeposit.getAmount());
+        return new IncrementUserCurrency(userRepository, termDeposit.calculateValueToBelieve());
     }
 }

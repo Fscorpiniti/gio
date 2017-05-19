@@ -47,8 +47,14 @@ public class ExpireTermDepositServiceTest {
     @Test
     public void whenExpireTermDepositOnDateThenTermDepositStatusIsFinalized() {
         TermDeposit termDeposit = Mockito.spy(new TermDeposit());
+        Double rate = new Double(15);
         Date expiration = DateTime.now().toDate();
+        Double amount = new Double(1000);
+        Double valueToBelieve = amount + (amount * rate / 100);
         Mockito.when(termDeposit.getExpiration()).thenReturn(expiration);
+        Mockito.when(termDeposit.getAmount()).thenReturn(amount);
+        Mockito.when(termDeposit.getRate()).thenReturn(rate);
+        Mockito.when(termDeposit.calculateValueToBelieve()).thenReturn(valueToBelieve);
         Mockito.when(termDepositRepository.findTermDepositToExpire(expiration)).thenReturn(Arrays.asList(termDeposit));
 
         ExpireTermDepositService expireTermDepositService = buildExpireTermDepositService();

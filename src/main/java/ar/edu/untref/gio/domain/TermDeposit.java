@@ -69,4 +69,14 @@ public class TermDeposit {
     public void finalize() {
         this.status = TermDepositStatus.FINALIZED;
     }
+
+    @Transient
+    public Double calculateValueToBelieve() {
+        return getAmount() + calculateInterest();
+    }
+
+    @Transient
+    private double calculateInterest() {
+        return getAmount() * getRate() / 100;
+    }
 }
