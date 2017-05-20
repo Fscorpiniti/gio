@@ -8,5 +8,5 @@ public interface GetInvestmentInteractor {
 
     List<Investment> getAll(Integer ownerId);
 
-    List<Investment> getByOwnerId(Integer ownerId);
+    List<Investment> findByOwnerId(Integer ownerId);
 }

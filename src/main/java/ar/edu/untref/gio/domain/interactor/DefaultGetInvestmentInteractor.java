@@ -20,22 +20,20 @@ public class DefaultGetInvestmentInteractor implements GetInvestmentInteractor {
     public List<Investment> getAll(Integer ownerId) {
         List<Investment> all = investmentRepository.getAll();
         List<UserInvestment> userInvestments = investmentRepository.findByUserId(ownerId);
-        Set<Integer> investmentIds = mapOwnerId(userInvestments);
-        return all.stream().filter(investment -> investmentIds.contains(investment.getId()))
-                .collect(Collectors.toList());
+        Set<Integer> investmentIds = mapInvestmentId(userInvestments);
+        return all.stream().filter(investment -> !investmentIds.contains(investment.getId())).collect(Collectors.toList());
     }
 
     @Override
-    public List<Investment> getByOwnerId(Integer ownerId) {
+    public List<Investment> findByOwnerId(Integer ownerId) {
         List<Investment> all = investmentRepository.getAll();
         List<UserInvestment> userInvestments = investmentRepository.findByUserId(ownerId);
-        Set<Integer> investmentIds = mapOwnerId(userInvestments);
-        return all.stream().filter(investment -> !investmentIds.contains(investment.getId()))
-                .collect(Collectors.toList());
+        Set<Integer> investmentIds = mapInvestmentId(userInvestments);
+        return all.stream().filter(investment -> investmentIds.contains(investment.getId())).collect(Collectors.toList());
     }
 
-    private Set<Integer> mapOwnerId(List<UserInvestment> userInvestments) {
-        return userInvestments.stream().map(userInvestment -> userInvestment.getOwnerId())
+    private Set<Integer> mapInvestmentId(List<UserInvestment> userInvestments) {
+        return userInvestments.stream().map(userInvestment -> userInvestment.getInvestmentId())
                 .collect(Collectors.toSet());
     }
 }

@@ -35,7 +35,7 @@ public class InvestmentController {
     private ExpireInvestmentInteractor expireInvestmentInteractor;
 
     @ResponseBody
-    @ApiOperation(value = "Busqueda de inversiones casuales para jugar")
+    @ApiOperation(value = "Retorna inversiones casuales para jugar")
     @RequestMapping(value =  "/users/{owner_id}/game/investments", method = RequestMethod.GET)
     public InvestmentsResponse getAll(@PathVariable(OWNER_ID) Integer ownerId) {
         List<Investment> investments = getInvestmentInteractor.getAll(ownerId);
@@ -59,7 +59,7 @@ public class InvestmentController {
     public InvestmentsResponse findByOwner(@PathVariable(OWNER_ID) Integer ownerId,
                                           @RequestHeader(AUTH_TOKEN) String authToken) {
         this.existTokenService.exist(ownerId, authToken);
-        List<Investment> investments = getInvestmentInteractor.getByOwnerId(ownerId);
+        List<Investment> investments = getInvestmentInteractor.findByOwnerId(ownerId);
         return new InvestmentsResponse(investments);
     }
 

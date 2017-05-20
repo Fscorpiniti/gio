@@ -22,6 +22,8 @@ public class UserInvestment {
     @Column(name = "status")
     private UserInvestmentStatus status;
 
+    public UserInvestment(){}
+
     public UserInvestment(Integer ownerId, Integer investmentId, UserInvestmentStatus status) {
         this.ownerId = ownerId;
         this.investmentId = investmentId;
