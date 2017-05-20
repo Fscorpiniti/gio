@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface GetInvestmentInteractor {
 
-    List<Investment> getAll();
+    List<Investment> getAll(Integer ownerId);
 
+    List<Investment> getByOwnerId(Integer ownerId);
 }

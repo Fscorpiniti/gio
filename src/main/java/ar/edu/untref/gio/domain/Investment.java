@@ -2,6 +2,8 @@ package ar.edu.untref.gio.domain;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Random;
+
 public class Investment {
 
     @SerializedName("id")
@@ -51,5 +53,14 @@ public class Investment {
 
     public String getName() {
         return name;
+    }
+
+    public Double calculateValueToBelieve() {
+        return getAmount() + calculateInterest();
+    }
+
+    private Double calculateInterest() {
+        return new Random().doubles(getInterestLower(), getInterestHigher())
+                .findFirst().getAsDouble() * getAmount() / 100;
     }
 }
