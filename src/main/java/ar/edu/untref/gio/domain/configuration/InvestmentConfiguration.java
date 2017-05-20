@@ -16,8 +16,10 @@ public class InvestmentConfiguration {
     }
 
     @Bean
-    public CreateInvestmentInteractor createInvestmentInteractor(InvestmentRepository investmentRepository) {
-        return new DefaultCreateInvestmentInteractor(investmentRepository);
+    public CreateInvestmentInteractor createInvestmentInteractor(InvestmentRepository investmentRepository,
+                                                                 UserCurrencyDomainService userCurrencyDomainService,
+                                                                 UserRepository userRepository) {
+        return new DefaultCreateInvestmentInteractor(investmentRepository, userCurrencyDomainService, userRepository);
     }
 
     @Bean

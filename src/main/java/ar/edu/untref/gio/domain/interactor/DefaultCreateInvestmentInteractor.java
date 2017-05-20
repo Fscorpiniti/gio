@@ -1,9 +1,7 @@
 package ar.edu.untref.gio.domain.interactor;
 
-import ar.edu.untref.gio.domain.Investment;
-import ar.edu.untref.gio.domain.InvestmentRepository;
-import ar.edu.untref.gio.domain.UserInvestment;
-import ar.edu.untref.gio.domain.UserInvestmentStatus;
+import ar.edu.untref.gio.domain.*;
+import ar.edu.untref.gio.domain.service.UserCurrencyDomainService;
 import ar.edu.untref.gio.infrastructure.exception.ObjectNotFoundException;
 import org.joda.time.DateTime;
 
@@ -14,9 +12,15 @@ import java.util.stream.Collectors;
 public class DefaultCreateInvestmentInteractor implements CreateInvestmentInteractor {
 
     private InvestmentRepository investmentRepository;
+    private UserCurrencyDomainService userCurrencyDomainService;
+    private UserRepository userRepository;
 
-    public DefaultCreateInvestmentInteractor(InvestmentRepository investmentRepository) {
+    public DefaultCreateInvestmentInteractor(InvestmentRepository investmentRepository,
+                                             UserCurrencyDomainService userCurrencyDomainService,
+                                             UserRepository userRepository) {
         this.investmentRepository = investmentRepository;
+        this.userCurrencyDomainService = userCurrencyDomainService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -28,11 +32,18 @@ public class DefaultCreateInvestmentInteractor implements CreateInvestmentIntera
 
         investmentRepository.add(buildUserInvestment(ownerId, selected));
 
+        userCurrencyDomainService.execute(buildUserCurrencyOperation(selected.getAmount()),
+                userRepository.findById(ownerId));
+
         List<UserInvestment> userInvestments = investmentRepository.findByUserId(ownerId);
         Set<Integer> investmentIds = mapInvestmentIdToSet(userInvestments);
 
         return getAllInvestments().stream().filter(investment -> investmentIds.contains(investment.getId()))
                 .collect(Collectors.toList());
+    }
+
+    private UserCurrencyOperation buildUserCurrencyOperation(Double amount) {
+        return new DecrementUserCurrency(userRepository, amount);
     }
 
     private List<Investment> getAllInvestments() {

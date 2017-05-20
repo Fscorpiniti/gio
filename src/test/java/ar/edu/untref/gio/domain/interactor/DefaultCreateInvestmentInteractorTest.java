@@ -1,9 +1,7 @@
 package ar.edu.untref.gio.domain.interactor;
 
-import ar.edu.untref.gio.domain.Investment;
-import ar.edu.untref.gio.domain.InvestmentRepository;
-import ar.edu.untref.gio.domain.UserInvestment;
-import ar.edu.untref.gio.domain.UserInvestmentStatus;
+import ar.edu.untref.gio.domain.*;
+import ar.edu.untref.gio.domain.service.UserCurrencyDomainService;
 import ar.edu.untref.gio.infrastructure.exception.ObjectNotFoundException;
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -28,10 +26,12 @@ public class DefaultCreateInvestmentInteractorTest {
     @Test
     public void whenCreateInvestmentWithInvalidIdThenExceptionIsThrown() {
         InvestmentRepository investmentRepository = Mockito.mock(InvestmentRepository.class);
+        UserCurrencyDomainService userCurrencyDomainService = Mockito.mock(UserCurrencyDomainService.class);
+        UserRepository userRepository = Mockito.mock(UserRepository.class);
         Mockito.when(investmentRepository.getAll()).thenReturn(buildListInvestment());
 
         DefaultCreateInvestmentInteractor defaultCreateInvestmentInteractor = new
-                DefaultCreateInvestmentInteractor(investmentRepository);
+                DefaultCreateInvestmentInteractor(investmentRepository, userCurrencyDomainService, userRepository);
 
         thrown.expect(ObjectNotFoundException.class);
         defaultCreateInvestmentInteractor.execute(OWNER_ID, INVALID_INVESTMENT_ID);
@@ -40,12 +40,14 @@ public class DefaultCreateInvestmentInteractorTest {
     @Test
     public void whenCreateInvestmentThenInvestmentIsReturned() {
         InvestmentRepository investmentRepository = Mockito.mock(InvestmentRepository.class);
+        UserCurrencyDomainService userCurrencyDomainService = Mockito.mock(UserCurrencyDomainService.class);
+        UserRepository userRepository = Mockito.mock(UserRepository.class);
         Mockito.when(investmentRepository.getAll()).thenReturn(buildListInvestment());
         Mockito.when(investmentRepository.findByUserId(OWNER_ID)).thenReturn(Arrays.asList(new UserInvestment(OWNER_ID,
                 VALID_INVESTMENT_ID, UserInvestmentStatus.ACTIVE, DateTime.now().toDate())));
 
         DefaultCreateInvestmentInteractor defaultCreateInvestmentInteractor = new
-                DefaultCreateInvestmentInteractor(investmentRepository);
+                DefaultCreateInvestmentInteractor(investmentRepository, userCurrencyDomainService, userRepository);
 
         List<Investment> investments = defaultCreateInvestmentInteractor.execute(OWNER_ID, VALID_INVESTMENT_ID);
         Assert.assertFalse(investments.isEmpty());
@@ -54,12 +56,14 @@ public class DefaultCreateInvestmentInteractorTest {
     @Test
     public void whenCreateInvestmentThenReturnOnlyInvestmentPurchased() {
         InvestmentRepository investmentRepository = Mockito.mock(InvestmentRepository.class);
+        UserCurrencyDomainService userCurrencyDomainService = Mockito.mock(UserCurrencyDomainService.class);
+        UserRepository userRepository = Mockito.mock(UserRepository.class);
         Mockito.when(investmentRepository.getAll()).thenReturn(buildListInvestment());
         Mockito.when(investmentRepository.findByUserId(OWNER_ID)).thenReturn(Arrays.asList(new UserInvestment(OWNER_ID,
                 VALID_INVESTMENT_ID, UserInvestmentStatus.ACTIVE, DateTime.now().toDate())));
 
         DefaultCreateInvestmentInteractor defaultCreateInvestmentInteractor = new
-                DefaultCreateInvestmentInteractor(investmentRepository);
+                DefaultCreateInvestmentInteractor(investmentRepository, userCurrencyDomainService, userRepository);
 
         List<Investment> investments = defaultCreateInvestmentInteractor.execute(OWNER_ID, VALID_INVESTMENT_ID);
         int expectedSize = 1;
