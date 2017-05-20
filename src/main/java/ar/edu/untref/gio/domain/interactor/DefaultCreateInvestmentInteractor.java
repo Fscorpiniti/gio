@@ -28,7 +28,7 @@ public class DefaultCreateInvestmentInteractor implements CreateInvestmentIntera
         investmentRepository.add(buildUserInvestment(ownerId, selected));
 
         List<UserInvestment> userInvestments = investmentRepository.findByUserId(ownerId);
-        Set<Integer> investmentIds = mapOwnerIdToSet(userInvestments);
+        Set<Integer> investmentIds = mapInvestmentIdToSet(userInvestments);
 
         return getAllInvestments().stream().filter(investment -> investmentIds.contains(investment.getId()))
                 .collect(Collectors.toList());
@@ -38,8 +38,8 @@ public class DefaultCreateInvestmentInteractor implements CreateInvestmentIntera
         return this.investmentRepository.getAll();
     }
 
-    private Set<Integer> mapOwnerIdToSet(List<UserInvestment> userInvestments) {
-        return userInvestments.stream().map(userInvestment -> userInvestment.getOwnerId()).collect(Collectors.toSet());
+    private Set<Integer> mapInvestmentIdToSet(List<UserInvestment> userInvestments) {
+        return userInvestments.stream().map(userInvestment -> userInvestment.getInvestmentId()).collect(Collectors.toSet());
     }
 
     private UserInvestment buildUserInvestment(Integer ownerId, Investment selected) {

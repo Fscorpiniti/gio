@@ -44,7 +44,7 @@ public class InvestmentController {
 
     @ResponseBody
     @ApiOperation(value = "Creacion de una inversion casual")
-    @RequestMapping(value =  "/users/{owner_id}/investments/{investment_id}/purchase", method = RequestMethod.POST)
+    @RequestMapping(value =  "/users/{owner_id}/investments/{investment_id}/purchases", method = RequestMethod.POST)
     public InvestmentsResponse create(@PathVariable(OWNER_ID) Integer ownerId,
                                       @PathVariable(INVESTMENT_ID) Integer investmentId,
                                       @RequestHeader(AUTH_TOKEN) String authToken) {
@@ -65,7 +65,7 @@ public class InvestmentController {
 
     @ResponseBody
     @ApiOperation(value = "Acreditacion de inversion casual")
-    @RequestMapping(value =  "/users/{owner_id}/investments/{investment_id}/purchase", method = RequestMethod.DELETE)
+    @RequestMapping(value =  "/users/{owner_id}/investments/{investment_id}/purchases", method = RequestMethod.DELETE)
     public Double finish(@PathVariable(OWNER_ID) Integer ownerId,
                                           @PathVariable(INVESTMENT_ID) Integer investmentId,
                                           @RequestHeader(AUTH_TOKEN) String authToken) {
