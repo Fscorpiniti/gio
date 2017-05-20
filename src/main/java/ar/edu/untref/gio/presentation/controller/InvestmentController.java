@@ -36,14 +36,14 @@ public class InvestmentController {
 
     @ResponseBody
     @ApiOperation(value = "Retorna inversiones casuales para jugar")
-    @RequestMapping(value =  "/users/{owner_id}/game/investments", method = RequestMethod.GET)
+    @RequestMapping(value =  "/users/{owner_id}/games/investments", method = RequestMethod.GET)
     public InvestmentsResponse getAll(@PathVariable(OWNER_ID) Integer ownerId) {
         List<Investment> investments = getInvestmentInteractor.getAll(ownerId);
         return new InvestmentsResponse(investments);
     }
 
     @ResponseBody
-    @ApiOperation(value = "Creacion de una inversion casual")
+    @ApiOperation(value = "Adquisicion del usuario de una inversion casual.")
     @RequestMapping(value =  "/users/{owner_id}/investments/{investment_id}/purchases", method = RequestMethod.POST)
     public InvestmentsResponse create(@PathVariable(OWNER_ID) Integer ownerId,
                                       @PathVariable(INVESTMENT_ID) Integer investmentId,
@@ -64,7 +64,7 @@ public class InvestmentController {
     }
 
     @ResponseBody
-    @ApiOperation(value = "Acreditacion de inversion casual")
+    @ApiOperation(value = "Forzar la acreditacion de inversion casual.")
     @RequestMapping(value =  "/users/{owner_id}/investments/{investment_id}/purchases", method = RequestMethod.DELETE)
     public Double finish(@PathVariable(OWNER_ID) Integer ownerId,
                                           @PathVariable(INVESTMENT_ID) Integer investmentId,
