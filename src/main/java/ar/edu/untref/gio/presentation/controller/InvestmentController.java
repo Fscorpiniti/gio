@@ -19,6 +19,8 @@ import java.util.List;
 public class InvestmentController {
 
     private static final String AUTH_TOKEN = "auth_token";
+    private static final String OWNER_ID = "owner_id";
+    private static final String INVESTMENT_ID = "investment_id";
 
     @Resource(name = "getInvestmentInteractor")
     private GetInvestmentInteractor getInvestmentInteractor;
@@ -35,7 +37,7 @@ public class InvestmentController {
     @ResponseBody
     @ApiOperation(value = "Busqueda de inversiones casuales para jugar")
     @RequestMapping(value =  "/users/{owner_id}/game/investments", method = RequestMethod.GET)
-    public InvestmentsResponse getAll(@PathVariable("owner_id") Integer ownerId) {
+    public InvestmentsResponse getAll(@PathVariable(OWNER_ID) Integer ownerId) {
         List<Investment> investments = getInvestmentInteractor.getAll(ownerId);
         return new InvestmentsResponse(investments);
     }
@@ -43,8 +45,8 @@ public class InvestmentController {
     @ResponseBody
     @ApiOperation(value = "Creacion de una inversion casual")
     @RequestMapping(value =  "/users/{owner_id}/investments/{investment_id}/purchase", method = RequestMethod.POST)
-    public InvestmentsResponse create(@PathVariable("owner_id") Integer ownerId,
-                                      @PathVariable("investment_id") Integer investmentId,
+    public InvestmentsResponse create(@PathVariable(OWNER_ID) Integer ownerId,
+                                      @PathVariable(INVESTMENT_ID) Integer investmentId,
                                       @RequestHeader(AUTH_TOKEN) String authToken) {
         this.existTokenService.exist(ownerId, authToken);
         List<Investment> investments = createInvestmentInteractor.execute(ownerId, investmentId);
@@ -54,7 +56,7 @@ public class InvestmentController {
     @ResponseBody
     @ApiOperation(value = "Busqueda de inversiones casuales adquiridas por usuario")
     @RequestMapping(value =  "/users/{owner_id}/investments", method = RequestMethod.GET)
-    public InvestmentsResponse findByUser(@PathVariable("owner_id") Integer ownerId,
+    public InvestmentsResponse findByOwner(@PathVariable(OWNER_ID) Integer ownerId,
                                           @RequestHeader(AUTH_TOKEN) String authToken) {
         this.existTokenService.exist(ownerId, authToken);
         List<Investment> investments = getInvestmentInteractor.getByOwnerId(ownerId);
@@ -64,11 +66,11 @@ public class InvestmentController {
     @ResponseBody
     @ApiOperation(value = "Acreditacion de inversion casual")
     @RequestMapping(value =  "/users/{owner_id}/investments/{investment_id}/purchase", method = RequestMethod.DELETE)
-    public void finishInvestment(@PathVariable("owner_id") Integer ownerId,
-                                          @PathVariable("investment_id") Integer investmentId,
+    public Double finish(@PathVariable(OWNER_ID) Integer ownerId,
+                                          @PathVariable(INVESTMENT_ID) Integer investmentId,
                                           @RequestHeader(AUTH_TOKEN) String authToken) {
         this.existTokenService.exist(ownerId, authToken);
-        this.expireInvestmentInteractor.expire(ownerId, investmentId);
+        return this.expireInvestmentInteractor.expire(ownerId, investmentId);
     }
 
 }

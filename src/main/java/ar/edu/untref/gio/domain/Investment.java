@@ -6,6 +6,8 @@ import java.util.Random;
 
 public class Investment {
 
+    private static final int MAX_PERCENTAGE = 100;
+
     @SerializedName("id")
     private Integer id;
 
@@ -26,6 +28,19 @@ public class Investment {
 
     @SerializedName("name")
     private String name;
+
+    public Investment() {}
+
+    public Investment(Integer id, String text, Double interestLower, Double interestHigher, Double amount,
+                      Boolean isPurchasable, String name) {
+        this.id = id;
+        this.text = text;
+        this.interestLower = interestLower;
+        this.interestHigher = interestHigher;
+        this.amount = amount;
+        this.isPurchasable = isPurchasable;
+        this.name = name;
+    }
 
     public Integer getId() {
         return id;
@@ -61,6 +76,6 @@ public class Investment {
 
     private Double calculateInterest() {
         return new Random().doubles(getInterestLower(), getInterestHigher())
-                .findFirst().getAsDouble() * getAmount() / 100;
+                .findFirst().getAsDouble() * getAmount() / MAX_PERCENTAGE;
     }
 }

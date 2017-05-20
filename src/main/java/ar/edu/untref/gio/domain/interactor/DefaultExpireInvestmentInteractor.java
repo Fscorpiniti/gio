@@ -18,7 +18,7 @@ public class DefaultExpireInvestmentInteractor implements ExpireInvestmentIntera
     }
 
     @Override
-    public void expire(Integer ownerId, Integer investmentId) {
+    public Double expire(Integer ownerId, Integer investmentId) {
         Investment investmentToExpired = investmentRepository.getAll().stream()
                 .filter(investment -> investment.getId().equals(investmentId)).findFirst().get();
 
@@ -28,11 +28,13 @@ public class DefaultExpireInvestmentInteractor implements ExpireInvestmentIntera
 
         userInvestmentToExpire.finalize();
         investmentRepository.add(userInvestmentToExpire);
-        userCurrencyDomainService.execute(buildUserCurrencyOperation(investmentToExpired),
-                userRepository.findById(ownerId));
+        Double valueToBelieve = investmentToExpired.calculateValueToBelieve();
+        userCurrencyDomainService.execute(buildUserCurrencyOperation(valueToBelieve), userRepository.findById(ownerId));
+
+        return valueToBelieve;
     }
 
-    private IncrementUserCurrency buildUserCurrencyOperation(Investment investmentToExpired) {
-        return new IncrementUserCurrency(userRepository, investmentToExpired.calculateValueToBelieve());
+    private IncrementUserCurrency buildUserCurrencyOperation(Double valueToBelieve) {
+        return new IncrementUserCurrency(userRepository, valueToBelieve);
     }
 }

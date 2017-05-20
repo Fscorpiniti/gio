@@ -20,7 +20,7 @@ public class DefaultCreateInvestmentInteractor implements CreateInvestmentIntera
 
     @Override
     public List<Investment> execute(Integer ownerId, Integer investmentId) {
-        Investment selected = this.investmentRepository.getAll().stream()
+        Investment selected = getAllInvestments().stream()
                 .filter(investment -> investment.getId().equals(investmentId))
                 .findFirst()
                 .orElseThrow(() -> new ObjectNotFoundException("Inversion no encontrada"));
@@ -28,11 +28,18 @@ public class DefaultCreateInvestmentInteractor implements CreateInvestmentIntera
         investmentRepository.add(buildUserInvestment(ownerId, selected));
 
         List<UserInvestment> userInvestments = investmentRepository.findByUserId(ownerId);
-        Set<Integer> investmentIds = userInvestments.stream().map(userInvestment -> userInvestment.getOwnerId())
-                .collect(Collectors.toSet());
+        Set<Integer> investmentIds = mapOwnerIdToSet(userInvestments);
 
-        return this.investmentRepository.getAll().stream()
-                .filter(investment -> investmentIds.contains(investment.getId())).collect(Collectors.toList());
+        return getAllInvestments().stream().filter(investment -> investmentIds.contains(investment.getId()))
+                .collect(Collectors.toList());
+    }
+
+    private List<Investment> getAllInvestments() {
+        return this.investmentRepository.getAll();
+    }
+
+    private Set<Integer> mapOwnerIdToSet(List<UserInvestment> userInvestments) {
+        return userInvestments.stream().map(userInvestment -> userInvestment.getOwnerId()).collect(Collectors.toSet());
     }
 
     private UserInvestment buildUserInvestment(Integer ownerId, Investment selected) {
