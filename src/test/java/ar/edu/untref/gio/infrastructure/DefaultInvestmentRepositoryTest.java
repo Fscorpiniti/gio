@@ -3,6 +3,7 @@ package ar.edu.untref.gio.infrastructure;
 import ar.edu.untref.gio.domain.Investment;
 import ar.edu.untref.gio.domain.UserInvestment;
 import ar.edu.untref.gio.domain.UserInvestmentStatus;
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -65,14 +66,16 @@ public class DefaultInvestmentRepositoryTest {
 
     @Test
     public void whenFindInvestmentByOwnerWithInvestmentActiveThenResultIsNotEmpty() {
-        defaultInvestmentRepository.add(new UserInvestment(OWNER_ID, INVESTMENT_ID, UserInvestmentStatus.ACTIVE));
+        defaultInvestmentRepository.add(new UserInvestment(OWNER_ID, INVESTMENT_ID,
+                UserInvestmentStatus.ACTIVE, DateTime.now().toDate()));
         List<UserInvestment> investments = defaultInvestmentRepository.findByUserId(OWNER_ID);
         Assert.assertFalse(investments.isEmpty());
     }
 
     @Test
     public void whenFindInvestmentByOwnerWithInvestmentFinalizedThenResultIsEmpty() {
-        defaultInvestmentRepository.add(new UserInvestment(OWNER_ID, INVESTMENT_ID, UserInvestmentStatus.FINALIZED));
+        defaultInvestmentRepository.add(new UserInvestment(OWNER_ID, INVESTMENT_ID,
+                UserInvestmentStatus.FINALIZED, DateTime.now().toDate()));
         List<UserInvestment> investments = defaultInvestmentRepository.findByUserId(OWNER_ID);
         Assert.assertTrue(investments.isEmpty());
     }

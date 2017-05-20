@@ -2,6 +2,7 @@ package ar.edu.untref.gio.domain;
 
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "user_investment")
@@ -22,12 +23,16 @@ public class UserInvestment {
     @Column(name = "status")
     private UserInvestmentStatus status;
 
+    @Column(name = "creation_date")
+    private Date creation;
+
     public UserInvestment(){}
 
-    public UserInvestment(Integer ownerId, Integer investmentId, UserInvestmentStatus status) {
+    public UserInvestment(Integer ownerId, Integer investmentId, UserInvestmentStatus status, Date creation) {
         this.ownerId = ownerId;
         this.investmentId = investmentId;
         this.status = status;
+        this.creation = creation;
     }
 
     public Integer getOwnerId() {
@@ -48,5 +53,9 @@ public class UserInvestment {
 
     public Integer getId() {
         return id;
+    }
+
+    public Date getCreation() {
+        return creation;
     }
 }

@@ -2,6 +2,7 @@ package ar.edu.untref.gio.domain.interactor;
 
 import ar.edu.untref.gio.domain.*;
 import ar.edu.untref.gio.domain.service.UserCurrencyDomainService;
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -15,6 +16,7 @@ public class DefaultExpireInvestmentInteractorTest {
     private static final String TEST = "test";
     private static final Integer VALID_INVESTMENT_ID = 1;
     private static final Double AMOUNT = new Double(100);
+    public static final int MINUS_ONE_DAY = 1;
 
     @Test
     public void whenExpireInvestmentThenValueIsGreatherThanAmount() {
@@ -23,7 +25,7 @@ public class DefaultExpireInvestmentInteractorTest {
         UserCurrencyDomainService userCurrencyDomainService = Mockito.mock(UserCurrencyDomainService.class);
         Mockito.when(investmentRepository.getAll()).thenReturn(buildListInvestment());
         Mockito.when(investmentRepository.findByUserId(OWNER_ID)).thenReturn(Arrays.asList(new UserInvestment(OWNER_ID,
-                VALID_INVESTMENT_ID, UserInvestmentStatus.ACTIVE)));
+                VALID_INVESTMENT_ID, UserInvestmentStatus.ACTIVE, DateTime.now().minusDays(MINUS_ONE_DAY).toDate())));
 
         DefaultExpireInvestmentInteractor defaultExpireInvestmentInteractor = new DefaultExpireInvestmentInteractor(
                 investmentRepository, userCurrencyDomainService, userRepository);

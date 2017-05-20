@@ -5,6 +5,7 @@ import ar.edu.untref.gio.domain.InvestmentRepository;
 import ar.edu.untref.gio.domain.UserInvestment;
 import ar.edu.untref.gio.domain.UserInvestmentStatus;
 import ar.edu.untref.gio.infrastructure.exception.ObjectNotFoundException;
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -41,7 +42,7 @@ public class DefaultCreateInvestmentInteractorTest {
         InvestmentRepository investmentRepository = Mockito.mock(InvestmentRepository.class);
         Mockito.when(investmentRepository.getAll()).thenReturn(buildListInvestment());
         Mockito.when(investmentRepository.findByUserId(OWNER_ID)).thenReturn(Arrays.asList(new UserInvestment(OWNER_ID,
-                VALID_INVESTMENT_ID, UserInvestmentStatus.ACTIVE)));
+                VALID_INVESTMENT_ID, UserInvestmentStatus.ACTIVE, DateTime.now().toDate())));
 
         DefaultCreateInvestmentInteractor defaultCreateInvestmentInteractor = new
                 DefaultCreateInvestmentInteractor(investmentRepository);
@@ -55,7 +56,7 @@ public class DefaultCreateInvestmentInteractorTest {
         InvestmentRepository investmentRepository = Mockito.mock(InvestmentRepository.class);
         Mockito.when(investmentRepository.getAll()).thenReturn(buildListInvestment());
         Mockito.when(investmentRepository.findByUserId(OWNER_ID)).thenReturn(Arrays.asList(new UserInvestment(OWNER_ID,
-                VALID_INVESTMENT_ID, UserInvestmentStatus.ACTIVE)));
+                VALID_INVESTMENT_ID, UserInvestmentStatus.ACTIVE, DateTime.now().toDate())));
 
         DefaultCreateInvestmentInteractor defaultCreateInvestmentInteractor = new
                 DefaultCreateInvestmentInteractor(investmentRepository);

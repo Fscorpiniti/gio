@@ -5,6 +5,7 @@ import ar.edu.untref.gio.domain.InvestmentRepository;
 import ar.edu.untref.gio.domain.UserInvestment;
 import ar.edu.untref.gio.domain.UserInvestmentStatus;
 import ar.edu.untref.gio.infrastructure.exception.ObjectNotFoundException;
+import org.joda.time.DateTime;
 
 import java.util.List;
 import java.util.Set;
@@ -43,6 +44,6 @@ public class DefaultCreateInvestmentInteractor implements CreateInvestmentIntera
     }
 
     private UserInvestment buildUserInvestment(Integer ownerId, Investment selected) {
-        return new UserInvestment(ownerId, selected.getId(), UserInvestmentStatus.ACTIVE);
+        return new UserInvestment(ownerId, selected.getId(), UserInvestmentStatus.ACTIVE, DateTime.now().toDate());
     }
 }

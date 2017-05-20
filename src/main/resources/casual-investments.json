@@ -1,7 +1,7 @@
 [
   {
     "id" : 1,
-    "text" : "Fondos de inversion a plazos fijos. Este tipo de inversion es de bajo riesgo y se puede retirar cuando se guste. Se adquieren cuotapartes, las cuales aumentan entre un 2 y 6 % de acuerdo a el historico.",
+    "text" : "Fondos de inversion a plazos fijos. Este tipo de inversion es de bajo riesgo y se puede retirar cuando se guste. Se adquieren cuotapartes, las cuales aumentan entre un 2 % y 6 % por dia segun el historico.",
     "interest_lower" : 2,
     "interest_higher": 6,
     "amount" : 100,

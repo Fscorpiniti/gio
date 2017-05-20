@@ -28,7 +28,7 @@ public class DefaultExpireInvestmentInteractor implements ExpireInvestmentIntera
 
         userInvestmentToExpire.finalize();
         investmentRepository.add(userInvestmentToExpire);
-        Double valueToBelieve = investmentToExpired.calculateValueToBelieve();
+        Double valueToBelieve = investmentToExpired.calculateValueToBelieve(userInvestmentToExpire.getCreation());
         userCurrencyDomainService.execute(buildUserCurrencyOperation(valueToBelieve), userRepository.findById(ownerId));
 
         return valueToBelieve;

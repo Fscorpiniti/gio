@@ -1,12 +1,17 @@
 package ar.edu.untref.gio.domain;
 
 import com.google.gson.annotations.SerializedName;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
 
+import java.util.Date;
 import java.util.Random;
 
 public class Investment {
 
     private static final int MAX_PERCENTAGE = 100;
+    private static final int ZERO = 0;
 
     @SerializedName("id")
     private Integer id;
@@ -70,12 +75,25 @@ public class Investment {
         return name;
     }
 
-    public Double calculateValueToBelieve() {
-        return getAmount() + calculateInterest();
+    public Double calculateValueToBelieve(Date creation) {
+        return getAmount() + calculateInterest(creation);
     }
 
-    private Double calculateInterest() {
+    private Double calculateInterest(Date creation) {
+        Date now = DateTime.now().toDate();
+        int difference = Days.daysBetween(new LocalDate(creation),
+                new LocalDate(now)).getDays();
+
+        if (sameDate(difference)) {
+            return new Random().doubles(ZERO, getInterestLower()).findFirst()
+                    .getAsDouble() * getAmount() / MAX_PERCENTAGE;
+        }
+
         return new Random().doubles(getInterestLower(), getInterestHigher())
-                .findFirst().getAsDouble() * getAmount() / MAX_PERCENTAGE;
+                .findFirst().getAsDouble() * getAmount() * difference / MAX_PERCENTAGE;
+    }
+
+    private boolean sameDate(int difference) {
+        return difference == 0;
     }
 }
