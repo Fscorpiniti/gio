@@ -47,8 +47,8 @@ public class DefaultInvestmentRepositoryTest {
         Investment investment = investments.stream().findFirst().get();
 
         Double expectedAmount = new Double(100);
-        Double expectedInterestHigher = new Double(6);
-        Double expectedInterestLower = new Double(2);
+        Double expectedInterestHigher = new Double(30);
+        Double expectedInterestLower = new Double(25);
         Boolean expectedPurchasable = Boolean.TRUE;
         Assert.assertEquals(INVESTMENT_ID, investment.getId());
         Assert.assertEquals(expectedAmount, investment.getAmount());

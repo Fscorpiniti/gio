@@ -12,6 +12,7 @@ public class Investment {
 
     private static final int MAX_PERCENTAGE = 100;
     private static final int ZERO = 0;
+    public static final int AMOUNT_DAYS_YEAR = 365;
 
     @SerializedName("id")
     private Integer id;
@@ -86,11 +87,11 @@ public class Investment {
 
         if (sameDate(difference)) {
             return new Random().doubles(ZERO, getInterestLower()).findFirst()
-                    .getAsDouble() * getAmount() / MAX_PERCENTAGE;
+                    .getAsDouble() * getAmount() / (MAX_PERCENTAGE * AMOUNT_DAYS_YEAR);
         }
 
         return new Random().doubles(getInterestLower(), getInterestHigher())
-                .findFirst().getAsDouble() * getAmount() * difference / MAX_PERCENTAGE;
+                .findFirst().getAsDouble() * getAmount() * difference / (MAX_PERCENTAGE * AMOUNT_DAYS_YEAR);
     }
 
     private boolean sameDate(int difference) {

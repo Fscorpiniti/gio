@@ -25,14 +25,18 @@ public class TermDepositResponse {
     @JsonProperty("owner_id")
     private Integer ownerId;
 
+    @JsonProperty("duration")
+    private Integer duration;
+
     public TermDepositResponse(Integer id, Double amount, Double rate, Date expiration,
-                               TermDepositStatus status, Integer ownerId) {
+                               TermDepositStatus status, Integer ownerId, Integer duration) {
         this.id = id;
         this.amount = amount;
         this.rate = rate;
         this.expiration = expiration;
         this.status = status;
         this.ownerId = ownerId;
+        this.duration = duration;
     }
 
     public Integer getId() {
@@ -57,5 +61,9 @@ public class TermDepositResponse {
 
     public Integer getOwnerId() {
         return ownerId;
+    }
+
+    public Integer getDuration() {
+        return duration;
     }
 }

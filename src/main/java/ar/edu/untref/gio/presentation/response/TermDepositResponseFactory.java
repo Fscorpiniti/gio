@@ -10,7 +10,8 @@ public class TermDepositResponseFactory {
 
     public TermDepositResponse build(TermDeposit termDeposit) {
         return new TermDepositResponse(termDeposit.getId(), termDeposit.getAmount(), termDeposit.getRate(),
-                termDeposit.getExpiration(), termDeposit.getStatus(), termDeposit.getOwnerId());
+                termDeposit.getExpiration(), termDeposit.getStatus(), termDeposit.getOwnerId(),
+                termDeposit.getDuration());
     }
 
     public TermDepositResponses build(List<TermDeposit> termDeposits) {
