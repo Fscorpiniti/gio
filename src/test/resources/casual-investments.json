@@ -1,7 +1,7 @@
 [
   {
     "id" : 1,
-    "text" : "Fondos de inversion a plazos fijos. Este tipo de inversion es de bajo riesgo y se puede retirar cuando se guste. Se adquieren cuotapartes, las cuales aumentan entre un 2 % y 6 % por dia segun el historico.",
+    "text" : "Fondo de inversion a plazos fijos. Este tipo de inversion es de bajo riesgo y se puede retirar en 48hs. Se adquieren cuotapartes y la rentabilidad obtenida sera entre el 2% y 6% mensual.",
     "interest_lower" : 2,
     "interest_higher": 6,
     "amount" : 100,
@@ -10,7 +10,7 @@
   },
   {
     "id" : 2,
-    "text" : "Letras del tesoro. Las letras son ofrecidas por el gobierno de Argentina, lo cual permite adquirir dolares a un valor mas economico.",
+    "text" : "Las Letras del Tesoro. Las Letras del Tesoro (LETES) son títulos de deuda emitidos por el Gobierno Nacional en dólares estadounidenses. Se pueden adquirir tanto en dólares como en pesos al tipo de Cambio de Referencia de la Comunicación “A” 3500 (Dólar Mayorista) correspondiente al día previo a la licitación.",
     "interest_lower" : 0,
     "interest_higher": 0,
     "amount" : 0,
