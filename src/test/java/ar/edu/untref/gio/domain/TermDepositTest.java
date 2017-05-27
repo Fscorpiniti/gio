@@ -18,9 +18,9 @@ public class TermDepositTest {
         Date expiration = new DateTime().plusDays(THIRTY_DAYS).toDate();
 
         TermDeposit termDeposit = new TermDepositBuilder().withRate(rate).withAmount(amount)
-                .withExpiration(expiration).withOwnerId(ownerId).build();
+                .withExpiration(expiration).withOwnerId(ownerId).withDuration(THIRTY_DAYS).build();
 
-        Double expectedValue = new Double(1150);
+        Double expectedValue = new Double(1012.33);
         Assert.assertEquals(expectedValue, termDeposit.calculateValueToBelieve());
     }
 

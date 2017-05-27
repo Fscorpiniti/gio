@@ -10,7 +10,7 @@ public class TermDepositBuilder {
     private Double rate;
     private Double amount;
     private Date expiration;
-    private TermDepositStatus status;
+    private Integer duration;
 
     public TermDepositBuilder withOwnerId(Integer ownerId) {
         this.ownerId = ownerId;
@@ -32,9 +32,17 @@ public class TermDepositBuilder {
         return this;
     }
 
-    public TermDeposit build() {
-        return new TermDeposit(this.amount, this.rate, this.expiration,
-                new DefaultTermDepositValidator(), this.ownerId);
+    public TermDepositBuilder withDuration(Integer duration) {
+        this.duration = duration;
+        return this;
     }
 
+    public TermDeposit build() {
+        return new TermDeposit(this.amount,
+                this.rate,
+                this.expiration,
+                new DefaultTermDepositValidator(),
+                this.ownerId,
+                this.duration);
+    }
 }

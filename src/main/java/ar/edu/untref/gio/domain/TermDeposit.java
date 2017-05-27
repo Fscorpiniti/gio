@@ -1,13 +1,20 @@
 package ar.edu.untref.gio.domain;
 
+import ar.edu.untref.gio.domain.validator.DefaultTermDepositValidator;
 import ar.edu.untref.gio.domain.validator.TermDepositValidator;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 
 @Entity
 @Table(name = "term_deposit")
 public class TermDeposit {
+
+    private static final int AMOUNT_DAYS_YEAR = 365;
+    private static final int MAX_PERCENTAGE = 100;
+    private static final int SCALE = 2;
 
     @Id
     @Column(name = "id", length = 11, nullable = false)
@@ -30,15 +37,20 @@ public class TermDeposit {
     @Column(name = "status")
     private TermDepositStatus status;
 
-    protected TermDeposit(){}
+    @Column(name = "duration")
+    private Integer duration;
 
-    public TermDeposit(Double amount, Double rate, Date expiration, TermDepositValidator validator, Integer ownerId) {
-        validator.execute(amount, rate, expiration, ownerId);
+    public TermDeposit() {}
+
+    public TermDeposit(Double amount, Double rate, Date expiration, TermDepositValidator validator, Integer ownerId,
+                       Integer duration) {
+        validator.execute(amount, rate, expiration, ownerId, duration);
         this.ownerId = ownerId;
         this.amount = amount;
         this.rate = rate;
         this.expiration = expiration;
         this.status = TermDepositStatus.ACTIVE;
+        this.duration = duration;
     }
 
     public Double getAmount() {
@@ -72,11 +84,16 @@ public class TermDeposit {
 
     @Transient
     public Double calculateValueToBelieve() {
-        return getAmount() + calculateInterest();
+        Double finalAmount = getAmount() + calculateInterest();
+        return new BigDecimal(finalAmount).setScale(SCALE, RoundingMode.HALF_UP).doubleValue();
     }
 
     @Transient
     private double calculateInterest() {
-        return getAmount() * getRate() / 100;
+        return (getAmount() * getDuration() * getRate()) / (MAX_PERCENTAGE * AMOUNT_DAYS_YEAR);
+    }
+
+    public Integer getDuration() {
+        return duration;
     }
 }

@@ -17,6 +17,8 @@ import java.util.List;
 
 public class ExpireTermDepositServiceTest {
 
+    public static final int AMOUNT_DAYS_YEAR = 365;
+    public static final int MAX_PERCENTAGE = 100;
     @Mock
     private TermDepositRepository termDepositRepository;
 
@@ -50,7 +52,9 @@ public class ExpireTermDepositServiceTest {
         Double rate = new Double(15);
         Date expiration = DateTime.now().toDate();
         Double amount = new Double(1000);
-        Double valueToBelieve = amount + (amount * rate / 100);
+        Integer duration = new Integer(30);
+        Double valueToBelieve = amount + (amount * duration * rate / MAX_PERCENTAGE * AMOUNT_DAYS_YEAR);
+        Mockito.when(termDeposit.getDuration()).thenReturn(duration);
         Mockito.when(termDeposit.getExpiration()).thenReturn(expiration);
         Mockito.when(termDeposit.getAmount()).thenReturn(amount);
         Mockito.when(termDeposit.getRate()).thenReturn(rate);
@@ -69,7 +73,9 @@ public class ExpireTermDepositServiceTest {
         Double rate = new Double(15);
         Date expiration = DateTime.now().toDate();
         Double amount = new Double(1000);
-        Double valueToBelieve = amount + (amount * rate / 100);
+        Integer duration = new Integer(30);
+        Double valueToBelieve = amount + (amount * duration * rate / MAX_PERCENTAGE * AMOUNT_DAYS_YEAR);
+        Mockito.when(termDeposit.getDuration()).thenReturn(duration);
         Integer termDepositId = 1;
         Integer ownerId = 1;
         Mockito.when(termDeposit.getExpiration()).thenReturn(expiration);

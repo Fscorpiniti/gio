@@ -53,6 +53,8 @@ public class DefaultCreateTermDepositInteractor implements CreateTermDepositInte
     private TermDeposit buildTermDeposit(CreateTermDepositRequest createTermDepositRequest, Integer ownerId) {
         return new TermDepositBuilder().withAmount(createTermDepositRequest.getAmount())
                 .withExpiration(createTermDepositRequest.getExpiration()).withOwnerId(ownerId)
-                .withRate(createTermDepositRequest.getRate()).build();
+                .withRate(createTermDepositRequest.getRate())
+                .withDuration(createTermDepositRequest.getDuration())
+                .build();
     }
 }
