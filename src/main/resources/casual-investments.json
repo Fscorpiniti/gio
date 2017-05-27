@@ -1,7 +1,7 @@
 [
   {
     "id" : 1,
-    "text" : "Fondo de inversion a plazos fijos. Este tipo de inversion es de bajo riesgo y se puede retirar en 48hs. Se adquieren cuotapartes y la rentabilidad obtenida sera entre el 2% y 6% mensual.",
+    "text" : "Fondo de inversión a plazos fijos. Este tipo de inversión es de bajo riesgo y se puede retirar en 48hs. Se adquieren cuotapartes y la rentabilidad obtenida será entre el 2% y 6% mensual.",
     "interest_lower" : 2,
     "interest_higher": 6,
     "amount" : 100,
@@ -19,20 +19,29 @@
   },
   {
     "id" : 3,
-    "text" : "Fondos de Renta Fija en Dólares. Es un fondo orientado a aquellos inversores que deseen una cartera diversificada de instrumentos de renta fija nacional nominados en dólares de corto plazo. El fondo invierte en letras, títulos soberanos y provinciales argentinos, títulos de empresas privadas y plazos fijos",
+    "text" : "Fondos de Renta Fija en Dólares. Es un fondo orientado a aquellos inversores que deseen una cartera diversificada de instrumentos de renta fija nacional nominados en dólares de corto plazo. El fondo invierte en letras, títulos soberanos y provinciales argentinos, títulos de empresas privadas y plazos fijos.",
     "interest_lower" : 0,
     "interest_higher": 0,
     "amount" : 0,
     "is_purchasable": "false",
-    "name" : "Fondos de Renta Fija en Dólares"
+    "name" : "Fondos de Renta Fija en Dolares"
   },
   {
     "id" : 4,
-    "text" : "Fondos de Renta Variable. Es un fondo que invierte principalmente en acciones, utilizando como referencia para la composición el índice Merval. Destinado a aquellos inversores que busquen participación en el mercado de acciones local, es diversificado, de rápida alocación de recursos, diversidad de estrategias de acuerdo al mercado local. ",
+    "text" : "Fondos de Renta Variable. Es un fondo que invierte principalmente en acciones, utilizando como referencia para la composición el índice Merval. Destinado a aquellos inversores que busquen participación en el mercado de acciones local, es diversificado, de rápida alocación de recursos y diversidad de estrategias de acuerdo al mercado local. ",
     "interest_lower" : 0,
     "interest_higher": 0,
     "amount" : 0,
     "is_purchasable": "false",
     "name" : "Fondos de Renta Variable"
+  },
+  {
+    "id" : 5,
+    "text" : "Compra-Venta de Moneda Extranjera. Compra-Venta de Dólares estadounidenses, cuya rentabilidad esta dada por el valor de referencia del Banco Nación en su cotización de compra y venta..",
+    "interest_lower" : 0,
+    "interest_higher": 0,
+    "amount" : 0,
+    "is_purchasable": "false",
+    "name" : "Compra-Venta de Moneda Extranjera"
   }
 ]
