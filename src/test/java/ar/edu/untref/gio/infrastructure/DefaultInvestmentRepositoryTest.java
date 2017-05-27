@@ -37,7 +37,7 @@ public class DefaultInvestmentRepositoryTest {
     @Test
     public void whenFindInvestmentsFromRepositoryThenSizeIsCorrect() {
         List<Investment> investments = defaultInvestmentRepository.getAll();
-        int expectedInvestments = 2;
+        int expectedInvestments = 4;
         Assert.assertEquals(expectedInvestments, investments.size());
     }
 
