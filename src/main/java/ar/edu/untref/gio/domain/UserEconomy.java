@@ -3,10 +3,14 @@ package ar.edu.untref.gio.domain;
 import ar.edu.untref.gio.domain.exception.InsufficientCurrenciesException;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Entity
 @Table(name = "user_economy")
 public class UserEconomy {
+
+    private static final int SCALE = 2;
 
     @Id
     @Column(name = "id", length = 11, nullable = false)
@@ -34,10 +38,10 @@ public class UserEconomy {
         if (amount > coins) {
             throw new InsufficientCurrenciesException();
         }
-        coins -= amount;
+        coins -= new BigDecimal(amount).setScale(SCALE, RoundingMode.HALF_UP).doubleValue();
     }
 
     public void incrementCoins(Double amount) {
-        coins += amount;
+        coins += new BigDecimal(amount).setScale(SCALE, RoundingMode.HALF_UP).doubleValue();
     }
 }
