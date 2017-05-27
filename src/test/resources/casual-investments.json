@@ -10,11 +10,29 @@
   },
   {
     "id" : 2,
-    "text" : "Las Letras del Tesoro. Las Letras del Tesoro (LETES) son títulos de deuda emitidos por el Gobierno Nacional en dólares estadounidenses. Se pueden adquirir tanto en dólares como en pesos al tipo de Cambio de Referencia de la Comunicación “A” 3500 (Dólar Mayorista) correspondiente al día previo a la licitación.",
+    "text" : "Las Letras del Tesoro. Llamadas LETES son títulos de deuda emitidos por el Estado en dólares. Se pueden adquirir en dólares o en pesos al tipo de cambio de referencia de la Com. “A” 3500 (Dólar Mayorista) del día previo a la licitación.",
     "interest_lower" : 0,
     "interest_higher": 0,
     "amount" : 0,
     "is_purchasable": "false",
     "name" : "Letras del tesoro"
+  },
+  {
+    "id" : 3,
+    "text" : "Fondos de Renta Fija en Dólares. Es un fondo orientado a aquellos inversores que deseen una cartera diversificada de instrumentos de renta fija nacional nominados en dólares de corto plazo. El fondo invierte en letras, títulos soberanos y provinciales argentinos, títulos de empresas privadas y plazos fijos",
+    "interest_lower" : 0,
+    "interest_higher": 0,
+    "amount" : 0,
+    "is_purchasable": "false",
+    "name" : "Fondos de Renta Fija en Dólares"
+  },
+  {
+    "id" : 4,
+    "text" : "Fondos de Renta Variable. Es un fondo que invierte principalmente en acciones, utilizando como referencia para la composición el índice Merval. Destinado a aquellos inversores que busquen participación en el mercado de acciones local, es diversificado, de rápida alocación de recursos, diversidad de estrategias de acuerdo al mercado local. ",
+    "interest_lower" : 0,
+    "interest_higher": 0,
+    "amount" : 0,
+    "is_purchasable": "false",
+    "name" : "Fondos de Renta Variable"
   }
 ]
