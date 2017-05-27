@@ -37,7 +37,7 @@
   },
   {
     "id" : 5,
-    "text" : "Compra-Venta de Moneda Extranjera. Compra-Venta de Dólares estadounidenses, cuya rentabilidad esta dada por el valor de referencia del Banco Nación en su cotización de compra y venta..",
+    "text" : "Compra-Venta de Moneda Extranjera. Compra-Venta de Dólares estadounidenses, cuya rentabilidad esta dada por la diferencia en la cotización del precio de compra y venta según referencia del dólar oficial del Banco Nación.",
     "interest_lower" : 0,
     "interest_higher": 0,
     "amount" : 0,
