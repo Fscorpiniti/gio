@@ -38,10 +38,16 @@ public class UserEconomy {
         if (amount > coins) {
             throw new InsufficientCurrenciesException();
         }
-        coins -= new BigDecimal(amount).setScale(SCALE, RoundingMode.HALF_UP).doubleValue();
+        coins -= amount;
+        scaleCoins();
     }
 
     public void incrementCoins(Double amount) {
-        coins += new BigDecimal(amount).setScale(SCALE, RoundingMode.HALF_UP).doubleValue();
+        coins += amount;
+        scaleCoins();
+    }
+
+    private void scaleCoins() {
+        coins = new BigDecimal(coins).setScale(SCALE, RoundingMode.HALF_UP).doubleValue();
     }
 }
