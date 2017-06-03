@@ -1,7 +1,7 @@
 [
   {
     "id" : 1,
-    "text" : "Fondo de inversión a plazos fijos. Este tipo de inversión es de bajo riesgo y se puede retirar en 48hs. Se adquieren cuotapartes y la rentabilidad obtenida será entre el 25% y 30% mensual.",
+    "text" : "Fondo de inversión a plazos fijos. Este tipo de inversión es de bajo riesgo y se puede retirar en 48hs. Se adquieren cuotapartes y la rentabilidad obtenida será entre el 25% y 30% anual.",
     "interest_lower" : 25,
     "interest_higher": 30,
     "amount" : 100,
