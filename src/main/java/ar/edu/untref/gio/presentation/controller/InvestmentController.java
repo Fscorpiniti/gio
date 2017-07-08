@@ -5,12 +5,15 @@ import ar.edu.untref.gio.domain.interactor.CreateInvestmentInteractor;
 import ar.edu.untref.gio.domain.interactor.ExpireInvestmentInteractor;
 import ar.edu.untref.gio.domain.interactor.GetInvestmentInteractor;
 import ar.edu.untref.gio.domain.service.ExistTokenService;
+import ar.edu.untref.gio.presentation.response.ApiError;
 import ar.edu.untref.gio.presentation.response.InvestmentsResponse;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -71,6 +74,13 @@ public class InvestmentController {
                                           @RequestHeader(AUTH_TOKEN) String authToken) {
         this.existTokenService.exist(ownerId, authToken);
         return this.expireInvestmentInteractor.expire(ownerId, investmentId);
+    }
+
+    @ResponseBody
+    @ResponseStatus(value= HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({ RuntimeException.class, Exception.class })
+    public ApiError handleError(HttpServletRequest request, Throwable exception) {
+        return new ApiError(exception.getMessage());
     }
 
 }
